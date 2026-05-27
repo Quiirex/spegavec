@@ -1,0 +1,2327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sl" itemscope itemtype="http://schema.org/WebSite">
+<head>
+
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="8e487130-022c-4fe0-8586-df73b11d31e2" type="text/javascript"></script>
+<style>
+#CybotCookiebotDialogFooter #CybotCookiebotDialogBodyButtonAccept, #CybotCookiebotDialogFooter #CybotCookiebotDialogBodyLevelButtonAccept, #CybotCookiebotDialogFooter #CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll {
+    background-color: #e40e27!important;
+    border-color: #e40e27!important;
+    color: #ffffff;
+}
+#CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton {
+    border: 2px solid #e40e27!important;
+}
+#CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogBodyEdgeMoreDetails a {
+    color: #e40e27!important;;
+}
+#CybotCookiebotDialogNav .CybotCookiebotDialogNavItemLink.CybotCookiebotDialogActive {
+    border-bottom: 1px solid #e40e27!important;
+    color: #e40e27!important;
+}
+</style>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="sl" />
+<meta name="msvalidate.01" content="D9C9544A6631C60218BF47FD618F42E5" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+<meta name="format-detection" content="telephone=no" />
+<title>Stanovanje Prodaja Ljubljana mesto | NEPREMICNINE.net</title>
+<meta name="Keywords" content="ljubljana-mesto, stanovanje, cena-od-1-do-2-eur, prodaja" />
+<meta name="Description" content="Rezultati iskanja nepremičnin: Stanovanje Prodaja Ljubljana mesto na Nepremicnine.net" />
+
+<meta name="viewport" content="width=device-width" />
+
+<link rel="dns-prefetch" href="//nepremicnine.click/" />
+<link rel="preconnect" href="//nepremicnine.click/" />
+
+<link rel="dns-prefetch" href="https://www.nepremicnine.net" />
+<link rel="preconnect" href="https://www.nepremicnine.net" />
+
+<link rel="dns-prefetch" href="https://connect.facebook.net" />
+<link rel="preconnect" href="https://connect.facebook.net" />
+
+<link rel="dns-prefetch" href="https://ssl.google-analytics.com" />
+<link rel="preconnect" href="https://ssl.google-analytics.com" />
+
+<meta property="og:image" content="https://www.nepremicnine.net/images/nepremicnine-net.jpg" />
+<meta property="og:description" content="Rezultati iskanja nepremičnin: Stanovanje Prodaja Ljubljana mesto na Nepremicnine.net" />
+<meta property="og:title" content="Stanovanje Prodaja Ljubljana mesto | NEPREMICNINE.net" />
+<meta property="og:type" content="website" />
+
+
+
+
+    <link rel="stylesheet" href="https://use.typekit.net/nnm2ulc.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
+
+<link rel="icon" href="/images/icon_n.png" type="image/png" sizes="16x16" />
+
+<link href="/styles.min.css?v=release_1.5.007&amp;r=7" rel="stylesheet"  type="text/css" media="all" rel="preload" as="style" />
+<script type="text/javascript" src="/scripts.min.js?v=release_1.5.007&amp;r=2"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"  type="text/css" media="all" rel="preload" as="style" />
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet"  type="text/css" media="all" rel="preload" as="style" />
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $("body").keypress(function(e){
+            if (e.which == 110 ) {
+                if ( !$("input, textarea, select").is(":focus") ) {
+                    $("#hitroiskanje").focus();
+                    var el = $("#hitroiskanje").get(0);
+                    var elemLen = el.value.length;
+                    el.selectionStart = elemLen;
+                    el.selectionEnd = elemLen;
+                    e.defaultPrevented();
+                }
+            }
+        });
+    });
+        // /* AS: search suggestion */
+        $(document).ready(function(){
+
+            if ($( "#hitroiskanje" ).is(':visible'))
+            {
+                $(function() {
+                    var cache = {},
+                        lastXhr;
+                    $( "#hitroiskanje" ).appendTo("#hitroiskanje").autocomplete({
+                        minLength: 0,
+                        source: function( request, response ) {
+                            var term = request.term;
+
+                            if ( term in cache ) {
+                                response( cache[ term ] );
+                                return;
+                            }
+
+                            lastXhr = $.getJSON( "/jq/facet-suggest.php", request, function( data, status, xhr ) {
+                                cache[ term ] = data;
+
+                                if ( xhr === lastXhr ) {
+                                    response( data );
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+            else
+            {
+                $(function() {
+                    var cache = {},
+                        lastXhr;
+                    $( "#m-hitroiskanje" ).appendTo("#m-hitroiskanje").autocomplete({
+                        minLength: 0,
+                        source: function( request, response ) {
+                            var term = request.term;
+
+                            if ( term in cache ) {
+                                response( cache[ term ] );
+                                return;
+                            }
+
+                            lastXhr = $.getJSON( "/jq/facet-suggest.php", request, function( data, status, xhr ) {
+                                cache[ term ] = data;
+
+                                if ( xhr === lastXhr ) {
+                                    response( data );
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        });
+
+        
+        jQuery(function($) {
+            $("a.fav").click(function(e){
+                e.defaultPrevented(); // this will prevent the anchor tag from going the user off to the link
+                var bookmarkUrl = this.href;
+                var bookmarkTitle = 'Stanovanje Prodaja Ljubljana mesto | NEPREMICNINE.net';
+                if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+                    alert("This function is not available in Google Chrome. Click the star symbol at the end of the address-bar or hit Ctrl-D (Command+D for Macs) to create a bookmark.");
+                } else if (window.sidebar) { // For Mozilla Firefox Bookmark
+                    window.sidebar.addPanel(bookmarkTitle, bookmarkUrl,"");
+                } else if( window.external || document.all) { // For IE Favorite
+                    window.external.AddFavorite( bookmarkUrl, bookmarkTitle);
+                } else if(window.opera) { // For Opera Browsers
+                    $("a.bookmark").attr("href",bookmarkUrl);
+                    $("a.bookmark").attr("title",bookmarkTitle);
+                    $("a.bookmark").attr("rel","sidebar");
+                } else { // for other browsers which does not support
+                    alert('Your browser does not support this bookmark action');
+                    return false;
+                }
+            });
+        });
+
+//	$(document).ready(function(){
+// example uses the selector "input" with the class "auto" & no options passed
+//		jQuery(function($) {
+//			$('input.numeric').autoNumeric();
+//		});
+
+        // example uses the selector "input" with the class "auto" & with options passed
+        // See details below on allowed options
+        jQuery(function($) {
+            $('input.numeric').autoNumeric({aSep: '.', aDec: ','});
+            $('input.intnum').autoNumeric('init', {aSep: '.', aDec: ',', mDec: 0, aForm:false});
+            $('input.intnum2').autoNumeric('init', {aSep: '', aDec: ',', mDec: 0, aForm:false});
+            $('input.yearnum').autoNumeric({aSep: '', aDec: ',', mDec: 0, vMin: '0', vMax: '2028'});
+        });
+
+        $(document).ready (function () {
+            $('.jq-confirm').click (function () {
+                var title = 'Želite opraviti akcijo';
+
+                if ($(this).attr("title").length > 0)
+                    title = $(this).attr("title");
+                else if ($(this).data('bs-original-title').length > 0)
+                    title = $(this).data('bs-original-title');
+
+                return confirm (title + "?") ;
+            }) ;
+
+            $('.jq-confirm-delete').click (function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                if (confirm ($(this).attr ("title")))
+                {
+
+                    var ogl_cnt = parseInt($('.ogl-num').html());
+                    $('.ogl-num').each(function( index ) {
+                        $(this).text(ogl_cnt -1);
+                    });
+
+                    //active/unactive
+                    if ($(this).data("active") == 't') {
+                        $('#vpis-stat2 div.cnt_ogl_t').html(parseInt($('#vpis-stat2 div.cnt_ogl_t').html() - 1));
+
+                        //top novogradnje
+                        if ($(this).data("topng") == 't')
+                            $('#vpis-stat2 span.cnt_topng').html(parseInt($('#vpis-stat2 span.cnt_topng').html() - 1));
+
+                        //website
+                        if ($(this).data("website") == 't')
+                            $('#vpis-stat2 div.cnt_website').html(parseInt($('#vpis-stat2 div.cnt_website').html() - 1));
+
+                        //ne spreglejte
+                        if ($(this).data("nespreglejte") == 't')
+                            $('#vpis-stat2 span.cnt_web_bold').html(parseInt($('#vpis-stat2 span.cnt_web_bold').html() - 1));
+
+                        //nepremicnine.net
+                        if ($(this).data("nn") == 't')
+                            $('#vpis-stat2 span.cnt_nn').html(parseInt($('#vpis-stat2 span.cnt_nn').html() - 1));
+                    }
+                    else
+                        $('#vpis-stat2 div.cnt_ogl_f').html(parseInt($('#vpis-stat2 div.cnt_ogl_f').html() - 1));
+
+
+
+                    $.get( url, function( data ) {
+                        //$( ".result" ).html( data );
+                    });
+                    $(this).closest('.oglas').slideUp('slow', function()
+                    {
+                        alert('Oglas je bil uspešno izbrisan.');
+                    });
+
+                }
+            });
+
+	        $('.jq-confirm-deakt').click (function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                if (confirm ($(this).attr ("title")))
+                {
+
+                    var ogl_cnt = parseInt($('.ogl-num').html());
+                    $('.ogl-num').each(function( index ) {
+                        $(this).text(ogl_cnt -1);
+                    });
+
+                    $.get( url, function( data ) {
+                        //$( ".result" ).html( data );
+                    });
+                    $(this).closest('.oglas').slideUp('slow', function()
+                    {
+                        alert('Oglas je bil uspešno deaktiviran.');
+                    });
+
+                }
+            }) ;
+
+            $('body').on('click', 'a.jq-confirm-24h', function(e){
+                e.preventDefault();
+                var url = $(this).attr('href');
+                if (confirm ($(this).attr ("title")))
+                {
+                    var btn = $(this);
+
+                    $.get( url, function( data ) {
+                        var count = (data.match(/24h-OK/g) || []).length;
+                        if (count == 2) {
+                            btn.attr("href", "javascript:void();");
+                            btn.removeClass('jq-confirm-24h');
+                            btn.css('color','#777');
+                            btn.attr('title', 'Ponovna objava oglasa v rubriki 24 ur je možna po enem mesecu');
+
+                            //change 24h count
+                            var cnt_24h = parseInt($('#cnt_24h').html());
+                            $('#cnt_24h').text(cnt_24h + 1);
+
+                            alert('Oglas je bil uspešno objavljen v rubriki 24 ur.');
+                        }
+                        else
+                            alert('Oglas ni bil ponovno objavljen v rubriki 24 ur.');
+                    });
+                }
+            }) ;
+
+
+
+
+        }) ;
+//	}) ;
+
+
+
+    //slider zgoraj - moje nepremicnine
+    jQuery(function($) {
+        $(document).ready(function() {
+            $("a.btn-slide").mouseover(function() {
+                $("#top-panel").stop(true, true).slideDown("fast");
+                $(this).addClass("active");
+            });
+            $("#moje-nep").mouseleave(function() {
+                if ( !$('#moje-nep input[type=text]').is(":focus") ) {
+                    $("#top-panel").delay(1000).slideUp("slow");
+                    $(this).removeClass("active");
+                }
+            });
+        });
+        $(".flogin").bind("keyup change", function () {
+          $(this).val(function(i, v) { return v.replace(/  /g," "); });
+        });
+
+        $(document).bind('click', function(e) {
+            if( $(e.target).closest('#moje-nep').length === 0 ) {
+                $("#top-panel").delay(1000).slideUp("slow");
+            }
+        });
+    });
+
+    
+        jQuery(function($) {
+            $(document).ready(function() {
+                $("#fqrun").click(function() {
+                    $("li.iskalnik").addClass("open");
+                     $("#header").css('z-index', 500);
+                    $(".iskalnik ul").stop(true, true).slideDown("fast");
+                });
+                $("li.iskalnik").mouseover(function() {
+                     $("#header").css('z-index', 500);
+                    $(".iskalnik ul").stop(true, true).slideDown("fast");
+                    $(this).addClass("open");
+                });
+                $("li.iskalnik").mouseleave(function() {
+                    if ($('.iskalnik input[type=text]').is(":focus")) {
+                        $('input[type=text]').focus(function(){
+                            $(this).css({'background-color' : '#FCC'});
+                        });
+                        $('input[type=text]').blur(function(){
+                            $(this).css({'background-color' : '#fff'});
+                        });
+                    } else {
+                        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) == false ) {
+                            $(".iskalnik ul").delay(500).slideUp("slow", function(){
+                                 $("#header").css('z-index', 300);
+                            });
+                        }
+                    }
+                    $(".iskalnik select").mouseleave(function(event){
+                        event.stopPropagation();
+                    });
+                    //$(this).removeClass("open");
+                });
+
+                $(document).bind('click', function(e) {
+                    if( $(e.target).closest('li.iskalnik.open').length === 0 && $(e.target).closest('#moje-nep').length === 0 ) {
+                        $("li.iskalnik.open ul").delay(500).slideUp("slow", function(){
+                            $("#header").css('z-index', 300);
+                        });
+                        $("#top-panel").delay(1000).slideUp("slow");
+                  }
+                });
+
+            });
+        });
+    
+
+
+    function rSel (r) {
+        $.post("/jq/r-sel.php", {id:r,rsel:'14'}, function(data) {
+            $("select#NOr").html(data);
+            $("select#NOr").removeAttr("disabled");
+        }).done(function(){serialize_search();});
+    }
+
+    $(function(){
+        $('input:radio[name=d]').change(function() {
+            $("select#NOr").attr("disabled","disabled");
+            $("select#NOr").html("<option>nalagam...</option>");
+
+            $("select#NOue1").attr("disabled","disabled");
+            $("select#NOue1").html("<option>nalagam...</option>");
+
+            var id = $(this).val();
+
+            $.post("/jq/r-sel.php", {id:id,rsel:'14'}, function(data) {
+                $("select#NOr").html(data);
+                $("select#NOr").removeAttr("disabled");
+            }).done(function(){
+                /*mobile only*/
+                if ($('.NOue').is(':visible')) {
+                    var id = $("select#NOr").val();
+                    $.post("/jq/ue-sel.php", {id:id, input:'select'}, function(data) {
+                        $("select#NOue1").html(data);
+                        $("select#NOue1").removeAttr("disabled");
+                    }).done(function(){serialize_search();});
+                }
+                else {
+                    var select = $('#NOr>option');
+                    select[0].selected = true;
+        			serialize_search();
+                }
+            });
+            //$('#NOr')[0].selectedIndex = 0;
+            /*var select = $('#NOr>option');
+            select[0].selected = true;
+			serialize_search();*/
+        });
+
+
+        $('select#NOr').change(function() {
+            var id = $(this).val();
+
+            $("select#NOue1").attr("disabled","disabled");
+            $("select#NOue1").html("<option>nalagam...</option>");
+
+            $.post("/jq/ue-sel.php", {id:id, input:'select'}, function(data) {
+                $("select#NOue1").html(data);
+                $("select#NOue1").removeAttr("disabled");
+            }).done(function(){serialize_search();});
+        });
+
+    });
+
+    $(function(){
+        $('.uni.clr').click(function() {
+            var clr = $(this).attr('data');
+            var aClr = clr.split(',');
+
+            for(i = 0; i< aClr.length; i++){
+                $( aClr[i]).val('');
+            }
+        })
+    });
+
+    $(function(){
+        $('#clr-cena').click(function() {
+            $("#NOc1").val('');
+            $("#NOc2").val('');
+        })
+    });
+
+    jQuery(function($) {
+        $(document).ready(function() {
+            $("#NOreset").click(function() {
+//			$('input:radio[value=197]').prop('checked', true);
+                $("#NOp option:first").attr('selected','selected');
+                $("#NOn option:first").attr('selected','selected');
+                $("#NOr option:first").attr('selected','selected');
+                $("#NOc1").val('');
+                $("#NOc2").val('');
+                $("#NOcm2 option:first").attr('selected','selected');
+                $('input:radio[value=197]').trigger('click');
+                //$.post('/NOpar.php', { name: 'value' });
+              //$('#NOsearch').submit();
+            });
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $("input:text").focus(function()
+        {
+            if ($(this).val() == $(this)[0].title)
+            {
+                $(this).removeClass("grey");
+                $(this).val("");
+            }
+        });
+
+        $("input:text").blur(function()
+        {
+            if ($(this).val() == "")
+            {
+                $(this).addClass("grey");
+                $(this).val($(this)[0].title);
+            }
+        });
+
+        $("input:text").blur();
+    });
+
+    $(document).ready(function(e){
+        $(".form-kontakt").on("touchenter touchmove", function(){
+            $("html, body").bind(function(e){
+                e.defaultPrevented();
+            });
+        });
+    });
+
+    window.mobileAndTabletcheck = function() {
+      var check = false;
+      (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true})(navigator.userAgent||navigator.vendor||window.opera);
+      return check;
+    }
+
+    $(document).ready(function(e){
+        $('.contact-tooltip').tooltipster({
+            theme: 'tooltipster-shadow',
+            contentAsHTML: true,
+            position: 'left',
+            interactive: true
+        });
+
+        if (mobileAndTabletcheck()){
+            $('.contact-tooltip').click(function(){
+                return false;
+            });
+        }
+    });
+</script>
+
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swaps" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"></noscript>
+
+
+
+<meta name="google-site-verification" content="fdN5cF2yYubJLN0QzkOj99U-Zw0Xqs0epcAH5U0uty0" />
+
+<style>
+@media (max-width: 1220px)
+{
+    #header-top, #header { width:calc(100% + 40px);}
+}
+</style>
+
+<script async src="//nepremicnine.click/www/delivery/asyncjs.php"></script>
+<script type="text/javascript">
+
+// Preloader
+$(window).on('load resize', function() {
+    $('#preloader').fadeOut(0);
+    $('body').css({'overflow':'visible'});
+})
+
+window.middle_h_screen = (screen.width/2)-300;
+window.middle_v_screen = (screen.height/2)-175;
+
+function popupCenter(url, title, w, h) {
+    // Fixes dual-screen position Most browsers Firefox
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+    width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+    // Puts focus on the newWindow
+    if (window.focus) {
+    newWindow.focus();
+    }
+}
+
+// generate notes
+function generate(type, text, id) {
+
+            var n = noty({
+                text        : text,
+                type        : type,
+                dismissQueue: true,
+                layout      : 'bottomLeft',
+                closeWith   : ['button'],
+                theme       : 'relax',
+                maxVisible  : 5,
+                animation   : {
+                    open  : 'animated bounceInLeft',
+                    close : 'animated bounceOutLeft',
+                    easing: 'swing',
+                    speed : 500
+                },
+                callback: {
+                    onClose: function() {
+                        $.ajax({ url: '/jq/set_noted.php?id=' + id });
+                    }
+                }
+            });
+            //console.log('html: ' + n.options.id);
+        }
+
+        function generateAll() {
+                        //generate('success');
+        }
+
+        $(document).ready(function () {
+
+            setTimeout(function() {
+                generateAll();
+            }, 500);
+
+            setInterval(function() {
+                var exclude = '?';
+                $( ".notification-identifier" ).each(function( index ) {
+                    //console.log( index + ": " + $( this ).text() );
+                    exclude += 'exclude[]=' + $( this ).text() + '&';
+                });
+                $.get( "/jq/check_notifications.php" + exclude, function( data ) {
+                    $( "body" ).append( data );
+                });
+            }, 1000 * 1000 * 1); // refresh every 10 minutes
+
+
+            var popup = false;
+            if (mobileAndTabletcheck() && $('#logo-m').is(':visible'))
+              popup = true;
+            $('#notification-bell a').webuiPopover({title:'<i class="fa fa-bell"></i> &nbsp; Obvestila',content:'Content',width:250,height:200,placement:'bottom-left',type:'async',url:'/jq/popover_notifications.php',cache:false,closeable:true,backdrop:popup});
+            $('#notification-message a').webuiPopover({title:'<i class="fa fa-envelope"></i> &nbsp; Sporočila',content:'Content',width:250,height:200,placement:'bottom-left',type:'async',url:'/jq/popover_messages.php',cache:false,closeable:true,backdrop:popup});
+
+            /*Search popup*/
+            $('.burger-nav-search > a').on('click', function () {
+                $(".mobile-search").dialog({
+                    modal: true,
+                    title: 'Iskalnik',
+                    resizable: false,
+                    dialogClass: 'mobile-search-dialog',
+                    open: function( event, ui ) {
+                        var id = $('select#NOr').val();
+                        $.post("/jq/ue-sel.php", {id:id, input:'select'}, function(data) {
+                            $("select#NOue1").html(data);
+                        }).done(function(){serialize_search();});
+                    },
+                    buttons: {
+                        'Confirm': {
+                                click: function () {
+                                    $('.ui-dialog .gumb.potrdi')[0].click();
+
+                                },
+                                text: 'Prikaži rezultate',
+                                class: 'ui-ok'
+                            },
+                        "Cancel": {
+                                click: function () {
+                                    $(this).dialog("destroy");
+                                },
+                                text: 'Zapri',
+                                class: 'ui-cancle'
+                            }
+                      }
+                });
+            });
+
+            // messaging
+            $(".inquiry-form").submit(function(event){
+                event.preventDefault();
+                event.stopPropagation();
+                var id = $(this).find("#ad_id").val();
+                var owner = $(this).find("#owner").val();
+                var conversation = $(this).find("#conversation").val();
+                var message = $(this).find("textarea").val();
+                if (id && message){
+                    $.post( "/jq/message_send.php", { id: id, owner: owner, message: message, conversation: conversation }, function(data){
+                        //console.log(data.answer);
+                        if (data.answer == 'success')
+                        {
+                            var last_message = data.last_message;
+                            if ($("#conversation-" + conversation + " .messages-list li").length){
+                                $("#conversation-" + conversation + " .messages-list li[key='" + (last_message*1 - 1) + "']").after('<li class="me" key="' + last_message + '"><img src="' + data.image + '" /><h4>' + data.username + '<br /><small> poslano ' + data.time + '</small></h4>' + data.message + '</li>');
+                            } else {
+                                $("#conversation-" + conversation + " .messages-list").append('<li class="me" key="' + last_message + '"><img src="' + data.image + '" /><h4>' + data.username + '<br /><small> poslano ' + data.time + '</small></h4>' + data.message + '</li>');
+                            }
+                            $(".inquiry-form textarea").val('');
+                            $("#conversation-" + conversation + " .messages-list").perfectScrollbar('update');
+                            $("#conversation-" + conversation + " .messages-list").animate({ scrollTop: $("#conversation-" + conversation + " .messages-list")[0].scrollHeight}, 1000);
+                        }
+                    } );
+                }
+                //event.preventDefault();
+            });
+
+            // check for messages
+            
+            // initialise scrollbar
+            if ($(".messages-list").length){
+                $(".messages-list").perfectScrollbar();
+                $('.messages-list').scrollTop($('.messages-list')[0].scrollHeight); // scroll to the bottom
+            }
+
+            if ($(".sender-info").length){
+                $(".sender-info").each(function(index){
+                    var conversation_id = $(this).attr("conversation");
+                    var ad_id = $(this).attr("ad_id");
+                    var owner = $("#conversation-" + conversation_id + " #owner").val();
+                    $(this).click(function(){
+                        $(this).parent().addClass('shown');
+                        $(".conversation-container").not("#conversation-" + conversation_id).slideUp("fast");
+                        $(".conversation-ad-info").not("#conversation-info-" + conversation_id).slideUp("fast");
+
+                        if ($("#conversation-" + conversation_id).is(":visible"))
+                        {
+                            $("#conversation-" + conversation_id).slideUp('fast');
+                            $("#conversation-info-" + conversation_id).slideUp('fast');
+                        }
+                        else
+                        {
+
+                            $("#conversation-" + conversation_id).slideDown("fast", function(){
+                                $("#conversation-" + conversation_id + " .messages-list").scrollTop($("#conversation-" + conversation_id + " .messages-list")[0].scrollHeight); // scroll to the bottom
+                            });
+                            $("#conversation-info-" + conversation_id).slideDown("fast");
+                        }
+                        $(this).removeClass("unread");
+                        $(this).parent().removeClass("unread");
+                        $.post( "/jq/message_update.php", { id: ad_id, owner: owner, conversation: conversation_id, update_change: 'read' }, function(data){
+                            //console.log(data.answer);
+                            if (data.answer == 'success')
+                            {
+                                if (data.message_count)
+                                {
+                                    if ($("#notification-message a").find('span').length)
+                                    {
+                                        $("#notification-message a").find('span').text(data.message_count);
+                                    } else {
+                                        $("#notification-message a").append('<span>' + data.message_count + '</span>');
+                                    }
+                                    $("#notification-message a").addClass('active');
+
+                                    $(".html-msg-count").text('(' + data.message_count + ')');
+                                } else {
+                                    $("#notification-message a").find('span').remove();
+                                    $("#notification-message a").removeClass('active');
+
+                                    $(".html-msg-count").text('');
+                                }
+                            }
+                        } );
+
+                    });
+                });
+            }
+
+            // get message hash values
+            var hash_value = window.location.hash.substr(1);
+            if (hash_value){
+                //alert(hash_value);
+                if (hash_value.indexOf(":") > -1)
+                {
+                    var split_value = hash_value.split(":")
+                    var action_value = split_value[0];
+                    var m_value = split_value[1];
+                } else {
+                    if(hash_value.match(/^[0-9]+$/) != null)
+                    {
+                        //alert(hash_value);
+                        $([document.documentElement, document.body]).animate({
+                            scrollTop: $("#o-" + hash_value).offset().top -20
+                        }, 1000);
+                    }
+                    else
+                    {
+                        var action_value = hash_value;
+                        var m_value = 0;
+                    }
+                }
+
+
+                window.messages_updated = false;
+
+                if (action_value == 'scroll_messages' && !m_value){
+                    $('html, body').animate({
+                        scrollTop: $("#get-info").offset().top
+                    }, 1000, 'swing', function(){
+                        if (!window.messages_updated)
+                        {
+                            window.messages_updated = true;
+                            var ad_id = $("#ad_id").val();
+                            var owner = $("#owner").val();
+                            var conversation_id = $("#conversation").val();
+
+                            $.post( "/jq/message_update.php", { id: ad_id, owner: owner, conversation: conversation_id, update_change: 'read' }, function(data){
+                                if (data.answer == 'success')
+                                {
+
+                                    if (data.message_count)
+                                    {
+                                        if ($("#notification-message a").find('span').length)
+                                        {
+                                            $("#notification-message a").find('span').text(data.message_count);
+                                        } else {
+                                            $("#notification-message a").append('<span>' + data.message_count + '</span>');
+                                        }
+                                        $("#notification-message a").addClass('active');
+
+                                        $(".html-msg-count").text('(' + data.message_count + ')');
+                                    } else {
+                                        $("#notification-message a").find('span').remove();
+                                        $("#notification-message a").removeClass('active');
+
+                                        $(".html-msg-count").text('');
+                                    }
+                                }
+
+                            } );
+                        }
+                    });
+                }
+
+                if (action_value == 'scroll_messages' && m_value){
+                    var conversation_id = m_value;
+                    $("#sender-conversation-" + m_value).parent().addClass('shown');
+                    $('html, body').animate({
+                        scrollTop: $("#sender-conversation-" + m_value).offset().top
+                    }, 1000, 'swing', function(){
+                        $(".conversation-container").not("#conversation-" + conversation_id).slideUp("fast");
+                        $(".conversation-ad-info").not("#conversation-info-" + conversation_id).slideUp("fast");
+                        $("#conversation-" + conversation_id).slideDown("fast", function(){
+                            $("#conversation-" + conversation_id + " .messages-list").scrollTop($("#conversation-" + conversation_id + " .messages-list")[0].scrollHeight); // scroll to the bottom
+                            $("#sender-conversation-" + conversation_id).removeClass("unread");
+                            $("#sender-conversation-" + conversation_id).parent().removeClass("unread");
+                            var ad_id = $("#sender-conversation-" + conversation_id).attr('ad_id');
+                            var owner = $("#conversation-" + conversation_id + " #owner").val();
+
+                            if (!window.messages_updated)
+                            {
+                                window.messages_updated = true;
+                                $.post( "/jq/message_update.php", { id: ad_id, owner: owner, conversation: conversation_id, update_change: 'read' }, function(data){
+                                    //console.log(data.answer);
+                                    if (data.answer == 'success')
+                                    {
+                                        //alert('yay');
+                                        if (data.message_count)
+                                        {
+                                            if ($("#notification-message a").find('span').length)
+                                            {
+                                                $("#notification-message a").find('span').text(data.message_count);
+                                            } else {
+                                                $("#notification-message a").append('<span>' + data.message_count + '</span>');
+                                            }
+                                            $("#notification-message a").addClass('active');
+
+                                            $(".html-msg-count").text('(' + data.message_count + ')');
+                                        } else {
+                                            $("#notification-message a").find('span').remove();
+                                            $("#notification-message a").removeClass('active');
+
+                                            $(".html-msg-count").text('');
+                                        }
+                                    }
+
+                                } );
+                            }
+                        });
+                        $("#conversation-info-" + conversation_id).slideDown("fast");
+                    });
+                }
+            }
+        });
+
+        function update_read(element){
+            var ad_id = $(element).parent().find("#ad_id").val();
+            var owner = $(element).parent().find("#owner").val();
+            var conversation_id = $(element).parent().find("#conversation").val();
+            $.post( "/jq/message_update.php", { id: ad_id, owner: owner, conversation: conversation_id, update_change: 'read' }, function(data){
+                if (data.answer == 'success')
+                {
+                    if (data.message_count)
+                    {
+                        if ($("#notification-message a").find('span').length)
+                        {
+                            $("#notification-message a").find('span').text(data.message_count);
+                        } else {
+                            $("#notification-message a").append('<span>' + data.message_count + '</span>');
+                        }
+                        $("#notification-message a").addClass('active');
+
+                        $(".html-msg-count").text('(' + data.message_count + ')');
+                    } else {
+                        $("#notification-message a").find('span').remove();
+                        $("#notification-message a").removeClass('active');
+
+                        $(".html-msg-count").text('');
+                    }
+                }
+            } );
+        }
+
+        function txt_auto_grow(element) {
+            element.style.height = "55px";
+            element.style.height = (element.scrollHeight)+"px";
+        }
+
+            var $dropdown = $('div.dropdownWrapper'),
+              $drpBtn   = $dropdown.find('div.dropdownLabel');
+
+        // search form
+        $( document ).ready(function() {
+            $("#NOsearch input").keyup(function(){
+                serialize_search();
+            });
+            $("#NOsearch input[type='radio'], #NOsearch select").change(function(){
+                serialize_search();
+            });
+
+            if ($("#naselja-izbira.scroll").length){
+                $("#naselja-izbira").perfectScrollbar();
+            }
+        });
+
+        function serialize_search()
+        {
+            if (mobileAndTabletcheck() && $('#logo-m').is(':visible') && $(".mobile-search #NOsearch").length > 0)
+              var s_data = $(".mobile-search #NOsearch").serialize();
+            else
+              var s_data = $("#NOsearch").serialize();
+
+            $.post( "/jq/search.php?wpg=nepremicnine&" + s_data, function( data ) {
+              $("#NOsearch a.gumb.potrdi").attr('href', data);
+            });
+        }
+
+        function block_user(conversation_id, username)
+        {
+            var r = confirm("Želite blokirati uporabnika " + username + "?");
+            if (r == true) {
+                $.get( "/jq/user_chat_actions.php?block&conversation_id=" + conversation_id, function( data ) {
+                    $("#sender-conversation-" + conversation_id).remove();
+                    $("#conversation-" + conversation_id).remove();
+                });
+            }
+            return false;
+        }
+
+        function hide_conversation(conversation_id, username)
+        {
+            var r = confirm("Želite skriti pogovor z uporabnikom " + username + "?");
+            if (r == true) {
+                $.get( "/jq/user_chat_actions.php?hide&conversation_id=" + conversation_id, function( data ) {
+                    $(".kontakt #sender-conversation-" + conversation_id).remove();
+                    $(".kontakt #conversation-" + conversation_id).remove();
+                    $("#inbox-" + conversation_id).addClass('hidden-message invisible');
+                });
+            }
+            return false;
+        }
+
+        $(document).ready(function() {
+            $(".s_click").on("click", function (e) {
+                avoidNSError($(this).data('param'));
+            });
+        });
+
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6YLKV31DJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6YLKV31DJH');
+</script>
+
+<meta itemprop="name" content="NEPREMICNINE.net" />
+<meta itemprop="description" content="Največji slovenski nepremičninski portal" />
+<link itemprop="url" href="https://www.nepremicnine.net" />
+<meta itemprop="image" content="https://www.nepremicnine.net/images/nepremicnine-net-logo.jpg" />
+<link itemprop="thumbnailUrl" href="https://www.nepremicnine.net/images/nepremicnine-net-logo.jpg" />
+<meta itemprop="isFamilyFriendly" content="True" />
+<link itemprop="sameAs" href="https://www.facebook.com/NEPREMICNINEnet-181757358510072/" />
+
+<script type='text/javascript'><!--//<![CDATA[
+    if (isMobile.any)
+    {
+        var ox_u = '//nepremicnine.click/www/delivery/al.php?zoneid=90&layerstyle=geocities&align=right&padding=2&closetext=Zapri';
+        if (document.context) ox_u += '&context=' + escape(document.context);
+        document.write("<scr"+"ipt type='text/javascript' src='" + ox_u + "'></scr"+"ipt>");
+    }
+//]]>--></script>
+
+    <script src="https://ar1.100m2.si/argus_diet.js" async></script>
+
+</head>
+
+
+<body class="sl chrome chrome-146 " id="nepremicnine">
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <div id="bar-top-wrapper">
+        <div id="bar-top">
+            
+            
+            <ul id="bar-top-right">
+                <li id="notification-bell">
+                    <a href="#" >
+                        <i class="fa fa-bell"></i>
+                                            </a>
+                </li>
+                <li id="notification-message">
+                    <a href="#" >
+                        <i class="fa fa-envelope"></i>
+                                            </a>
+                </li>
+            </ul>
+            <ul>
+                <li class="top-nav-novogradnje"><a href="https://www.novogradnje.si" target="_blank" rel="noopener">novogradnje.si</a></li>
+                <li class="top-nav-montazne-hise"><a href="http://www.montazne-hise.net" target="_blank" rel="noopener">montažne hiše</a></li>
+                <li class="top-nav-podsvojostreho"><a href="https://www.podsvojostreho.net" target="_blank" rel="noopener">pod<span class="svojo">svojo</span>streho.net</a></li>
+                <li class="first top-nav-slonep"><a href="https://www.slonep.net" target="_blank" rel="noopener">slonep.net</a></li>
+
+                                                <li><a class="lang" href="https://www.realestate-slovenia.info/">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgwIiB3aWR0aD0iNjQwIj4gIDxkZWZzPiAgICA8Y2xpcFBhdGggaWQ9ImEiPiAgICAgIDxwYXRoIGZpbGwtb3BhY2l0eT0iLjY3IiBkPSJNLTg1LjMzMyAwaDY4Mi42N3Y1MTJoLTY4Mi42N3oiLz4gICAgPC9jbGlwUGF0aD4gIDwvZGVmcz4gIDxnIGNsaXAtcGF0aD0idXJsKCNhKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODApIHNjYWxlKC45NCkiPiAgICA8ZyBzdHJva2Utd2lkdGg9IjFwdCI+ICAgICAgPHBhdGggZmlsbD0iIzAwNiIgZD0iTS0yNTYgMEg3NjguMDJ2NTEyLjAxSC0yNTZ6Ii8+ICAgICAgPHBhdGggZD0iTS0yNTYgMHY1Ny4yNDRsOTA5LjUzNSA0NTQuNzY4SDc2OC4wMlY0NTQuNzdMLTE0MS41MTUgMEgtMjU2ek03NjguMDIgMHY1Ny4yNDNMLTE0MS41MTUgNTEyLjAxSC0yNTZ2LTU3LjI0M0w2NTMuNTM1IDBINzY4LjAyeiIgZmlsbD0iI2ZmZiIvPiAgICAgIDxwYXRoIGQ9Ik0xNzAuNjc1IDB2NTEyLjAxaDE3MC42N1YwaC0xNzAuNjd6TS0yNTYgMTcwLjY3djE3MC42N0g3NjguMDJWMTcwLjY3SC0yNTZ6IiBmaWxsPSIjZmZmIi8+ICAgICAgPHBhdGggZD0iTS0yNTYgMjA0LjgwNHYxMDIuNDAySDc2OC4wMlYyMDQuODA0SC0yNTZ6TTIwNC44MSAwdjUxMi4wMWgxMDIuNFYwaC0xMDIuNHpNLTI1NiA1MTIuMDFMODUuMzQgMzQxLjM0aDc2LjMyNGwtMzQxLjM0IDE3MC42N0gtMjU2ek0tMjU2IDBMODUuMzQgMTcwLjY3SDkuMDE2TC0yNTYgMzguMTY0VjB6bTYwNi4zNTYgMTcwLjY3TDY5MS42OTYgMGg3Ni4zMjRMNDI2LjY4IDE3MC42N2gtNzYuMzI0ek03NjguMDIgNTEyLjAxTDQyNi42OCAzNDEuMzRoNzYuMzI0TDc2OC4wMiA0NzMuODQ4djM4LjE2MnoiIGZpbGw9IiNjMDAiLz4gICAgPC9nPiAgPC9nPjwvc3ZnPg==" style="height: 18px;" height="18" alt="en" />
+                                    </a></li>
+                            </ul>
+            <div id="moje-nep">
+                
+            <div id="top-panel" class="panel inact">
+                <div style="padding: 5px 10px"><strong>Niste prijavljeni.</strong></div>
+                    <div class="clearer"></div>
+                    <div class="items">
+        
+                <!--<a href="/profil.html?set=ins" class="pf i-adduser">Nov uporabnik</a>-->
+                <a href="/nepremicnine-vpis.html?v=1" class="pf i-addad" style="margin-bottom: 15px;">Vpis oglasa</a>
+                <div class="clearer clearer_after"></div>
+            
+                <strong>Za registrirane uporabnike</strong>
+                <div class="clearer clearer_after" style="margin-top:5px"></div>
+                <a href="/profil.html?prijava=1" class="pf i-login ibl">Prijava v sistem</a>
+                <div class="clearer clearer_after" style="margin-top:5px"></div>
+                <a href="/profil.html?prijava=1&geslo=2" class="pf i-pw ibl">Pozabljeno geslo?</a>
+                <div class="clearer clearer_after" style="margin-top:5px;margin-bottom: 15px"></div>
+                <strong>Če še niste uporabnik ...</strong>
+                <div class="clearer clearer_after" style="margin-top:5px"></div>
+                <a href="/profil.html?set=ins" class="pf i-adduser ibl">Registriraj se!</a>
+                <div class="clearer clearer_after" style="margin-top:5px;"></div>
+                <div class="additional">
+                    <strong>Dodatno</strong>
+                    <div class="clearer clearer_after" style="margin-top:5px;"></div>
+                    <a href="/profil.html?odjava=1&forget=1" class="pf i-deluser ibl">Pozabi me! (Izbris piškotkov)</a>
+                </div>       
+            <div class="clearer"></div>
+                </div>
+            </div><p class="slide"><a href="/profil.html" name="moje-nep" class="btn-slide">Moje nepremičnine</a></p>            </div>
+        </div>
+    </div>
+    <div id="ad-bg"><style>
+#ad-bg div, #ad-bg iframe{
+	position:fixed !important;
+	height:100% !important;
+	width:100% !important;
+	margin:auto !important;
+}
+#ad-bg a {
+	display:block;
+	position:fixed;
+	height:100%;
+	width:100%;
+	left:0;
+	top:23px;
+	z-index:0;
+}
+</style>
+
+<script type='text/javascript'><!--//<![CDATA[
+   var m3_u = ('//nepremicnine.click/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=30&amp;target=_blank&amp;withtext=1&amp;f1=1&amp;f2=1&amp;f3=14&amp;f4=&amp;f5=197&amp;z=");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></script>
+
+<script>
+$('#ad-bg a').css('background','url('+$('#ad-bg a img').attr('src')+') top no-repeat');
+$('#ad-bg a img').remove();
+</script>
+
+<script>
+
+(function($){
+	$.fn.extend({
+		fixcenter: function () {
+			return this.each(function() {
+				var left = (  ( $(window).width() - $(this).outerWidth() ) / 2  );
+				//alert($(window).width() + ' - ' + $(this).outerWidth() + ' : ' + left);
+				$('#k17').append(' | ' + $(window).width() + ' - ' + $(this).outerWidth() + ' : ' + left);
+				$(this).css({position:'fixed', left: (left < 0 ? left : 0)+'px'});
+			});
+		}
+	});
+})(jQuery);
+
+$('#ad-bg div:first').fixcenter();
+$(document).ready(function(){
+	$('#ad-bg div:first').fixcenter();
+	$(window).resize(function(){
+		$('#ad-bg div:first').fixcenter();
+	});
+});
+</script>
+</div>
+    <div id="all">
+
+    <div id="toperr">
+        </div>
+
+    <div id="wrapper">
+        <div id="ad-top-wrapper"><div id="ad-top"><ins data-revive-zoneid="1" data-revive-id="7699daf535ac952a605b8487b651c1ea"  data-revive-f1="1" data-revive-f2="1" data-revive-f3="14" data-revive-f4="" data-revive-f5="197" data-revive-z="0" data-revive-block="1" data-revive-blockcampaign="1"></ins></div></div>
+        <div class="clearer"></div>
+
+        <div id="content">
+                        <div id="header-top">
+                                <div id="logo">
+                    <a href="/"><img src="data:image/gif;base64,R0lGODlhKQElAPf/APF+jPi/xetOYeYeNf3v8e9uffrP1Pvf4uk+UvSfqeguRO1eb/avt/KPmuuzuf///+QOJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAKQElAAAI/wAhIFAAoaDBgwgTIhTAUACAhwAYBECgsKLFixgPNnQIUSJFiwAyihxZEcFDhANJqky4YKXFjRAjTnRJ0yUAAi0xBnjAkyfCnkCDCvgZ1ECAAA0AfEwYlKdRBgAKEKzYtOnQigUeXLW4IOTFpgEyKmhwgOcBhDdzXtwJlCjQsD8ZDMAoIKjXglWF1tw7EgDPBHMtsu3pNq/WwnkPAAhs0DBQxQod89ya0MADAxcHECDAOHJQuBUVJGja2e8DwGuDIn4AuvEDApQT1gV6F4Lkw3xzg+xpYGnCwaxXN1WL9/Zr38addrYtmfhBBD1rI2TAs8DXz7urEjd92TdC4K2Zv/9lGv2lXteOneteD4H7a+kGwQu3u/oAgaqc0RtPMJ92xdE8ETDVQj2dZRFYCg1gWV4NHOQeAfAVJN9BCCIWwIAanVecYxGyxxdwPMn123gUBmXddf4tUBZ9G/YkwAALLAgUAaudiJFmQDGQ0AArVncgdij1WJWO8TUl4nck6sdTeLPNqF6Tk5UIlI0eVllkUwd4BxyRSuL2o38QKFCheC4WhKNqUpaZkXtRHtQAkJ4laaaMQSWwwHIgmqVljqsxySCBQCGnoZUVDbCRSnmWdyVP0lmFUVN3gQiaoxIGZWCXsVUkpFmMQakmeUDxd1CiDGA4qmG1AddonYBWZcCAnq7/lqlIr1JFWEFsEubpUQHIGFaiPR2p6moAbJQppIvy1GCLbUKw6aq0GauQp4pCQGdP4XVZ2wJVUTmiYcKCqW2r+OUUa5qMSivSa962aFCuPlGL4KZNwQbBsOgiS2xBYgalVlMnZgWUActJFiGAVVEEL0+mMvtAbdc+jBG9QdmL77gHCewYYOd2yeKNPaEmJWgLG3pbWMkBcLHDH4+rYFH5hoTAfQV6R2ZV8A3g2IUbx1ltv49llPLKN0vsoHEGsNkfoyJBmeXI77Z1kAIxPQaRdSZGrN3SRsdcwKYECEpbATQvuRzL4kbtWNmvsf1Aw/pCoHG1X1an9XD7Ho3twjDn/9uyeR9jq7ZPdYenF8KGxWYwqGt7BymbBPuMc0JCMoA4pJcvG/PgdNta5uVVKf63e2HNLJnhHDZdVQBzCY4rbQ8d67qZ55HtmOhADWWoAHBL1hvjTIMYuawQ7G6qpwWciaCn+eUrantYgpx7QbYnvtrzBb3p+gDALkm88aqX25Pm8MInp6dbIXC3lw7P6neB7TockgJuD4/pRZcTNHdPAhb0bJ8G4VZTsCcbDanPevkKz4RelxfUTW8l3LlJXu5SPsa1Bn0HGQDoeOK4QUnOLHZCkaL2d5nOUCpBfbtX3LRXIACayW1LUk9BMGgQDealg3JS4exmCMMHcKl9NnHRy//i5h6IyM57BqFhxmAIvNPEJCp5e9THqFMUxgzwiTZik+boJyeg9YRKY4KeYYwSAMhAQIkGqZ7UEoikHZopT9AKGRYddLXBXQV0FFyjzy7owYIcUI9oy2HcRMi0FzYFM4Gc3bUow53+HeRalyqaAo3jFTQa5I+3YuOp3Mi5riUSiS0i2afU2DX3MEQBLypMa/bnPhtm0mNwkt+6WibAtwTmZH6sWGUKmTG8OSw8A6Bi6uTWRzMhronhEVK2kli2ODYwTaBBGGUQ0KOtLCyOrWGT+wqyAJo1MYxF61AUCyJMT+ISApcjoECCsyO2QahLyySlvrR5kW4STpNKWmYNqejfzNVBc1GxCWazrqnKjB3lU6Ep4294xaumjLNuvDRTWZ42KoYeFE0DKIAw4weAhhUEQIoxYSwRotEJUu+i7FOIAhTqwviUEZQgIYC3LIrSVyaJhbO6yVYKcJRrYVM3MiRUTQRwJL5Q7QBno0sA4kcTAXTFiEklSVCtlBKhYqSqVs2qVrfK1a569atgDatYx0rWspr1rGhNq1rXyta2uvWtcI2rXOdK17ra9a54zate98rXvvr1r4ANrGAHS9jCGvawiE2sYhfL2MY69rGQjaxkJ0vZylr2spjNrGY3y56AAAA7" width="297" height="37" title="Nepremičnine, središče ponudbe nepremičnin v Sloveniji, agencije za nepremičnine, novogradnje..." alt="Nepremičnine, središče ponudbe nepremičnin v Sloveniji, agencije za posredovanje nepremičnin, novogradnje..." />
+                        <strong>Največji slovenski nepremičninski portal</strong></a>
+                </div>
+
+                <div id="logo-m">
+                    <a href="" class="more-menu">
+                        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                        <img src="/images/logo-m.png" width="240" height="32" title="Nepremičnine, središče ponudbe nepremičnin v Sloveniji, agencije za nepremičnine, novogradnje..." alt="Nepremičnine, središče ponudbe nepremičnin v Sloveniji, agencije za posredovanje nepremičnin, novogradnje..." />
+                    </a>
+
+                    <ul id="bar-top-right-mobile">
+                        <li id="free-text-search">
+                            <a href="#" aria-label="iskanje">
+                                <i class="fa fa-search fa-2x"></i>
+                            </a>
+                            <div id="mobile-iskalnik-hitroiskanje" class="ui-widget">
+                                                                <form id="mobile-quick-search" action="/nepremicnine.html" method="get" name="searcher" accept-charset="utf-8" itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction">
+                                    <meta itemprop="target" content="https://www.nepremicnine.net/nepremicnine.html?q={q}"/>
+                                    <input itemprop="query-input" type="text" name="q" id="m-hitroiskanje" value="" placeholder="npr. hiša bled atrij, ref. št. oglasa ..." size="30" />
+                                </form>
+                            </div>
+                        </li>
+                        <li id="notification-bell">
+                            <a href="#"  aria-label="obvestila">
+                                <i class="fa fa-bell-o fa-2x"></i>
+                                                            </a>
+                        </li>
+                        <li id="notification-message">
+                            <a href="#"  aria-label="sporočila">
+                                <i class="fa fa-envelope-o fa-2x"></i>
+                                                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+                <div id="slogan"></div>
+                <div id="iskalnik-hitroiskanje" class="ui-widget">
+                                        <form action="/nepremicnine.html" method="get" name="searcher" accept-charset="utf-8" itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction">
+                        <meta itemprop="target" content="https://www.nepremicnine.net/nepremicnine.html?q={q}"/>
+                        <input itemprop="query-input" type="text" name="q" id="hitroiskanje" value="" placeholder="npr. hiša bled atrij, ref. št. oglasa ..." size="30" onclick="if (searcher.q.value.substring(0,3) == 'npr') searcher.q.value='';" />
+                        <input type="submit" id="hitroiskanjepotrdi" value="" width="31" height="32" onclick="if ( searcher.q.value=='npr. hiša bled atrij, ref. št. oglasa ...' ) return false;" />
+                    </form>
+                </div>
+            </div>
+            <div id="header">
+                <div id="menu">
+                    <ul>
+                        <li class="first"><a href="/">nepremičnine</a></li>
+                                                <li class="iskalnik">
+                            <div class="menuitem"><a href="#" id="fqrun" class="active">ISKALNIK</a></div>
+                            
+<ul id="iskalnik">
+	<li>
+		<div class="levo">
+
+			<form name="NOsearch" id="NOsearch" action="/nepremicnine.html" class="" method="get">
+				<div id="loading">Loading ...</div>
+				<table width="350" border="0" cellpadding="3" cellspacing="0">
+					<tr>
+						<td class="td-levo"><strong>Država</strong></td>
+						<td class="td-desno">
+							<input type="radio" class="radio" id="NOd197" name="d" value="197" checked="checked" />
+							<label for="NOd197" class="radio">Slovenija</label>
+							<input type="radio" class="radio" id="NOd55" name="d" value="55"  />
+							<label for="NOd55" class="radio">Hrvaška</label>
+							<input type="radio" class="radio" id="NOd999" name="d" value="999"  />
+							<label for="NOd999" class="radio">Ostale države</label>
+                        </td>
+					</tr>
+
+					<tr>
+						<td class="td-levo"><strong>Posredovanje</strong></td>
+						<td class="td-desno">
+							<select name="p" id="NOp" aria-label="Posredovanje">
+                            <option value="1" selected="selected">Prodaja</option><option value="2">Nakup</option><option value="3">Oddaja</option><option value="4">Najem</option>							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="td-levo"><strong>Nepremičnina</strong></td>
+						<td class="td-desno">
+							<select name="n" id="NOn" aria-label="Nepremičnina">
+                            <option value="1" selected="selected">Stanovanje</option><option value="2">Hiša</option><option value="4">Vikend</option><option value="3">Posest</option><option value="5">Poslovni prostor</option><option value="6">Garaža</option><option value="7">Počitniški objekt</option>                            </select>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="td-levo"><strong>Regija</strong></td>
+						<td class="td-desno">
+							<select name="r" id="NOr" aria-label="Regija"></select>
+						</td>
+					</tr>
+
+					<tr class="NOue">
+						<td class="td-levo"><strong>Upravne enote</strong></td>
+						<td class="td-desno">
+							<select name="ue1[]" id="NOue1" multiple="multiple" aria-label="Upravne enote">
+								<option selected>Vse upravne enote</option><option value="201">Lj. Bežigrad</option><option value="204">Lj. Center</option><option value="200">Lj. Moste-Polje</option><option value="202">Lj. Šiška</option><option value="203">Lj. Vič-Rudnik</option>							</select>
+						</td>
+					</tr>
+
+			<script>
+				$(document).ready(function(e) {
+    				rSel( $("input:radio[name=d]:checked").val() );
+				});
+			</script>
+							<tr>
+						<td class="td-levo">
+							<strong>Cena</strong>:
+							<div id="clr-cena" class="icon clr fr" title="Ostrani omejitev po ceni"></div>
+						</td>
+						<td class="td-desno">
+							
+							<input name="c1" type="text" class="intnum mini" id="NOc1" size="7" placeholder="cena od" value="1" aria-label="cena od" /><span class="minus">-</span><input name="c2" type="text" class="intnum mini" id="NOc2" size="7" placeholder="cena do" value="2" aria-label="cena do" />
+							<select name="cm2" id="NOcm2" class="cm2 mini" style="line-height:53px" aria-label="Vrsta cene">
+								<option value="0">&euro;</option>
+								<option value="1">&euro;/m2</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="td-levo">
+													</td>
+						<td class="td-desno" style="padding-top: 5px;">
+							<a href="/nepremicnine.html" id="isk-map" class="fl div-ricon bl fmap rdeca" style="margin-left:7px;">Podrobno<br />iskanje</a>							<input type="button" id="NOreset" class="gumb ponastavi" value="Ponastavi">
+														<div class="ibl"><a class="gumb potrdi" href="/oglasi-prodaja/ljubljana-mesto/stanovanje/">Prikaži <span>rezultate</span></a></div>
+							<div class="isk-map">Za podrobno iskanje: <a href="/nepremicnine.html ">napredni iskalnik </a></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<ul class="desno">
+			<li><a href="/ne-spreglejte.html" class="isk-nespreglejte">ne spreglejte</a></li>
+			<li><a href="/24ur.html" class="isk-v24ur">24 ur</a></li>
+			<li><a href="/znizane-cene.html" class="isk-znizano">znižane cene</a></li>
+								<li><a href="/nepremicnine-vpis.html?v=1" class="isk-vpis">vpis oglasa</a></li>
+					<li><a href="/infonep.html" class="isk-obv">obveščajte me</a></li>
+		        			<li><a href="/shranjena-iskanja.html" class="isk-si">shranjena iskanja</a></li>
+			<li><a href="/shranjeni-oglasi.html" class="isk-so">shranjeni oglasi</a></li>
+        			<li><a href="/javne-drazbe.html" class="isk-jd">javne dražbe</a></li>
+						<li><a href="/za-studente.html" class="isk-stu">za študente</a></li>
+			<li class="mobile-detailed-search"><a href="/nepremicnine.html" class="div-ricon bl fmap">Podrobno iskanje</a></li>
+		</ul>
+	</li>
+</ul>
+                        </li>
+                        <li class="nav-top-novogradnje"><a href="/top-novogradnje.html"><strong>TOP Novogradnje</strong></a></li><li class="nav-ne-spreglejte"><a href="/ne-spreglejte.html"><strong>Ne spreglejte!</strong></a></li><li class="nav-javne-drazbe"><a href="/javne-drazbe.html">Javne dražbe</a></li><li class="nav-montazne-hise"><a href="/montazne-hise.html">Montažne hiše</a></li><li class="nav-nepremicninske-agencije"><a href="/nepremicninske-agencije.html">Podjetja</a></li><li class="nav-https://www.izracun-kredita.si/"><a href="https://www.izracun-kredita.si/" target="_blank" >Izračun kredita</a></li>                    </ul>
+                    <div class="clearer"></div>
+                </div>
+                <div class="clearer"></div>
+                
+            </div>
+
+              <ul class="mobile-nav">
+                                <li class="home"><a href="/">DOMOV <i class="fa fa-home right"></i></a></li>
+                                <li class="burger-nav-search  open"><a href="#">ISKALNIK <i class="fa fa-search right"></i></a></li>
+                                <li class="burger-nav-profile"><a href="/profil.html">Moje nepremičnine <i class="fa fa-user right"></i></a></li>
+                              <li class="burger-nav-top-novogradnje "><a href="/top-novogradnje.html"><strong style="font-weight:500 !important">TOP Novogradnje</strong></a></li><li class="burger-nav-ne-spreglejte "><a href="/ne-spreglejte.html"><strong style="font-weight:500 !important">Ne spreglejte!</strong></a></li><li class="burger-nav-javne-drazbe "><a href="/javne-drazbe.html">Javne dražbe</a></li><li class="burger-nav-montazne-hise "><a href="/montazne-hise.html">Montažne hiše</a></li><li class="burger-nav-nepremicninske-agencije "><a href="/nepremicninske-agencije.html">Podjetja</a></li><li class="burger-nav-https://www.izracun-kredita.si/"><a href="https://www.izracun-kredita.si/" target="_blank" >Izračun kredita</a></li>            </ul>
+
+            <!-- vsebina -->
+            <div class="clearer"></div>
+
+                        <div class="mobile-search close"></div>
+
+            <div class="clearer"></div>
+
+
+            <div id="vsebina980" itemprop="mainEntity" itemscope itemtype="http://schema.org/WebPage">
+                <link itemprop="url" href="https://www.nepremicnine.net/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" />
+                <meta itemprop="name" content="Stanovanje Prodaja Ljubljana mesto | NEPREMICNINE.net" />
+                                    <meta itemprop="description" content="Rezultati iskanja nepremičnin: Stanovanje Prodaja Ljubljana mesto na Nepremicnine.net" />
+                                                    <meta itemprop="keywords" content="ljubljana-mesto, stanovanje, cena-od-1-do-2-eur, prodaja" />
+                                                    <meta itemprop="image" content="https://www.nepremicnine.net/images/nepremicnine-net.jpg" />
+                
+                <!-- 980 -->
+                
+<script type="text/javascript">
+    jQuery(function($) {
+        $( '#facetUE' ).on( 'click', 'input:checkbox', function () {
+             $( this ).parent().toggleClass( 'act', this.checked );
+             $('#sform').submit();
+        });
+    });
+</script>
+
+    <script type="text/javascript">
+        jQuery(function($) {
+            $('#si').click( function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/jq/si.php",
+                    data: "wpg=nepremicnine&p=1&arg%5B0%5D=ljubljana-mesto&arg%5B1%5D=stanovanje&arg%5B2%5D=cena-od-1-do-2-eur&r=14&n=1&c1=1&c2=2&uid=0", // data to send to above script page if any
+                    async: true,
+                    cache: false,
+                    error: function(response)
+                    {
+                        alert(response);
+                        $('#si').css("background-color","red");
+                    },
+                    success: function(data){
+                        $('#si').removeAttr("href");
+                        $('#si').replaceWith($('<span id="si" class="ibl fr">' + $('#si').html() + '</span>'));
+                        if(data == 'true') {
+                            $('#si').removeClass("pf");
+                            $('#si').html("Parametri so shranjeni.").addClass("msgI");
+                            //$("#si").delay(8000).hide();
+                        } else {
+                            $('#si').removeClass("pf");
+                            $('#si').html(data);
+		//	$('#si').html(data).addClass("msgW");
+                        }
+                    }
+                })
+                setTimeout(function() { $("#si").slideUp("slow", function(){$("#si").remove();}); }, 1000000);
+                //$(this).delay(4000).hide('slow');
+                //.done(function() { alert("success"); })
+                //.fail(function() { alert("error"); })
+            });
+
+        });
+
+        $(document).ready(function() {
+            $('.ikona-sh').click( function () {
+                savethis = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "/jq/so.php",
+                    data: {id:$(this).attr('data-id')},
+                    async: true,
+                    cache: false,
+                    error: function(response)
+                    {
+                        alert(response);
+                    },
+                    success: function(data){
+                        if(data == 'true') {
+                            savethis.addClass('ikona-ok').delay(4000);
+                            // savethis.addClass('ikona-ok').delay(4000).hide('slow');
+                        } else {
+                            alert(data);
+                            savethis.addClass('ikona-ok').delay(4000);
+                        }
+                    }
+                })
+            });
+
+            $('.ikona-sh2').click( function () {
+                savethis = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "/jq/so.php",
+                    data: {id:$(this).attr('data-id')},
+                    async: true,
+                    cache: false,
+                    error: function(response)
+                    {
+                        alert(response);
+                    },
+                    success: function(data){
+                        if(data == 'true') {
+                            //savethis.addClass('ikona-ok').delay(4000).hide('slow');
+                            savethis.delay(150).fadeOut('slow');
+                        } else {
+                            alert(data);
+                        }
+                    }
+                })
+            });
+        });
+
+        function save_ad(data_id){
+            $.ajax({
+                type: "POST",
+                url: "/jq/so.php",
+                data: {id:data_id},
+                async: true,
+                cache: false,
+                error: function(response)
+                {
+                    alert(response);
+                },
+                success: function(data){
+                    if(data == 'true') {
+                        //savethis.addClass('ikona-ok').delay(4000).hide('slow');
+                        $("#save-ad-" + data_id).delay(150).fadeOut('slow');
+                        $("#msave-ad-" + data_id).delay(150).fadeOut('slow');
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+    </script>
+    <ul class="search-engine breadcrumbs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="/oglasi-prodaja/" alt="Prodaja" title="Prodaja"><span itemprop="name">Prodaja</span></a>
+                            <meta itemprop="position" content="1" />
+                        </li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-angle-right"></i>
+                            <a itemprop="item" href="/oglasi-prodaja/ljubljana-mesto/" alt="Ljubljana mesto" title="Ljubljana mesto"><span itemprop="name">Ljubljana mesto</span></a>
+                            <meta itemprop="position" content="2" />
+                        </li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-angle-right"></i>
+                            <a itemprop="item" href="/oglasi-prodaja/ljubljana-mesto/stanovanje/" alt="Stanovanje" title="Stanovanje"><span itemprop="name">Stanovanje</span></a>
+                            <meta itemprop="position" content="3" />
+                        </li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-angle-right"></i>
+                            <span style="opacity: .8;" class="current" itemprop="item" alt="cena od 1 € do 2 €" title="cena od 1 € do 2 €"><span itemprop="name">cena od 1 € do 2 €</span></span>
+                            <meta itemprop="position" content="4" />
+                        </li></ul><div id="vsebina200"><div class="facet">
+<script type="text/javascript">
+    jQuery(function($) {
+        $(document).ready(function() {
+            $(".facet .more").mouseover(function() {
+                $(this).addClass("open");
+            });
+            $(".facet .more").mouseleave(function() {
+                if ( $(this).find('input[type=text]').is(":focus") ) {
+                    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) == false ) {
+                        $(".facet .more").not(this).removeClass("open");
+                    }
+                } else {
+                    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) == false ) {
+                        $(".facet .more").removeClass("open");
+                    }
+                }
+            });
+            $(".facet select").mouseleave(function(event){
+                event.stopPropagation();
+            });
+        });
+    });
+</script>
+
+
+            <div class="params">
+                <strong class="fftitle">Parametri iskanja:</strong>
+                <div class="ffparams"><a href="/oglasi/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" class="icon clr"></a>Posredovanje: <strong>Prodaja</strong><br /><a href="/oglasi-prodaja/ljubljana-mesto/cena-od-1-do-2-eur/" class="icon clr"></a>Vrsta: <strong>Stanovanje</strong><br /> <a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" class="icon clr"></a>Država: <strong>Slovenija</strong><br /> <div class="ff_regija ff_197"><a href="/oglasi-prodaja/stanovanje/cena-od-1-do-2-eur/" class="icon clr"></a>Regija: <strong>LJ-mesto</strong><br /></div><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/" class="icon clr"></a>Cena: <strong> od 1 do 2 &euro;</strong><br /></div>
+                <a href="/nepremicnine.html" class="icon clr ur" style="margin:7px;"></a>
+                <div class="clearer"></div>
+            </div>
+        <div class="oglasi_cnt">Št. ustreznih oglasov: <strong>0</strong></div>    <!--<form action="/nepremicnine.html" method="get" id="sform" name="sform" accept-charset="utf-8">-->
+        <form action="/jq/search.php?wpg=nepremicnine&red=1" method="post" id="sform" name="sform" class="fff_197" accept-charset="utf-8" itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction">
+        <meta itemprop="target" content="https://www.nepremicnine.net/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/?q={q}"/>
+
+        
+                    <div class="kw_wrapper">
+                    <a name=""></a><h3>+ Ključne besede</h3>
+                    <input itemprop="query-input" type="text" name="q" id="q" class="mini" style="width:250px; float: left;" value="" size="30" />
+                    <input type="submit" class="fsearch keywords" value=">" /><br />
+                    </div>
+                <div class="param_d hide"><select name="d" id="dd" class="invisible" onchange="this.form.submit()"><option value="0">Vse države</option><option value="197" selected="selected">Slovenija197</option><option value="55">Hrvaška197</option><option value="999">Ostale države197</option></select><div class="dropdownWrapper country">
+                          <div class="dropdownLabel">Slovenija<i class="fa fa-caret-down" aria-hidden="true"></i></div>
+                          <div class="dropdownPanel">
+                            <a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" class="param_d_all">Vse države</a><a href="/oglasi-prodaja/slovenija/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="197">Slovenija</a><a href="/oglasi-prodaja/hrvaska/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="55">Hrvaška</a><a href="/oglasi-prodaja/ostale-drzave/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="999">Ostale države</a>
+                          </div>
+                        </div></div><div class="param_r hide"><select name="r" id="r" class="invisible" onchange="this.form.submit()"><option value="0">Vse regije</option><option value="14" selected="selected">LJ-mesto</option><option value="1">LJ-okolica</option><option value="3">Gorenjska</option><option value="2">J. Primorska</option><option value="4">S.Primorska</option><option value="8">Notranjska</option><option value="5">Savinjska</option><option value="9">Podravska</option><option value="10">Koroška</option><option value="6">Dolenjska</option><option value="12">Posavska</option><option value="11">Zasavska</option><option value="15">Pomurska</option></select><div class="dropdownWrapper regije">
+                          <div class="dropdownLabel">LJ-mesto<i class="fa fa-caret-down" aria-hidden="true"></i></div>
+                          <div class="dropdownPanel">
+                            <a href="/oglasi-prodaja/stanovanje/cena-od-1-do-2-eur/" class="param_r_all">Vse regije</a><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="14">LJ-mesto</a><a href="/oglasi-prodaja/ljubljana-okolica/stanovanje/cena-od-1-do-2-eur/" data-val="1">LJ-okolica</a><a href="/oglasi-prodaja/gorenjska/stanovanje/cena-od-1-do-2-eur/" data-val="3">Gorenjska</a><a href="/oglasi-prodaja/juzna-primorska/stanovanje/cena-od-1-do-2-eur/" data-val="2">J. Primorska</a><a href="/oglasi-prodaja/severna-primorska/stanovanje/cena-od-1-do-2-eur/" data-val="4">S.Primorska</a><a href="/oglasi-prodaja/notranjska/stanovanje/cena-od-1-do-2-eur/" data-val="8">Notranjska</a><a href="/oglasi-prodaja/savinjska/stanovanje/cena-od-1-do-2-eur/" data-val="5">Savinjska</a><a href="/oglasi-prodaja/podravska/stanovanje/cena-od-1-do-2-eur/" data-val="9">Podravska</a><a href="/oglasi-prodaja/koroska/stanovanje/cena-od-1-do-2-eur/" data-val="10">Koroška</a><a href="/oglasi-prodaja/dolenjska/stanovanje/cena-od-1-do-2-eur/" data-val="6">Dolenjska</a><a href="/oglasi-prodaja/posavska/stanovanje/cena-od-1-do-2-eur/" data-val="12">Posavska</a><a href="/oglasi-prodaja/zasavska/stanovanje/cena-od-1-do-2-eur/" data-val="11">Zasavska</a><a href="/oglasi-prodaja/pomurska/stanovanje/cena-od-1-do-2-eur/" data-val="15">Pomurska</a>
+                          </div>
+                        </div></div><div class="param_p hide""><select name="p" id="p" class="invisible" onchange="this.form.submit()"><option value="0">Vsa posredovanja</option><option value="1" selected="selected">Prodaja</option><option value="2">Nakup</option><option value="3">Oddaja</option><option value="4">Najem</option></select><div class="dropdownWrapper posredovanja">
+                          <div class="dropdownLabel">Prodaja<i class="fa fa-caret-down" aria-hidden="true"></i></div>
+                          <div class="dropdownPanel">
+                            <a href="/oglasi/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" class="param_p_all">Vsa posredovanja</a><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="1">Prodaja</a><a href="/oglasi-nakup/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="2">Nakup</a><a href="/oglasi-oddaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur-na-mesec/" data-val="3">Oddaja</a><a href="/oglasi-najem/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur-na-mesec/" data-val="4">Najem</a>
+                          </div>
+                        </div></div>
+        <div class="param_n hide"><select name="n" id="n" class="invisible" onchange="this.form.submit()"><option value="0">Vse nepremičnine</option><option value="1" selected="selected">Stanovanje</option><option value="2">Hiša</option><option value="4">Vikend</option><option value="3">Posest</option><option value="5">Poslovni prostor</option><option value="6">Garaža</option><option value="7">Počitniški objekt</option></select><div class="dropdownWrapper nepremicnine">
+                          <div class="dropdownLabel">Stanovanje<i class="fa fa-caret-down" aria-hidden="true"></i></div>
+                          <div class="dropdownPanel">
+                            <a href="/oglasi-prodaja/ljubljana-mesto/cena-od-1-do-2-eur/" class="param_n_all">Vse nepremičnine</a><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/cena-od-1-do-2-eur/" data-val="1">Stanovanje</a><a href="/oglasi-prodaja/ljubljana-mesto/hisa/cena-od-1-do-2-eur/" data-val="2">Hiša</a><a href="/oglasi-prodaja/ljubljana-mesto/vikend/cena-od-1-do-2-eur/" data-val="4">Vikend</a><a href="/oglasi-prodaja/ljubljana-mesto/posest/cena-od-1-do-2-eur/" data-val="3">Posest</a><a href="/oglasi-prodaja/ljubljana-mesto/poslovni-prostor/cena-od-1-do-2-eur/" data-val="5">Poslovni prostor</a><a href="/oglasi-prodaja/ljubljana-mesto/garaza/cena-od-1-do-2-eur/" data-val="6">Garaža</a><a href="/oglasi-prodaja/ljubljana-mesto/pocitniski-objekt/cena-od-1-do-2-eur/" data-val="7">Počitniški objekt</a>
+                          </div>
+                        </div></div>
+        <h3>Tipi</h3><ul id="facetTipi"><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/soba/cena-od-1-do-2-eur/" data-val="1">Soba</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/garsonjera/cena-od-1-do-2-eur/" data-val="35">Garsonjera</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/1-sobno/cena-od-1-do-2-eur/" data-val="2">1-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/15-sobno/cena-od-1-do-2-eur/" data-val="3">1,5-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/2-sobno/cena-od-1-do-2-eur/" data-val="4">2-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/25-sobno/cena-od-1-do-2-eur/" data-val="5">2,5-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/3-sobno/cena-od-1-do-2-eur/" data-val="6">3-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/35-sobno/cena-od-1-do-2-eur/" data-val="7">3,5-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/4-sobno/cena-od-1-do-2-eur/" data-val="8">4-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/45-sobno/cena-od-1-do-2-eur/" data-val="9">4,5-sobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/5-in-vecsobno/cena-od-1-do-2-eur/" data-val="10">5 in večsobno</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/apartma/cena-od-1-do-2-eur/" data-val="43">Apartma</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/drugo-36/cena-od-1-do-2-eur/" data-val="36">Drugo</a></li></ul>
+        <h3 class="h_nadstropje">Nadstropje</h3><div class="rel nadst"><select name="nadst[]" id="nadst_od" class="mini"><option value="vsa" >Vsa</option><option value="2K">2.klet</option><option value="K">klet</option><option value="PK">polklet</option><option value="P">pritličje</option><option value="VP">visoko pritličje</option><option value="M">mansarda</option><option value="ME">medetaža</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option></select> - <select name="nadst[]" id="nadst_do" class="mini"><option value="vsa" >Vsa</option><option value="2K">2.klet</option><option value="K">klet</option><option value="PK">polklet</option><option value="P">pritličje</option><option value="VP">visoko pritličje</option><option value="M">mansarda</option><option value="ME">medetaža</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option></select><input type="submit" class="fsearch" value=">"></div>
+        <h3>Upravne enote</h3><fieldset class="radio-group"><ul id="facetUE"><li><a href="/oglasi-prodaja/ljubljana-mesto/lj-bezigrad/stanovanje/cena-od-1-do-2-eur/" data-val="201">Lj. Bežigrad</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/lj-center/stanovanje/cena-od-1-do-2-eur/" data-val="204">Lj. Center</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/lj-moste-polje/stanovanje/cena-od-1-do-2-eur/" data-val="200">Lj. Moste-Polje</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/lj-siska/stanovanje/cena-od-1-do-2-eur/" data-val="202">Lj. Šiška</a></li><li><a href="/oglasi-prodaja/ljubljana-mesto/lj-vic-rudnik/stanovanje/cena-od-1-do-2-eur/" data-val="203">Lj. Vič-Rudnik</a></li></ul></fieldset><input type="hidden" name="d" value="197" /><input type="hidden" name="p" value="1" /><input type="hidden" name="n" value="1" /><input type="hidden" name="r" value="14" /><a name="Cena"></a><h3>Cena (&euro;)</h3><ul id="facetCena">
+                        <span class="grey"> od 1 do 2 &euro;</span> <a href="/oglasi-prodaja/ljubljana-mesto/stanovanje/" class="icon clr ur" title="Izbris omejitve po ceni"></a></ul>
+                    <div class="more cena">
+                        <div>vnesite poljubno vrednost</div>
+                        <input type="text" class="mini intnum" size="10" maxlength="10" name="c1" value="1">
+                        -
+                        <input type="text" class="mini intnum" size="10" maxlength="10" name="c2" value="2">
+                        <select name="cm2" class="cm2">
+                            <option value="0">&euro;</option>
+                            <option value="1">&euro;/m2</option>
+                        </select>
+                        <input type="submit" class="fsearch" value=">" /><br />
+                    </div>
+                
+        <h3>Datum vpisa</h3>
+        <select name="last" id="last" class="clast" onchange="if (!mobileAndTabletcheck()) { document.sform.submit(); } ">
+            <option value="" selected="selected">Vsi objekti</option>
+            <option value="1">Zadnjih 24 ur</option><option value="2">Zadnja 2 dneva</option><option value="3">Zadnje 3 dni</option><option value="7">Zadnji teden</option><option value="31">Zadnji mesec</option>        </select>
+        <div class="spacer"></div><div class="cZnizane"><input type="checkbox" name="f" id="f1" option value="1" onchange="if (!mobileAndTabletcheck()) { this.form.submit() }"><label for="f1">Znižane cene</label></div><hr/><div class="grey tac"></div><hr/><div class="grey tac">Rezultati iskanja nepremičnin: Stanovanje Prodaja Ljubljana mesto. Dodatno filtriranje rezultatov iskanja: cena od 1 do 2 EUR.</div>    </form>
+</div></div><div id="vsebina760" itemprop="mainEntity" itemscope itemtype="http://schema.org/ItemList">
+                <div class="headbar"><div class="msgI"><span>Poskusite spremeniti iskalne pogoje ali uporabite iskanje po ključnih besedah (zgoraj)</span></div>
+                <div class="clearer"></div>
+            </div>
+            <script type="text/javascript">
+    $( function() {
+
+        var s_cancle = 'Prekliči';
+        var s_filter = 'Filtriraj';
+        if ($('html').attr('lang') == 'en') {
+            s_cancle = 'Cancle';
+            s_filter = 'Filter';
+        }
+
+        function generate_filter_url(filter_url) {
+            filter_url = filter_url.replace(/;/gmi, '');
+            form_action = params_unserialize($('#sform').attr('action'));
+            form_action = form_action.replace(/;/gmi, '');
+
+            // console.log(filter_url);
+            // console.log(form_action);
+
+            filter_url = filter_url + '' + form_action;
+            filter_url = filter_url.replace(/red=1/gmi, '');
+            // console.log(filter_url);
+
+            var wpg = $('body').attr('id');
+
+            /*filter result count*/
+            $.get( "/jq/count.php?wpg="+ wpg + "&" + filter_url, function( res ) {
+                $("#ok").html(s_filter + ' [' + res + ']');
+            });
+            /*filter url*/
+            $.post( "/jq/search.php?wpg="+ wpg + "&" + filter_url, function( res ) {
+                $("#ok").attr('data-filter', res);
+            });
+
+        }
+
+        function params_unserialize(p) {
+            var ret = '',
+                seg = p.replace(/^\?/,'').split(/&|\?/),
+                len = seg.length, i = 1, s;
+            for (;i<len;i++) {
+                if (!seg[i]) { continue; }
+                s = seg[i].split('=');
+                ret += ';&'+s[0]+'='+s[1];
+            }
+            return ret;
+        }
+
+
+        $('.filter a.filter-icon').on('click', function () {
+            $(".facet").dialog({
+                modal: true,
+                title: s_filter,
+                cache: false,
+                // autoOpen: false,
+                buttons: [
+                    {
+                        id: "ok",
+                        text: s_filter,
+                        click: function() {
+                            /*don't use .data it's cached*/
+                            var filter_url = $('#ok').attr('data-filter');
+                            window.location.href = filter_url;
+                        }
+                    },
+                    {
+                        id: "close",
+                        text: s_cancle,
+                        click: function() {
+                            location.reload();
+                        }
+                    }
+                ],
+                close: function(event, ui) {
+                    location.reload();
+                },
+                open: function () {
+                    $(this).parent().promise().done(function () {
+
+                        /*value of filed with thousand . seperator*/
+                        if ($('#sform [name=c1]').val() != undefined) $('#sform [name=c1]').val($('#sform [name=c1]').val().replace(/\./gmi, ''));
+                        if ($('#sform [name=c2]').val() != undefined) $('#sform [name=c2]').val($('#sform [name=c2]').val().replace(/\./gmi, ''));
+
+                        if ($('#sform [name=z1]').val() != undefined)  $('#sform [name=z1]').val($('#sform [name=z1]').val().replace(/\./gmi, ''));
+                        if ($('#sform [name=z2]').val() != undefined)  $('#sform [name=z2]').val($('#sform [name=z2]').val().replace(/\./gmi, ''));
+
+                        var filter_url = decodeURI($('#sform').serialize());
+                        var form_action = params_unserialize($('#sform').attr('action'));
+
+                        filter_url = filter_url.replace(/&/gmi, ';&');
+                        // console.log(filter_url + form_action);
+                        generate_filter_url(filter_url + form_action);
+
+                        /*filter item click*/
+                        /*Vrsta posredovanja filter item click*/
+                        $('.posredovanja .dropdownPanel a').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&p(.*?)[^;]*/igm;
+
+                            filter_url = filter_url.replace(regex, '');
+
+                            $('.posredovanja .dropdownLabel').html($(this).text() + '<i class="fa fa-caret-down" aria-hidden="true"></i>');
+
+                            var val = $(this).data('val');
+                            if (val == undefined) {
+                                generate_filter_url(filter_url);
+                                return;
+                            }
+
+                            var param = '&p='+$(this).data('val')+';';
+                            filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Država filter item click*/
+                        $('.country .dropdownPanel a').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&d(.*?)[^;]*/igm;
+
+                            filter_url = filter_url.replace(regex, '');
+
+                            $('.country .dropdownLabel').html($(this).text() + '<i class="fa fa-caret-down" aria-hidden="true"></i>');
+
+                            /*If country is selected then show regions dropdown*/
+                            var id = $(this).data('val');
+                            if ($('.dropdownWrapper.regije').length)
+                                $('.dropdownWrapper.regije').remove();
+
+                            $.post("/jq/r-sel-mobile.php", {id:id,rsel:''}, function(data) {
+                                $('.dropdownWrapper.country').after(data);
+                            });
+
+                            var param = '&d='+id+';';
+                            filter_url = filter_url.concat(param);
+
+                            /*Reload new UE on Država change*/
+                                /*Preselected Regija*/
+                                var regex_r = /&r(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex_r, '');
+                                if (id == 197) {
+                                    var param_r = '&r=14;';
+                                    var id_r = 14;
+                                }
+                                else if (id == 55){
+                                    var param_r = '&r=33;';
+                                    var id_r = 33;
+                                }
+
+                                filter_url = filter_url.concat(param_r);
+
+                                /*remove preselected UE and Naselja*/
+                                $('#facetUE a.act').each(function( index ) {
+                                    var param = '&ue[]='+$(this).data('val')+';';
+                                    filter_url = filter_url.replace(param, '');
+                                });
+                                $('#facetNaselja a.act').each(function( index ) {
+                                    var param = '&naselja[]='+$(this).data('val')+';';
+                                    filter_url = filter_url.replace(param, '');
+                                });
+
+                                $('#facetUE').empty();
+                                $('#facetNaselja').empty();
+
+                                /*Load new UE*/
+                                $.post("/jq/ue-sel.php", {id:id_r}, function(data) {
+                                    $('#facetUE').append(data);
+                                });
+
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Regije filter item click*/
+                        $('#sform').on('click', '.regije .dropdownPanel a', function(e) {
+                            e.preventDefault();
+                            var regex = /&r(.*?)[^;]*/igm;
+
+                            filter_url = filter_url.replace(regex, '');
+
+                            $('.regije .dropdownLabel').html($(this).text() + '<i class="fa fa-caret-down" aria-hidden="true"></i>');
+
+                            var id = $(this).data('val');
+                            if (id == undefined) {
+                                generate_filter_url(filter_url);
+                                return;
+                            }
+
+                            var param = '&r='+id+';';
+                            filter_url = filter_url.concat(param);
+
+                            /*remove preselected UE and Naselja*/
+                            $('#facetUE a.act').each(function( index ) {
+                                var param = '&ue[]='+$(this).data('val')+';';
+                                filter_url = filter_url.replace(param, '');
+                            });
+                            $('#facetNaselja a.act').each(function( index ) {
+                                var param = '&naselja[]='+$(this).data('val')+';';
+                                filter_url = filter_url.replace(param, '');
+                            });
+
+                            $('#facetUE').empty();
+                            $('#facetNaselja').empty();
+
+                            /*Load new UE*/
+                            $.post("/jq/ue-sel-mobile.php", {id:id}, function(data) {
+                                $('#facetUE').append(data);
+                            });
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Ključne besede*/
+                        $('.fsearch.keywords').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&q=(.*?)[^;]*/igm;
+                            filter_url = filter_url.replace(regex, '');
+
+                            var q = $('#q').val();
+                            var param = '&q=' + q +';';
+
+                            if (q != undefined)
+                                filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Tip nepremičnine filter item click*/
+                        $('.nepremicnine .dropdownPanel a').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&n(.*?)[^;]*/igm;
+                            var id = $(this).data('val');
+
+                            filter_url = filter_url.replace(regex, '');
+
+                            $('.nepremicnine .dropdownLabel').html($(this).text() + '<i class="fa fa-caret-down" aria-hidden="true"></i>');
+
+                            if (id == undefined) {
+                                generate_filter_url(filter_url);
+                                return;
+                            }
+
+                            var param = '&n='+id+';';
+                            filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+
+                            /*Reload new Tipi on Tip nepremičnine change*/
+                                /*remove preselected Tipi*/
+                                $('#facetTipi a.act').each(function( index ) {
+                                    var param = '&t[]='+$(this).data('val')+';';
+                                    filter_url = filter_url.replace(param, '');
+                                    generate_filter_url(filter_url);
+                                });
+
+                                /*show new Tipi*/
+                                $('#facetTipi').empty();
+                                $.post("/jq/t-sel-mobile.php", {id:id}, function(data) {
+                                    $('#facetTipi').append(data);
+                                });
+
+                        });
+
+                        /*Add generate url for Tipi nepremičnin*/
+                        $('#sform').on('click', '#facetTipi a:not(.icon)', function(e) {
+                            e.preventDefault();
+
+                            var param = '&t[]='+$(this).data('val')+';';
+                            if ($(this).hasClass('act')) {
+                                $(this).removeClass('act');
+                                filter_url = filter_url.replace(param, '');
+                            }
+                            else {
+                                $(this).addClass('act actMob');
+                                filter_url = filter_url.concat(param);
+                            }
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Nadstropje filter item click*/
+                        $('.nadstropje .dropdownPanel a').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&nadst(.*?)[^;]*/igm;
+
+                            filter_url = filter_url.replace(regex, '');
+
+                            $('.nadstropje .dropdownLabel').html($(this).text() + '<i class="fa fa-caret-down" aria-hidden="true"></i>');
+
+                            var val = $(this).data('val');
+                            if (val == undefined) {
+                                generate_filter_url(filter_url);
+                                return;
+                            }
+
+                            var param = '&nadst='+$(this).data('val')+';';
+                            filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Nadstropje filter from/to item click*/
+                        $('.nadst .fsearch').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&nadst(.*?)[^;]*;/igm;
+
+                            filter_url = filter_url.replace(regex, '');
+
+                            var param = '&nadst[]='+$('#nadst_od').val()+';&nadst[]='+$('#nadst_do').val()+';';
+                            filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Upravne enote*/
+                        $('#sform').on('click', '#facetUE a:not(.icon)', function(e) {
+                            e.preventDefault();
+                            var id = $(this).data('val');
+
+                            var param = '&ue[]='+$(this).data('val')+';';
+                            if ($(this).hasClass('act')) {
+                                $(this).removeClass('act');
+                                filter_url = filter_url.replace(param, '');
+                            }
+                            else {
+                                $(this).addClass('act actMob');
+                                filter_url = filter_url.concat(param);
+                            }
+
+                            /* refresh Naselja on UE change */
+                            var ue = $('#facetUE a.act').length;
+                            if (ue == 1) {
+
+                                if (!$('#facetNaselja').length) {
+                                    $('#facetUE').parent().after('<h3 class="naselja_t">Naselja</h3><fieldset class="radio-group"><ul id="facetNaselja"></ul></fieldset>');
+                                }
+
+                                $('#facetNaselja').empty();
+
+                                $.post("/jq/n-sel-mobile.php", {id:$('#facetUE a.act').data('val')}, function(data) {
+                                    $('#facetNaselja').append(data);
+                                    $('.naselja_t').show();
+                                    $('#facetNaselja').parent().show();
+                                });
+                            }
+                            else {
+                                $('#facetNaselja a.act').each(function( index ) {
+                                    var param = '&naselja[]='+$(this).data('val')+';';
+                                    filter_url = filter_url.replace(param, '');
+                                });
+                                $('.naselja_t').hide();
+                                $('#facetNaselja').parent().hide();
+                                $('#facetNaselja').empty();
+                            }
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Upravne enote*/
+                        $('#sform').on('click', '#facetNaselja a:not(.icon)', function(e) {
+                            e.preventDefault();
+
+                            var param = '&naselja[]='+$(this).data('val')+';';
+                            if ($(this).hasClass('act')) {
+                                $(this).removeClass('act');
+                                filter_url = filter_url.replace(param, '');
+                            }
+                            else {
+                                $(this).addClass('act actMob');
+                                filter_url = filter_url.concat(param);
+                            }
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Cena*/
+                        $("#facetCena").on("click", "a:not(.icon)", function(e) {
+                            e.preventDefault();
+
+                            $('#facetCena a:not(.icon)').not(this).removeClass('act');
+
+                            var val = $(this).data('val');
+                            if (val != undefined) {
+                                var res = val.split(';');
+                                var s1 = res[0].split('-');
+                                var s2 = res[1].split('-');
+
+                                var param = '&' + s1[0] + '=' + s1[1] + '&' + s2[0] + '=' + s2[1]+';';
+                                if ($(this).hasClass('act')) {
+                                    $(this).removeClass('act');
+                                    filter_url = filter_url.replace(param, '');
+                                }
+                                else {
+                                    $(this).addClass('act actMob');
+                                    filter_url = filter_url.concat(param);
+                                }
+
+                                generate_filter_url(filter_url);
+                            }
+                        });
+                            /*Add generate url for custom Cena*/
+                            $('.more.cena input[type=submit]').on('click', function(e) {
+                                e.preventDefault();
+                                var regex = /&c1=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var val_from = $('.more.cena input[name=c1]').val();
+                                if (val_from == undefined)
+                                    val_from = '*';
+                                var val_to = $('.more.cena input[name=c2]').val();
+                                if (val_to == undefined)
+                                    val_to = '*';
+
+                                if ($('.more.cena .cm2').val() == 1)
+                                    var param = '&c1=' + val_from.replace(/\./gmi, '') + '&c2=' + val_to.replace(/\./gmi, '') + '&cm2=1' + ';';
+                                else
+                                    var param = '&c1=' + val_from.replace(/\./gmi, '') + '&c2=' + val_to.replace(/\./gmi, '') +';';
+
+
+                                filter_url = filter_url.concat(param);
+
+                                generate_filter_url(filter_url);
+                            });
+                            /*remove custom setted velikost */
+                            $('.ui-dialog .ui-dialog-content .nadst .icon.clr.ur').on('click', function(e) {
+                                e.preventDefault();
+                                var regex = /&nadst(.*?)[^;]*;/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var param = '&nadst[]=vsa;&nadst[]=vsa;';
+                                filter_url = filter_url.concat(param);
+
+                                $("#nadst_od")[0].selectedIndex = 0;
+                                $("#nadst_do")[0].selectedIndex = 0;
+
+                                generate_filter_url(filter_url);
+                            });
+                            /*remove custom setted velikost */
+                            $('.ui-dialog .ui-dialog-content #facetCena .icon.clr.ur').on('click', function(e) {
+                                e.preventDefault();
+
+                                var regex = /&c1=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+                                var regex = /&c2=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var default_vals = JSON.parse('null');
+                                $('#facetCena').empty();
+                                for (var i = 0, len = default_vals.length; i < len; ++i) {
+                                    var size = JSON.parse(default_vals[i]);
+                                    $('#facetCena').append('<li><a href="#" data-val="'+size.val+'">'+size.text+'</a></li>');
+                                }
+
+                                $("input[name='c1']").val('');
+                                $("input[name='c2']").val('');
+
+                                generate_filter_url(filter_url);
+                            });
+
+                        /*Add generate url for Velikost*/
+                        $("#facetM2").on("click", "a:not(.icon)", function(e) {
+                            e.preventDefault();
+
+                            $('#facetM2 a:not(.icon)').not(this).removeClass('act');
+
+                            var val = $(this).data('val');
+                            if (val != undefined) {
+                                var res = val.split(';');
+                                var s1 = res[0].split('-');
+                                var s2 = res[1].split('-');
+
+                                var param = '&' + s1[0] + '=' + s1[1] + '&' + s2[0] + '=' + s2[1]+';';
+                                if ($(this).hasClass('act')) {
+                                    $(this).removeClass('act');
+                                    filter_url = filter_url.replace(param, '');
+                                }
+                                else {
+                                    $(this).addClass('act actMob');
+                                    filter_url = filter_url.concat(param);
+                                }
+
+                                generate_filter_url(filter_url);
+                            }
+                        });
+
+                            /*Add generate url for custom Velikost*/
+                            $('.more.size input[type=submit]').on('click', function(e) {
+                                e.preventDefault();
+                                var regex = /&m1=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var val_from = $('.more.size input[name=m1]').val();
+                                if (val_from == undefined)
+                                    val_from = '*';
+                                var val_to = $('.more.size input[name=m2]').val();
+                                if (val_to == undefined)
+                                    val_to = '*';
+
+                                var param = '&m1=' + val_from.replace(/\./gmi, '') + '&m2=' + val_to.replace(/\./gmi, '') +';';
+                                filter_url = filter_url.concat(param);
+
+                                generate_filter_url(filter_url);
+                            });
+                            /*remove custom setted velikost */
+                            $('.ui-dialog .ui-dialog-content #facetM2 .icon.clr.ur').on('click', function(e) {
+                                e.preventDefault();
+
+                                var regex = /&m1=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+                                var regex = /&m2=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var default_vals = JSON.parse('null');
+                                $('#facetM2').empty();
+                                for (var i = 0, len = default_vals.length; i < len; ++i) {
+                                    var size = JSON.parse(default_vals[i]);
+                                    $('#facetM2').append('<li><a href="#" data-val="'+size.val+'">'+size.text+'</a></li>');
+                                }
+
+                                $("input[name='m1']").val('');
+                                $("input[name='m2']").val('');
+
+                                generate_filter_url(filter_url);
+                            });
+
+                        /*Add generate url for custom Velikost zemljišča*/
+                        $('.more-0.land input[type=submit]').on('click', function(e) {
+                            e.preventDefault();
+                            var regex = /&z1=(.*?)[^;]*/igm;
+                            filter_url = filter_url.replace(regex, '');
+
+                            var val_from = $('.more-0.land input[name=z1]').val();
+                            if (val_from == undefined)
+                                val_from = '*';
+                            var val_to = $('.more-0.land input[name=z2]').val();
+                            if (val_to == undefined)
+                                val_to = '*';
+
+                            var param = '&z1=' + val_from.replace(/\./gmi, '') + '&z2=' + val_to.replace(/\./gmi, '') +';';
+                            filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Leto*/
+                        $("#faceLeto").on("click", "a:not(.icon)", function(e) {
+                            e.preventDefault();
+                            $("#faceLeto a:not(.icon)").not(this).removeClass('act');
+
+                            var val = $(this).data('val');
+                            if (val != undefined) {
+                                var res = val.split(';');
+                                var s1 = res[0].split('-');
+                                var s2 = res[1].split('-');
+
+                                var param = '&' + s1[0] + '=' + s1[1] + '&' + s2[0] + '=' + s2[1]+';';
+                                if ($(this).hasClass('act')) {
+                                    $(this).removeClass('act');
+                                    filter_url = filter_url.replace(param, '');
+                                }
+                                else {
+                                    $(this).addClass('act actMob');
+                                    filter_url = filter_url.concat(param);
+                                }
+
+                                generate_filter_url(filter_url);
+                            }
+                        });
+                            /*Add generate url for custom Leto*/
+                            $('.more.year input[type=submit]').on('click', function(e) {
+                                e.preventDefault();
+                                var regex = /&l1=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var val_from = $('.more.year input[name=l1]').val();
+                                if (val_from == undefined)
+                                    val_from = '*';
+                                var val_to = $('.more.year input[name=l2]').val();
+                                if (val_to == undefined)
+                                    val_to = '*';
+
+                                var param = '&l1=' + val_from.replace(/\./gmi, '') + '&l2=' + val_to.replace(/\./gmi, '') +';';
+                                filter_url = filter_url.concat(param);
+
+                                generate_filter_url(filter_url);
+                            });
+                            /*remove custom seted leto */
+                            $('.ui-dialog .ui-dialog-content #faceLeto .icon.clr.ur').on('click', function(e) {
+                                e.preventDefault();
+
+                                var regex = /&l1=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+                                var regex = /&l2=(.*?)[^;]*/igm;
+                                filter_url = filter_url.replace(regex, '');
+
+                                var default_vals = JSON.parse('null');
+                                $('#faceLeto').empty();
+                                for (var i = 0, len = default_vals.length; i < len; ++i) {
+                                    var leto = JSON.parse(default_vals[i]);
+                                    $('#faceLeto').append('<li><a href="#" data-val="'+leto.val+'">'+leto.text+'</a></li>');
+                                }
+
+                                $("input[name='l1']").val('');
+                                $("input[name='l2']").val('');
+
+                                generate_filter_url(filter_url);
+                            });
+
+                        /*Add generate url for Datum vpisa*/
+                        $('#last').on('change', function(e) {
+                            e.preventDefault();
+
+                            var val = $(this).val();
+                            if (val == undefined) {
+                                generate_filter_url(filter_url);
+                                return;
+                            }
+
+                            var param = '&last='+val+';';
+                            filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Vsi oglasi*/
+                        $('#f0').on('click', function(e) {
+                            var param = '&f=;';
+                            if($(this).is(":checked")){
+                                filter_url = filter_url.concat(param);
+                            }
+                            else if($(this).is(":not(:checked)")){
+                                filter_url = filter_url.replace(param, '');
+                            }
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Znižana cena*/
+                        $('#f1').on('click', function(e) {
+                            var param = '&f=1;';
+                            if($(this).is(":checked")){
+                                filter_url = filter_url.concat(param);
+                            }
+                            else if($(this).is(":not(:checked)")){
+                                filter_url = filter_url.replace(param, '');
+                            }
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Zasebna ponudba*/
+                        $('#f2').on('click', function(e) {
+                            var param = '&f=2;';
+                            if($(this).is(":checked")){
+                                filter_url = filter_url.concat(param);
+                            }
+                            else if($(this).is(":not(:checked)")){
+                                filter_url = filter_url.replace(param, '');
+                            }
+                            generate_filter_url(filter_url);
+                        });
+
+                        /*Add generate url for Studenti*/
+                        $('#student').on('click', function(e) {
+                            var regex = /&student(.*?)[^;]*/igm;
+                            filter_url = filter_url.replace(regex, '');
+
+
+                            var param = '&student=1;';
+                            if($(this).is(":checked"))
+                                filter_url = filter_url.concat(param);
+
+                            generate_filter_url(filter_url);
+                        });
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+                <div class="clearer"></div>
+            </div><!-- /980 -->
+            <div class="clearer"></div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+
+    <div id="footer-wrapper">
+        <div id="footer">
+            <div class="fmob">
+	<p class="f-comp"><strong>MEGANET d.o.o. © 1998 - 2026</strong></p>
+	<hr />
+	<div class="more_info_data">
+		<div class="block">
+			Kontakt: 03/567-91-10<br />
+			E-pošta: <a href="/cdn-cgi/l/email-protection#a2cbccc4cde2ccc7d2d0c7cfcbc1cccbccc78cccc7d6" class="nn"><span class="__cf_email__" data-cfemail="eb82858d84ab858e9b998e8682888582858ec5858e9f">[email&#160;protected]</span></a> <br />
+			Delovni čas: pon.-pet., od 8:00 do 16:00<br />
+		</div>
+		<div class="block">
+			<strong>Tehnična podpora: </strong><br />
+			E-pošta: <a href="/cdn-cgi/l/email-protection#98e8f7fce8f7eaf9d8f6fde8eafdf5f1fbf6f1f6fdb6f6fdec" class="nn"><span class="__cf_email__" data-cfemail="8cfce3e8fce3feedcce2e9fcfee9e1e5efe2e5e2e9a2e2e9f8">[email&#160;protected]</span></a>
+		</div>
+	</div>
+	<ul class="mt-10">
+		<li><a href="/nepremicnine-rubrike.html"><strong>Rubrike oglasov</strong></a></li>
+		<li><a href="/nepremicnine.html?q=menjava nepremičnine" title="Menjava nepremičnine"><strong>Menjava nepremičnine</strong></a></li>
+        <li><span class="external-link"><strong>Mednarodno iskanje</strong></span></li>	</ul>
+	<ul>
+		<li><a href="/pogoji-uporabe.html">Pogoji uporabe</a></li>
+		<li><a href="https://files.nepremicnine.link/pdf/nn_varstvo_podatkov.pdf" target="_blank">Varstvo podatkov</a></li>
+		<li><a href="/nepremicnine-oglasevanje.html">Oglaševanje</a></li>
+		<li><a href="/cookies.html">O piškotkih</a></li>
+		<li class="last"><a href="/pomoc-in-svetovanje.html">Pomoč</a></li><li class="last"><a href="/mobilna-aplikacija.html">Mobilna aplikacija (Infonep)</a></li>	</ul>
+	<div class="more_info">
+		<span>kontakt</span><i class="fa fa-envelope-o"></i>
+	</div>
+</div>
+
+<div class="fdesk">
+	<div class="fl fleft">
+		<div class="block">
+			<strong>MEGANET d.o.o. © 1998 - 2026</strong><br />
+			Kontakt: 03/567-91-10<br />
+			E-pošta: <a href="/cdn-cgi/l/email-protection#274e4941486749425755424a4e44494e494209494253" class="nn"><span class="__cf_email__" data-cfemail="e68f888089a688839694838b8f85888f8883c8888392">[email&#160;protected]</span></a> <br />
+			Delovni čas: pon.-pet., od 8:00 do 16:00<br />
+
+		</div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="block">
+			<strong>Tehnična podpora: </strong><br />
+			E-pošta: <a href="/cdn-cgi/l/email-protection#bfcfd0dbcfd0cddeffd1dacfcddad2d6dcd1d6d1da91d1dacb" class="nn"><span class="__cf_email__" data-cfemail="4a3a252e3a25382b0a242f3a382f2723292423242f64242f3e">[email&#160;protected]</span></a>
+		</div>
+	</div>
+	<div class="block fmiddle">
+		<ul>
+			<li><a href="https://www.nepremicnine.net" target="_blank">www.nepremicnine.net</a></li>
+			<li><a href="https://www.izracun-kredita.si/" target="_blank" rel=”nofollow”>www.izracun-kredita.si</a></li>
+			<li><a href="https://www.novogradnje.si" target="_blank" rel="noopener">www.novogradnje.si</a></li>
+			<li><a href="http://www.montazne-hise.net" target="_blank" rel="noopener">www.montazne-hise.net</a></li>
+			<li><a href="https://www.podsvojostreho.net" target="_blank" rel="noopener">www.podsvojostreho.net</a></li>
+			<li><a href="https://www.spletne-strani.click/" target="_blank" rel="noopener">www.spletne-strani.click</a></li>
+			<li><a href="https://www.slonep.net" target="_blank" rel="noopener">www.slonep.net</a></li>
+			<li><a href="https://www.nepremicninar.com" target="_blank" rel="noopener">www.nepremicninar.com</a></li>
+			<li class="last"><a href="http://www.samsvojmajstor.com" target="_blank" rel="noopener">www.samsvojmajstor.com</a></li>
+		</ul>
+	</div>
+	<div class="fl fmiddle">
+		<div class="block">
+			<ul>
+				<li><a href="/nepremicnine-rubrike.html"><strong>Rubrike oglasov</strong></a></li>
+				<li><a href="/nepremicnine.html?q=menjava nepremičnine" title="Menjava nepremičnine"><strong>Menjava nepremičnine</strong></a></li>
+			</ul>
+		</div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="block">
+			<ul>
+				<li><a href="/pogoji-uporabe.html">Pogoji uporabe</a></li>
+				<li><a href="https://files.nepremicnine.link/pdf/nn_varstvo_podatkov.pdf" target="_blank">Varstvo podatkov</a></li>
+				<li><a href="/nepremicnine-oglasevanje.html">Oglaševanje</a></li>
+				<li><a href="/cookies.html">O piškotkih</a></li>
+				<li class="last"><a href="/pomoc-in-svetovanje.html">Pomoč</a></li>			</ul>
+		</div>
+	</div>
+	<div class="fl fright">
+		<div class="block">
+			<ul>
+				<li><a href="/mobilna-aplikacija.html"><strong>Mobilna aplikacija (Infonep)</strong></a></li>
+				<li><a href="/nepremicnine.html">Podrobno iskanje </a></li>
+                <li><span class="external-link">Mednarodno iskanje</span></li>			</ul>
+		</div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+		<div class="block">
+			<ul>
+				<li><a href="/dom-in-gradnja.html">Dom in gradnja</a></li>
+				<li><a href="/pocitniski-objekti.html">Na počitnice!</a></li>
+				<li><a href="/nepremicninske-agencije.html">Podjetja</a></li>
+			</ul>
+		</div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+	</div>
+
+	<div class="fr tac">
+		<!--<div class="obisk">
+			<script type="text/javascript" src="https://www.obisk.net/obisk/top.js"></script><script type="text/javascript">obisk(119,"g")</script>
+		</div>-->
+	</div>
+</div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+
+    </div>
+
+    <div class="scrsz"></div>
+
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+        $(".web-opis a").attr('target', '_blank');
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0a1580e4d1fc4f7',t:'MTc4MTE4ODU0Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"9d86191a10d64acb8cb3bf99a04eb807","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+
+
+
+</html>
+
+
