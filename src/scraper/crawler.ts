@@ -1,0 +1,40 @@
+import type { Listing } from "../core/types.js";
+import type { Fetcher } from "./fetcher.js";
+import { parseSearchPage } from "./parser.js";
+import { pageUrl } from "./urlBuilder.js";
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function jitter(minMs: number, maxMs: number): number {
+  return minMs + Math.random() * (maxMs - minMs);
+}
+
+// stran preusmeri previsoke številke nazaj na prvo, zato neham, ko se oglasi začnejo ponavljat
+export async function crawlSearch(
+  fetcher: Fetcher,
+  searchUrl: string,
+  pages: number,
+): Promise<Listing[]> {
+  const byId = new Map<string, Listing>();
+
+  for (let page = 1; page <= pages; page++) {
+    if (page > 1) {
+      await sleep(jitter(2_000, 5_000));
+    }
+    const html = await fetcher.fetchHtml(pageUrl(searchUrl, page));
+    const listings = parseSearchPage(html);
+    if (listings.length === 0) break;
+
+    const newOnPage = listings.filter((listing) => !byId.has(listing.id));
+    if (newOnPage.length === 0) break;
+    for (const listing of newOnPage) {
+      byId.set(listing.id, listing);
+    }
+    // kratka stran pomeni zadnjo stran, nima smisla naprej tečt
+    if (listings.length < 20) break;
+  }
+
+  return [...byId.values()];
+}
