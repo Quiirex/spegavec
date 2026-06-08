@@ -1,0 +1,103 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { parseSearchPage } from "../src/scraper/parser.js";
+import { buildSearchUrl, normalizeWatchUrl, pageUrl } from "../src/scraper/urlBuilder.js";
+
+const searchPage = readFileSync(new URL("./fixtures/search-page.html", import.meta.url), "utf8");
+const emptyPage = readFileSync(new URL("./fixtures/empty-page.html", import.meta.url), "utf8");
+
+describe("parseSearchPage", () => {
+  it("prebere vse oglase na polni strani rezultatov", () => {
+    const listings = parseSearchPage(searchPage);
+    expect(listings).toHaveLength(25);
+  });
+
+  it("izlušči vsa polja prvega oglasa", () => {
+    const [first] = parseSearchPage(searchPage);
+    expect(first).toMatchObject({
+      id: "7355533",
+      url: "https://www.nepremicnine.net/oglasi-prodaja/crnuce-lj-bezigrad-stanovanje_7355533/",
+      title: "ČRNUČE, LJ. - BEŽIGRAD",
+      dealType: "Prodaja",
+      propertyType: "Stanovanje",
+      rooms: "1-sobno",
+      sizeM2: 32.6,
+      year: "2008",
+      floor: "1/2",
+      price: 224000,
+      agency: "Mreža&Partnerji, nepremičnine, d.o.o.",
+    });
+    expect(first!.imageUrl).toMatch(/^https:\/\/img\.nepremicnine\.net\//);
+    expect(first!.description).toContain("32,6 m2");
+  });
+
+  it("ceno prebere kot število pri vsakem oglasu, ki jo prikaže", () => {
+    const listings = parseSearchPage(searchPage);
+    const withPrice = listings.filter((listing) => listing.price !== null);
+    expect(withPrice.length).toBeGreaterThan(20);
+    for (const listing of withPrice) {
+      expect(listing.price).toBeGreaterThan(1000);
+    }
+  });
+
+  it("vrne nič oglasov na prazni strani", () => {
+    expect(parseSearchPage(emptyPage)).toHaveLength(0);
+  });
+});
+
+describe("buildSearchUrl", () => {
+  it("sestavi URL z vsemi filtri", () => {
+    const url = buildSearchUrl({
+      deal: "prodaja",
+      region: "ljubljana-mesto",
+      type: "stanovanje",
+      rooms: "2-sobno",
+      priceMin: 100000,
+      priceMax: 250000,
+      sizeMin: 50,
+      sizeMax: 80,
+      yearMin: 2000,
+    });
+    expect(url).toBe(
+      "https://www.nepremicnine.net/oglasi-prodaja/ljubljana-mesto/stanovanje/2-sobno/" +
+        "cena-od-100000-do-250000-eur,velikost-od-50-do-80-m2,letnik-od-2000/",
+    );
+  });
+
+  it("pri oddaji uporabi mesečno ceno", () => {
+    const url = buildSearchUrl({
+      deal: "oddaja",
+      region: "ljubljana-mesto",
+      type: "stanovanje",
+      priceMax: 900,
+    });
+    expect(url).toContain("cena-do-900-eur-na-mesec");
+  });
+
+  it("izpusti filtrski del, ko ni nobenega razpona", () => {
+    const url = buildSearchUrl({ deal: "prodaja", region: "gorenjska", type: "hisa" });
+    expect(url).toBe("https://www.nepremicnine.net/oglasi-prodaja/gorenjska/hisa/");
+  });
+});
+
+describe("pageUrl", () => {
+  it("za prvo stran vrne kar sam URL iskanja", () => {
+    expect(pageUrl("https://www.nepremicnine.net/x/", 1)).toBe("https://www.nepremicnine.net/x/");
+  });
+
+  it("za naslednje strani pripne številko strani", () => {
+    expect(pageUrl("https://www.nepremicnine.net/x/", 3)).toBe("https://www.nepremicnine.net/x/3/");
+  });
+});
+
+describe("normalizeWatchUrl", () => {
+  it("sprejme in normalizira URL-je strani", () => {
+    expect(normalizeWatchUrl("www.nepremicnine.net/oglasi-prodaja/gorenjska/hisa")).toBe(
+      "https://www.nepremicnine.net/oglasi-prodaja/gorenjska/hisa/",
+    );
+  });
+
+  it("zavrne tuje domene", () => {
+    expect(() => normalizeWatchUrl("https://example.com/x")).toThrow(/To ni nepremicnine.net URL/);
+  });
+});
