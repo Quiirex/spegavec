@@ -1,0 +1,11 @@
+services:
+  nepremicninko:
+    build: .
+    image: nepremicninko
+    container_name: nepremicninko
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_PATH: /app/data/nepremicninko.db
+    volumes:
+      - ./data:/app/data
