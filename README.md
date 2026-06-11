@@ -2,9 +2,14 @@
   <img src="assets/spegavec_logo.png" alt="Špegavec" width="280">
 </p>
 
-Discord bot, ki špega nove oglase na [nepremicnine.net](https://www.nepremicnine.net) in jih
-sproti meče v Discord. Bot je cel vmesnik, iskanja dodajaš in upravljaš s slash ukazi, novi
-oglasi (in spremembe cen) pa pridejo kot lepi embedi v kanal, kjer si iskanje ustvaril.
+Samostojen špegavec nepremičninskih oglasov. Periodično pregleduje iskanja na
+[nepremicnine.net](https://www.nepremicnine.net), si zapomni, kaj je že videl, in te ob vsakem
+novem oglasu (ali spremembi cene) zbudi. Jedro (zajem, parsanje, shramba) ne ve nič o Discordu,
+Discord je samo trenutni vmesnik in obvestilna plast, ki bi jo lahko zamenjal z emailom ali
+Telegramom brez dotika jedra.
+
+V praksi to pomeni: iskanja dodajaš in upravljaš s slash ukazi, novi oglasi pa pridejo kot lepi
+embedi v kanal, kjer si iskanje ustvaril.
 
 Nastalo iz čiste sitnosti: dobre stanovanja gredo mimo v parih urah, ročno osveževat stran pa
 se ne da cele dneve.
@@ -22,6 +27,48 @@ se ne da cele dneve.
   pregleda po straneh z naključnimi 2 do 5 s premori in se eksponentno umakne (do 8x), če
   Cloudflare začne blokirat, pa dobiš eno samo opozorilo na epizodo blokade.
 - Prvi obhod novega iskanja samo posname trenutno stanje, da te ne zasuje s starimi oglasi.
+
+## Arhitektura
+
+Plasti tečejo od zajema do obvestila, vsaka pozna samo tisto pod sabo:
+
+```
+scraper   zajame in sparsa oglase s portala
+  fetcher (impit/Cloudflare) -> crawler (po straneh) -> parser (HTML v Listing) -> urlBuilder (filtri v URL)
+   |
+poller    periodično požene scraper, primerja z bazo, javi razliko
+   |
+store     SQLite: iskanja, videni oglasi, zgodovina cen (dedup + spremembe cen)
+   |
+discord   slash ukazi (vmesnik) + embedi (obvestila)
+```
+
+Ključno: `scraper`, `poller` in `store` ne vejo nič o Discordu. Obvestilno plast (`discord`)
+bi zamenjal brez dotika jedra.
+
+## Struktura projekta
+
+```
+src/
+  index.ts          zagon: poveže config, store, scraper, poller, bota
+  config.ts         branje okoljskih spremenljivk
+  core/
+    types.ts        Listing, Watch, SearchFilters, PollResult
+    poller.ts       cikel obhodov, umik ob blokadi
+  scraper/
+    fetcher.ts      HTTP prek impit (gre skoz Cloudflare)
+    crawler.ts      sprehod po straneh rezultatov + dedup
+    parser.ts       HTML rezultatov v Listing[]   <- specifično za nepremicnine.net
+    urlBuilder.ts   SearchFilters v URL iskanja    <- specifično za nepremicnine.net
+  store/
+    db.ts           shema + odpiranje SQLite
+    repo.ts         WatchRepo, ListingRepo (poizvedbe, dedup, zgodovina cen)
+  discord/
+    commands.ts     definicije slash ukazov (regije, tipi, sobnosti)
+    bot.ts          obravnava ukazov, pošiljanje obvestil
+    embeds.ts       izgled oglasa/spremembe cene v Discordu
+test/               testi parserja in shrambe na shranjenih HTML fixturih
+```
 
 ## Discord ukazi
 
@@ -93,6 +140,19 @@ Karkoli zna pognat Docker, dela; najlažji je LXC kontejner:
 
 3. Pa to je to, kontejner sam restarta bota (`restart: unless-stopped`), LXC pa lahko backupaš
    ko vsak drug Proxmox gost.
+
+## Dodajanje novega portala
+
+Trenutno je špegavec vezan na nepremicnine.net. Portalska specifika živi v dveh datotekah:
+`src/scraper/parser.ts` (HTML selektorji) in `src/scraper/urlBuilder.ts` (oblika URL-ja iskanja).
+Vse ostalo (poller, store, discord) je generično in dela z `Listing` tipom.
+
+Za drug portal (npr. bolha.com) bi bil potreben zmeren refaktor: scraper bi postal vmesnik
+`Provider` z metodami `matchesUrl`, `buildUrl(filters)` in `parse(html)`, vsak portal svoja
+implementacija, izbira pa prek registra. `Watch` bi dobil stolpec `source`, crawler in poller
+bi delala prek registra namesto direktnega importa parserja. Seami so že na pravih mestih
+(zajem, parsanje, shramba, obvestilo so ločeni), zato gre bolj za dodajanje abstrakcije kot za
+predelavo. Smiselno šele, ko dejansko dodajaš drugi portal, ne prej.
 
 ## Opombe in meje
 
