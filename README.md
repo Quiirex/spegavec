@@ -9,8 +9,7 @@ novem oglasu (ali spremembi cene) zbudi prek Discorda.
 V praksi to pomeni: iskanja dodajaš in upravljaš s slash ukazi, novi oglasi pa pridejo kot lepi
 embedi v kanal, kjer si iskanje ustvaril.
 
-Nastalo iz čiste sitnosti: dobre stanovanja gredo mimo v parih urah, ročno osveževat stran pa
-se ne da cele dneve.
+Nastalo iz čiste lenobe: ne da se mi ročno osveževati strani cele dneve.
 
 ## Kak dela
 
@@ -68,14 +67,14 @@ test/               testi parserja in shrambe na shranjenih HTML fixturih
 
 ## Discord ukazi
 
-| Ukaz                                                                                                                   | Kaj naredi                                                                                                                                                               |
-| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ukaz                                                                                                         | Kaj naredi                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `/iskanje dodaj ime: url:`                                                                                   | Spremljaj poljuben URL iskanja, prilepljen s strani, podpira **vse** filtre, kar jih stran ima. Nastaviš filtre na nepremicnine.net, kopiraš naslovno vrstico, prilepiš. |
 | `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:]` | Sestaviš iskanje iz filtrov, brez da zapustiš Discord.                                                                                                                   |
-| `/iskanje seznam`                                                                                                      | Pokaže iskanja in koliko oglasov sledijo.                                                                                                                                |
-| `/iskanje odstrani\|ustavi\|nadaljuj ime:`                                                                             | Upravljanje iskanj (imena se samodejno dopolnijo).                                                                                                                       |
-| `/preveri [ime:]`                                                                                                      | Naredi obhod takoj, brez čakanja na cikel.                                                                                                                               |
-| `/status`                                                                                                              | Zdravje špegavca (vključno z blokado Cloudflare) in zadnji obhod po iskanjih.                                                                                            |
+| `/iskanje seznam`                                                                                            | Pokaže iskanja in koliko oglasov sledijo.                                                                                                                                |
+| `/iskanje odstrani\|ustavi\|nadaljuj ime:`                                                                   | Upravljanje iskanj (imena se samodejno dopolnijo).                                                                                                                       |
+| `/preveri [ime:]`                                                                                            | Naredi obhod takoj, brez čakanja na cikel.                                                                                                                               |
+| `/status`                                                                                                    | Zdravje špegavca (vključno z blokado Cloudflare) in zadnji obhod po iskanjih.                                                                                            |
 
 `dodaj` in `sestavi` URL preverita z živo poizvedbo in ti vrneta trenutno število zadetkov,
 tak da ujameš tipkarsko napako v regiji ali nemogočo kombinacijo filtrov takoj. Obvestila
