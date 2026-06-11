@@ -133,5 +133,18 @@ export function buildCommands() {
     .setName("status")
     .setDescription("Pokaži zdravje špegavca in statistiko po iskanjih");
 
-  return [iskanje, preveri, status].map((command) => command.toJSON());
+  const zgodovina = new SlashCommandBuilder()
+    .setName("zgodovina")
+    .setDescription("Pokaži zgodovino cene oglasa")
+    .addStringOption((opt) =>
+      opt.setName("ime").setDescription("Ime iskanja").setRequired(true).setAutocomplete(true),
+    )
+    .addStringOption((opt) =>
+      opt
+        .setName("oglas")
+        .setDescription("ID oglasa ali njegov URL z nepremicnine.net")
+        .setRequired(true),
+    );
+
+  return [iskanje, preveri, status, zgodovina].map((command) => command.toJSON());
 }

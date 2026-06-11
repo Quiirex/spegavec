@@ -1,6 +1,7 @@
 import type { PollResult, Watch } from './types.js';
 import { BlockedError, type Fetcher } from '../scraper/fetcher.js';
 import { crawlSearch } from '../scraper/crawler.js';
+import { medianPricePerM2 } from './stats.js';
 import { log } from '../log.js';
 import type { ListingRepo, WatchRepo } from '../store/repo.js';
 
@@ -48,19 +49,20 @@ export class Poller {
     log.info(`zajemam "${watch.name}"`);
     const crawled = await crawlSearch(this.fetcher, watch.url, watch.name);
     const seeded = watch.lastPolledAt === null;
-    const diff = this.listings.applyCrawl(watch.id, crawled);
+    // ob praznem zajemu (npr. okvara) ne zaznavamo umaknjenih, da ne pobrišemo vsega
+    const diff = this.listings.applyCrawl(watch.id, crawled, crawled.length > 0);
     const secs = ((Date.now() - started) / 1000).toFixed(0);
     this.watches.recordPoll(
       watch.id,
       seeded
         ? `posnel ${crawled.length} oglasov`
-        : `ok: ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene`,
+        : `ok: ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih`,
     );
     if (seeded) {
       log.info(`"${watch.name}": izhodišče posneto, ${crawled.length} oglasov (${secs}s)`);
     } else {
       log.info(
-        `"${watch.name}": ${crawled.length} oglasov, ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene (${secs}s)`,
+        `"${watch.name}": ${crawled.length} oglasov, ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih (${secs}s)`,
       );
     }
     return {
@@ -69,6 +71,8 @@ export class Poller {
       totalSeen: crawled.length,
       newListings: seeded ? [] : diff.newListings,
       priceChanges: seeded ? [] : diff.priceChanges,
+      removed: seeded ? [] : diff.removed,
+      medianPricePerM2: medianPricePerM2(crawled),
     };
   }
 

@@ -15,7 +15,7 @@ async function main(): Promise<void> {
 
   // bot in poller se sklicujeta drug na drugega; getter razbije ta krog
   let poller: Poller;
-  const bot = new Bot(config, watches, fetcher, () => poller);
+  const bot = new Bot(config, watches, listings, fetcher, () => poller);
 
   poller = new Poller(fetcher, watches, listings, {
     onResult: async (result) => {

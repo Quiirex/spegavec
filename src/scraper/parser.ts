@@ -63,7 +63,11 @@ export function parseSearchPage(
       });
 
     const priceMeta = details.find("meta[itemprop='price']").attr('content');
-    const price = priceMeta ? Number.parseFloat(priceMeta) : null;
+    const rawPrice = priceMeta ? Number.parseFloat(priceMeta) : null;
+    const price = rawPrice !== null && Number.isFinite(rawPrice) ? rawPrice : null;
+
+    const pricePerM2 =
+      price !== null && sizeM2 !== null && sizeM2 > 0 ? Math.round(price / sizeM2) : null;
 
     const imageSrc = $box
       .find('.slider-for img, .property-image img')
@@ -80,7 +84,8 @@ export function parseSearchPage(
       sizeM2,
       year,
       floor,
-      price: price !== null && Number.isFinite(price) ? price : null,
+      price,
+      pricePerM2,
       priceDisplay: cleanText(details.find('h6').first().text()),
       description: cleanText(
         details.find("p[itemprop='description']").first().text(),
