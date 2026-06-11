@@ -1,5 +1,9 @@
 # špegavec
 
+<p align="center">
+  <img src="assets/spegavec_logo.png" alt="Špegavec" width="280">
+</p>
+
 Discord bot, ki špega nove oglase na [nepremicnine.net](https://www.nepremicnine.net) in jih
 sproti meče v Discord. Bot je cel vmesnik, iskanja dodajaš in upravljaš s slash ukazi, novi
 oglasi (in spremembe cen) pa pridejo kot lepi embedi v kanal, kjer si iskanje ustvaril.
