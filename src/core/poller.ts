@@ -1,6 +1,7 @@
 import type { PollResult, Watch } from './types.js';
 import { BlockedError, type Fetcher } from '../scraper/fetcher.js';
 import { crawlSearch } from '../scraper/crawler.js';
+import { log } from '../log.js';
 import type { ListingRepo, WatchRepo } from '../store/repo.js';
 
 export interface PollerEvents {
@@ -43,15 +44,25 @@ export class Poller {
 
   // takojšen obhod enega iskanja (kliče ga ukaz /preveri)
   async pollWatch(watch: Watch): Promise<PollResult> {
-    const crawled = await crawlSearch(this.fetcher, watch.url);
+    const started = Date.now();
+    log.info(`zajemam "${watch.name}"`);
+    const crawled = await crawlSearch(this.fetcher, watch.url, watch.name);
     const seeded = watch.lastPolledAt === null;
     const diff = this.listings.applyCrawl(watch.id, crawled);
+    const secs = ((Date.now() - started) / 1000).toFixed(0);
     this.watches.recordPoll(
       watch.id,
       seeded
         ? `posnel ${crawled.length} oglasov`
         : `ok: ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene`,
     );
+    if (seeded) {
+      log.info(`"${watch.name}": izhodišče posneto, ${crawled.length} oglasov (${secs}s)`);
+    } else {
+      log.info(
+        `"${watch.name}": ${crawled.length} oglasov, ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene (${secs}s)`,
+      );
+    }
     return {
       watch,
       seeded,
@@ -65,7 +76,11 @@ export class Poller {
     if (this.running) return;
     this.running = true;
     try {
-      for (const watch of this.watches.active()) {
+      const active = this.watches.active();
+      if (active.length > 0) {
+        log.info(`obhod: ${active.length} ${active.length === 1 ? 'iskanje' : 'iskanj'}`);
+      }
+      for (const watch of active) {
         try {
           const result = await this.pollWatch(watch);
           this.blockedSince = null;
@@ -75,6 +90,7 @@ export class Poller {
           if (error instanceof BlockedError) {
             this.consecutiveBlocks++;
             this.watches.recordPoll(watch.id, 'blokiran s strani Cloudflare');
+            log.warn(`"${watch.name}" blokiran (Cloudflare), prekinjam obhod in se umikam`);
             if (!this.blockedSince) {
               this.blockedSince = new Date();
               await this.events.onBlocked(watch);
@@ -83,6 +99,7 @@ export class Poller {
           }
           const err = error instanceof Error ? error : new Error(String(error));
           this.watches.recordPoll(watch.id, `napaka: ${err.message}`);
+          log.error(`"${watch.name}" napaka: ${err.message}`);
           await this.events.onError(watch, err);
         }
         await sleep(3_000 + Math.random() * 4_000);
@@ -100,6 +117,8 @@ export class Poller {
     const backoff = Math.min(2 ** this.consecutiveBlocks, 8);
     const jitter = 0.8 + Math.random() * 0.4;
     const delay = overrideMs ?? baseMs * backoff * jitter;
+    const human = delay < 60_000 ? `${Math.round(delay / 1000)} s` : `${Math.round(delay / 60_000)} min`;
+    log.info(`naslednji obhod čez ~${human}`);
     this.timer = setTimeout(() => {
       void this.pollAll();
     }, delay);
