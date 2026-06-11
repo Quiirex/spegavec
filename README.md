@@ -42,11 +42,17 @@ gredo v kanal, kjer si iskanje ustvaril. Če hočeš, daj različna iskanja v ra
 
 ### 1. Naredi Discord bota
 
-1. <https://discord.com/developers/applications> → **New Application**.
-2. Zavihek **Bot** → **Reset Token** → kopiraj (to je `DISCORD_TOKEN`).
-3. Zavihek **Installation** → Install Link → izberi scope-a `bot` + `applications.commands`,
-   bot pravici **Send Messages** in **Embed Links** → odpri generiran URL in povabi bota na
-   svoj strežnik.
+1. <https://discord.com/developers/applications> → **New Application**, vpiši ime, **Create**.
+   Bot user se ustvari samodejno z aplikacijo (ni več gumba "Add Bot").
+2. Zavihek **Bot** → **Reset Token** → kopiraj (to je `DISCORD_TOKEN`). Privilegiranih intentov
+   (Message Content ipd.) ne rabiš, pusti jih ugasnjene; bot dela samo prek slash ukazov.
+3. Zavihek **Installation**:
+   - **Installation Contexts**: odkljukaj **User Install**, pusti samo **Guild Install** (rabimo
+     bota v strežniku, ne kot user-app).
+   - **Install Link** → izberi **Discord Provided Link**.
+   - **Default Install Settings** (za Guild Install): scope-a `bot` + `applications.commands`, pod
+     `bot` pa pravici **Send Messages** in **Embed Links**. Shrani.
+   - Kopiraj Install Link, ga prilepi v brskalnik → **Add to Server** → izberi svoj strežnik.
 4. V Discordu vklopi Developer Mode (Settings → Advanced), desni klik na ikono strežnika →
    **Copy Server ID** (to je `DISCORD_GUILD_ID`).
 
