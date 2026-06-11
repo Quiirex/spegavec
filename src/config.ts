@@ -22,7 +22,6 @@ export interface Config {
   discordGuildId: string | undefined;
   pollMinutes: number;
   dbPath: string;
-  defaultPages: number;
 }
 
 export function loadConfig(): Config {
@@ -31,6 +30,5 @@ export function loadConfig(): Config {
     discordGuildId: process.env.DISCORD_GUILD_ID,
     pollMinutes: optionalInt("POLL_MINUTES", 20),
     dbPath: process.env.DB_PATH ?? "./data/spegavec.db",
-    defaultPages: optionalInt("DEFAULT_PAGES", 3),
   };
 }

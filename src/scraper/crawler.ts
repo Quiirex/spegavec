@@ -11,15 +11,15 @@ function jitter(minMs: number, maxMs: number): number {
   return minMs + Math.random() * (maxMs - minMs);
 }
 
-// stran preusmeri previsoke številke nazaj na prvo, zato neham, ko se oglasi začnejo ponavljat
-export async function crawlSearch(
-  fetcher: Fetcher,
-  searchUrl: string,
-  pages: number,
-): Promise<Listing[]> {
+// varovalka proti pobegu, če bi se zaznavanje konca pokvarilo (100 strani = 2500 oglasov)
+const MAX_PAGES = 100;
+
+// gre čez vse strani filtra; stran preusmeri previsoke številke nazaj na prvo,
+// zato neham, ko se oglasi začnejo ponavljat oz. ko zmanjka rezultatov
+export async function crawlSearch(fetcher: Fetcher, searchUrl: string): Promise<Listing[]> {
   const byId = new Map<string, Listing>();
 
-  for (let page = 1; page <= pages; page++) {
+  for (let page = 1; page <= MAX_PAGES; page++) {
     if (page > 1) {
       await sleep(jitter(2_000, 5_000));
     }
