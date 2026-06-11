@@ -30,7 +30,7 @@ export function loadConfig(): Config {
     discordToken: required("DISCORD_TOKEN"),
     discordGuildId: process.env.DISCORD_GUILD_ID,
     pollMinutes: optionalInt("POLL_MINUTES", 20),
-    dbPath: process.env.DB_PATH ?? "./data/nepremicninko.db",
+    dbPath: process.env.DB_PATH ?? "./data/spegavec.db",
     defaultPages: optionalInt("DEFAULT_PAGES", 3),
   };
 }

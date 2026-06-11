@@ -1,4 +1,4 @@
-# nepremicninko
+# špegavec
 
 Discord bot, ki špega nove oglase na [nepremicnine.net](https://www.nepremicnine.net) in jih
 sproti meče v Discord. Bot je cel vmesnik — iskanja dodajaš in upravljaš s slash ukazi, novi
@@ -77,8 +77,8 @@ Karkoli zna pognat Docker, dela; najlažji je LXC kontejner:
    ```sh
    apt update && apt install -y curl git
    curl -fsSL https://get.docker.com | sh
-   git clone <ta repo> /opt/nepremicninko
-   cd /opt/nepremicninko
+   git clone <ta repo> /opt/spegavec
+   cd /opt/spegavec
    cp .env.example .env && nano .env
    docker compose up -d --build
    ```

@@ -12,7 +12,7 @@ RUN pnpm build
 FROM node:24-slim
 WORKDIR /app
 ENV NODE_ENV=production \
-    DB_PATH=/app/data/nepremicninko.db
+    DB_PATH=/app/data/spegavec.db
 RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod && pnpm store prune
