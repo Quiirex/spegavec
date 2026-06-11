@@ -51,14 +51,12 @@ CREATE INDEX IF NOT EXISTS idx_price_history_listing
   ON price_history (watch_id, listing_id);
 `;
 
-// Aditivne spremembe sheme. Nove TABELE in INDEKSI gredo v SCHEMA zgoraj (IF NOT EXISTS poskrbi).
-// Nov STOLPEC na obstoječi tabeli dodaj sem kot ALTER (CREATE TABLE IF NOT EXISTS obstoječe tabele
-// ne spremeni), da se v produkciji uveljavi brez brisanja baze. Vsak vnos teče samo, če stolpca še ni.
-const COLUMN_MIGRATIONS: { table: string; column: string; ddl: string }[] = [
-  { table: "listings", column: "price_per_m2", ddl: "ALTER TABLE listings ADD COLUMN price_per_m2 REAL" },
-  { table: "listings", column: "missed_count", ddl: "ALTER TABLE listings ADD COLUMN missed_count INTEGER NOT NULL DEFAULT 0" },
-  { table: "listings", column: "removed_at", ddl: "ALTER TABLE listings ADD COLUMN removed_at TEXT" },
-];
+// Aditivne spremembe sheme na obstoječih (produkcijskih) bazah.
+// Nove TABELE in INDEKSI gredo v SCHEMA zgoraj (IF NOT EXISTS poskrbi tudi za obstoječe baze).
+// Nov STOLPEC pa CREATE TABLE IF NOT EXISTS NE doda obstoječi tabeli, zato ga vpiši sem kot ALTER;
+// teče samo, če stolpca še ni. Primer:
+//   { table: "listings", column: "nov", ddl: "ALTER TABLE listings ADD COLUMN nov TEXT" },
+const COLUMN_MIGRATIONS: { table: string; column: string; ddl: string }[] = [];
 
 function migrate(db: DatabaseSync): void {
   for (const { table, column, ddl } of COLUMN_MIGRATIONS) {
