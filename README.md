@@ -148,7 +148,14 @@ Karkoli zna pognat Docker, dela; najlažji je LXC kontejner:
   jitterjem ima nizek profil (par nalaganj strani na cikel).
 - Če te Cloudflare vseeno blokira, ti bot enkrat pove, se umakne in si sam opomore. Če bi
   blokade postale trajne, je morda treba osvežit prstne odtise v `impit` (`pnpm update impit`).
-- `strani` na iskanje je privzeto 3 (75 najnovejših oglasov). Novi oglasi se pojavijo na vrhu,
-  tak da je malo strani dovolj, razen če filtri zajamejo ogromno območje.
+- `strani` na iskanje je privzeto 3 (75 najnovejših oglasov). Za zgolj lovljenje novih oglasov
+  je to dovolj, ker se novi pojavijo na vrhu.
+- Če hočeš slediti **cenam vseh oglasov** v iskanju (npr. da ujameš padec cene na 5. strani),
+  daj `strani` višje (do 40 = 1000 oglasov). Crawler se sam ustavi na zadnji dejanski strani,
+  tako da višja številka zajame vse do konca, ne glede na to, koliko jih je. Cena, ki pade
+  kjerkoli v zajetih straneh, sproži obvestilo.
+- Cena: višje `strani` pomeni več nalaganj strani na obhod (vsako z 2 do 5 s premorom), torej
+  daljši obhod in malenkost večja možnost Cloudflare blokade. Za sledenje cenam je vredno;
+  brez potrebe ne nastavljaj na maksimum.
 - Sprememba cene se primerja z zadnjo shranjeno ceno; cela zgodovina ostane v tabeli
   `price_history`, če bi kdaj hotel risat graf.
