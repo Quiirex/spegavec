@@ -1,5 +1,3 @@
-# špegavec
-
 <p align="center">
   <img src="assets/spegavec_logo.png" alt="Špegavec" width="280">
 </p>
@@ -27,14 +25,14 @@ se ne da cele dneve.
 
 ## Discord ukazi
 
-| Ukaz | Kaj naredi |
-| --- | --- |
-| `/iskanje dodaj ime: url: [strani:]` | Spremljaj poljuben URL iskanja, prilepljen s strani, podpira **vse** filtre, kar jih stran ima. Nastaviš filtre na nepremicnine.net, kopiraš naslovno vrstico, prilepiš. |
-| `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:] [strani:]` | Sestaviš iskanje iz filtrov, brez da zapustiš Discord. |
-| `/iskanje seznam` | Pokaže iskanja in koliko oglasov sledijo. |
-| `/iskanje odstrani\|ustavi\|nadaljuj ime:` | Upravljanje iskanj (imena se samodejno dopolnijo). |
-| `/preveri [ime:]` | Naredi obhod takoj, brez čakanja na cikel. |
-| `/status` | Zdravje špegavca (vključno z blokado Cloudflare) in zadnji obhod po iskanjih. |
+| Ukaz                                                                                                                   | Kaj naredi                                                                                                                                                               |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/iskanje dodaj ime: url: [strani:]`                                                                                   | Spremljaj poljuben URL iskanja, prilepljen s strani, podpira **vse** filtre, kar jih stran ima. Nastaviš filtre na nepremicnine.net, kopiraš naslovno vrstico, prilepiš. |
+| `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:] [strani:]` | Sestaviš iskanje iz filtrov, brez da zapustiš Discord.                                                                                                                   |
+| `/iskanje seznam`                                                                                                      | Pokaže iskanja in koliko oglasov sledijo.                                                                                                                                |
+| `/iskanje odstrani\|ustavi\|nadaljuj ime:`                                                                             | Upravljanje iskanj (imena se samodejno dopolnijo).                                                                                                                       |
+| `/preveri [ime:]`                                                                                                      | Naredi obhod takoj, brez čakanja na cikel.                                                                                                                               |
+| `/status`                                                                                                              | Zdravje špegavca (vključno z blokado Cloudflare) in zadnji obhod po iskanjih.                                                                                            |
 
 `dodaj` in `sestavi` URL preverita z živo poizvedbo in ti vrneta trenutno število zadetkov,
 tak da ujameš tipkarsko napako v regiji ali nemogočo kombinacijo filtrov takoj. Obvestila

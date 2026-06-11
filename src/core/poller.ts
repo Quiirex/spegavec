@@ -1,7 +1,7 @@
-import type { PollResult, Watch } from "./types.js";
-import { BlockedError, type Fetcher } from "../scraper/fetcher.js";
-import { crawlSearch } from "../scraper/crawler.js";
-import type { ListingRepo, WatchRepo } from "../store/repo.js";
+import type { PollResult, Watch } from './types.js';
+import { BlockedError, type Fetcher } from '../scraper/fetcher.js';
+import { crawlSearch } from '../scraper/crawler.js';
+import type { ListingRepo, WatchRepo } from '../store/repo.js';
 
 export interface PollerEvents {
   onResult: (result: PollResult) => Promise<void>;
@@ -13,7 +13,7 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// ko nas Cloudflare začne blokirat, se umaknemo (eksponentno), uporabnika pa zmotimo samo enkrat na epizodo
+// ko nas Cloudflare začne blokirat, se umaknemo (eksponentno)
 export class Poller {
   private timer: NodeJS.Timeout | null = null;
   private running = false;
@@ -29,7 +29,7 @@ export class Poller {
   ) {}
 
   start(): void {
-    this.scheduleNext(30_000); // prvi obhod kmalu po zagonu
+    this.scheduleNext(30_000);
   }
 
   stop(): void {
@@ -74,7 +74,7 @@ export class Poller {
         } catch (error) {
           if (error instanceof BlockedError) {
             this.consecutiveBlocks++;
-            this.watches.recordPoll(watch.id, "blokiran s strani Cloudflare");
+            this.watches.recordPoll(watch.id, 'blokiran s strani Cloudflare');
             if (!this.blockedSince) {
               this.blockedSince = new Date();
               await this.events.onBlocked(watch);
