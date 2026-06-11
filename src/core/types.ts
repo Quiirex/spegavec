@@ -20,7 +20,6 @@ export interface Watch {
   id: number;
   name: string;
   url: string;
-  pages: number;
   channelId: string;
   paused: boolean;
   createdAt: string;

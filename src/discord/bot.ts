@@ -195,8 +195,7 @@ export class Bot {
       return;
     }
 
-    const pages = interaction.options.getInteger("strani") ?? this.config.defaultPages;
-    this.watches.create(name, url, pages, interaction.channelId);
+    this.watches.create(name, url, interaction.channelId);
     await interaction.editReply(
       [
         `Iskanje **${name}** shranjeno — trenutno ustreza **${count}${count >= 25 ? "+" : ""}** oglasom.`,
@@ -242,7 +241,7 @@ export class Bot {
     const lines = all.map((watch) => {
       const state = watch.paused ? "⏸" : "▶️";
       const tracked = this.watches.listingCount(watch.id);
-      return `${state} **${watch.name}** — ${tracked} sledenih, ${watch.pages} strani, <#${watch.channelId}>\n<${watch.url}>`;
+      return `${state} **${watch.name}** — ${tracked} sledenih, <#${watch.channelId}>\n<${watch.url}>`;
     });
     await interaction.reply({ content: lines.join("\n"), flags: "SuppressEmbeds" });
   }

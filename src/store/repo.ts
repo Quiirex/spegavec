@@ -6,7 +6,6 @@ interface WatchRow {
   id: number;
   name: string;
   url: string;
-  pages: number;
   channel_id: string;
   paused: number;
   created_at: string;
@@ -19,7 +18,6 @@ function toWatch(row: WatchRow): Watch {
     id: Number(row.id),
     name: row.name,
     url: row.url,
-    pages: Number(row.pages),
     channelId: row.channel_id,
     paused: Number(row.paused) === 1,
     createdAt: row.created_at,
@@ -31,13 +29,13 @@ function toWatch(row: WatchRow): Watch {
 export class WatchRepo {
   constructor(private readonly db: DatabaseSync) {}
 
-  create(name: string, url: string, pages: number, channelId: string): Watch {
+  create(name: string, url: string, channelId: string): Watch {
     const result = this.db
       .prepare(
-        `INSERT INTO watches (name, url, pages, channel_id, created_at)
-         VALUES (?, ?, ?, ?, ?)`,
+        `INSERT INTO watches (name, url, channel_id, created_at)
+         VALUES (?, ?, ?, ?)`,
       )
-      .run(name, url, pages, channelId, new Date().toISOString());
+      .run(name, url, channelId, new Date().toISOString());
     return this.byId(Number(result.lastInsertRowid))!;
   }
 

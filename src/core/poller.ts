@@ -43,7 +43,7 @@ export class Poller {
 
   // takojšen obhod enega iskanja (kliče ga ukaz /preveri)
   async pollWatch(watch: Watch): Promise<PollResult> {
-    const crawled = await crawlSearch(this.fetcher, watch.url, watch.pages);
+    const crawled = await crawlSearch(this.fetcher, watch.url);
     const seeded = watch.lastPolledAt === null;
     const diff = this.listings.applyCrawl(watch.id, crawled);
     this.watches.recordPoll(

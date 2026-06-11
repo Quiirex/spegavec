@@ -55,13 +55,6 @@ export function buildCommands() {
             .setName("url")
             .setDescription("URL rezultatov z nepremicnine.net (nastavi filtre na strani, kopiraj URL)")
             .setRequired(true),
-        )
-        .addIntegerOption((opt) =>
-          opt
-            .setName("strani")
-            .setDescription("Strani na obhod (privzeto 3). Za sledenje cenam vseh oglasov daj višje (npr. 40)")
-            .setMinValue(1)
-            .setMaxValue(40),
         ),
     )
     .addSubcommand((sub) => {
@@ -100,14 +93,7 @@ export function buildCommands() {
         .addIntegerOption((opt) => opt.setName("velikost_min").setDescription("Najmanjša velikost (m²)"))
         .addIntegerOption((opt) => opt.setName("velikost_max").setDescription("Največja velikost (m²)"))
         .addIntegerOption((opt) => opt.setName("letnik_min").setDescription("Najstarejši letnik"))
-        .addIntegerOption((opt) => opt.setName("letnik_max").setDescription("Najnovejši letnik"))
-        .addIntegerOption((opt) =>
-          opt
-            .setName("strani")
-            .setDescription("Strani na obhod (privzeto 3). Za sledenje cenam vseh oglasov daj višje (npr. 40)")
-            .setMinValue(1)
-            .setMaxValue(40),
-        );
+        .addIntegerOption((opt) => opt.setName("letnik_max").setDescription("Najnovejši letnik"));
       return sub;
     })
     .addSubcommand((sub) => sub.setName("seznam").setDescription("Pokaži vsa iskanja"))

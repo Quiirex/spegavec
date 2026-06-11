@@ -21,9 +21,10 @@ se ne da cele dneve.
   (`itemprop=price` ipd.) ko iz krhkih CSS klas.
 - Stanje je v SQLite (Nodeov vgrajeni `node:sqlite`, brez native odvisnosti): iskanja, videni
   oglasi po iskanju in cela zgodovina cen.
-- Špegavec naredi obhod vsakih `POLL_MINUTES` (privzeto 20) z ±20 % jitterja, vsako iskanje
-  pregleda po straneh z naključnimi 2 do 5 s premori in se eksponentno umakne (do 8x), če
-  Cloudflare začne blokirat, pa dobiš eno samo opozorilo na epizodo blokade.
+- Špegavec naredi obhod vsakih `POLL_MINUTES` (privzeto 20) z ±20 % jitterja in pri vsakem
+  iskanju gre čez **vse strani** filtra (naključni 2 do 5 s premori med stranmi), da ujame
+  spremembe cen na čisto vsakem oglasu, ne le na najnovejših. Ob blokadi se eksponentno umakne
+  (do 8x) in dobiš eno samo opozorilo na epizodo.
 - Prvi obhod novega iskanja samo posname trenutno stanje, da te ne zasuje s starimi oglasi.
 
 ## Arhitektura
@@ -69,8 +70,8 @@ test/               testi parserja in shrambe na shranjenih HTML fixturih
 
 | Ukaz                                                                                                                   | Kaj naredi                                                                                                                                                               |
 | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `/iskanje dodaj ime: url: [strani:]`                                                                                   | Spremljaj poljuben URL iskanja, prilepljen s strani, podpira **vse** filtre, kar jih stran ima. Nastaviš filtre na nepremicnine.net, kopiraš naslovno vrstico, prilepiš. |
-| `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:] [strani:]` | Sestaviš iskanje iz filtrov, brez da zapustiš Discord.                                                                                                                   |
+| `/iskanje dodaj ime: url:`                                                                                   | Spremljaj poljuben URL iskanja, prilepljen s strani, podpira **vse** filtre, kar jih stran ima. Nastaviš filtre na nepremicnine.net, kopiraš naslovno vrstico, prilepiš. |
+| `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:]` | Sestaviš iskanje iz filtrov, brez da zapustiš Discord.                                                                                                                   |
 | `/iskanje seznam`                                                                                                      | Pokaže iskanja in koliko oglasov sledijo.                                                                                                                                |
 | `/iskanje odstrani\|ustavi\|nadaljuj ime:`                                                                             | Upravljanje iskanj (imena se samodejno dopolnijo).                                                                                                                       |
 | `/preveri [ime:]`                                                                                                      | Naredi obhod takoj, brez čakanja na cikel.                                                                                                                               |
@@ -145,17 +146,11 @@ Karkoli zna pognat Docker, dela; najlažji je LXC kontejner:
 ## Opombe in meje
 
 - Pogosteje ko na ~10 minut kličeš stran prosiš za Cloudflare blokado; privzetih 20 minut z
-  jitterjem ima nizek profil (par nalaganj strani na cikel).
+  jitterjem ima nizek profil.
 - Če te Cloudflare vseeno blokira, ti bot enkrat pove, se umakne in si sam opomore. Če bi
   blokade postale trajne, je morda treba osvežit prstne odtise v `impit` (`pnpm update impit`).
-- `strani` na iskanje je privzeto 3 (75 najnovejših oglasov). Za zgolj lovljenje novih oglasov
-  je to dovolj, ker se novi pojavijo na vrhu.
-- Če hočeš slediti **cenam vseh oglasov** v iskanju (npr. da ujameš padec cene na 5. strani),
-  daj `strani` višje (do 40 = 1000 oglasov). Crawler se sam ustavi na zadnji dejanski strani,
-  tako da višja številka zajame vse do konca, ne glede na to, koliko jih je. Cena, ki pade
-  kjerkoli v zajetih straneh, sproži obvestilo.
-- Cena: višje `strani` pomeni več nalaganj strani na obhod (vsako z 2 do 5 s premorom), torej
-  daljši obhod in malenkost večja možnost Cloudflare blokade. Za sledenje cenam je vredno;
-  brez potrebe ne nastavljaj na maksimum.
-- Sprememba cene se primerja z zadnjo shranjeno ceno; cela zgodovina ostane v tabeli
-  `price_history`, če bi kdaj hotel risat graf.
+- Vsako iskanje gre čez vse strani filtra (zaznava konca je samodejna, varovalka pri 100
+  straneh = 2500 oglasov). Zato je smiselno iskanja dobro pofiltrirat: ozek filter pomeni manj
+  strani na obhod in nižji profil. Za npr. eno regijo s cenovno mejo je to nekaj strani.
+- Sprememba cene se primerja z zadnjo shranjeno ceno na katerem koli zajetem oglasu (ne le
+  najnovejših), cela zgodovina ostane v tabeli `price_history`, če bi kdaj hotel risat graf.

@@ -26,7 +26,7 @@ function setup() {
   const db = openDatabase(":memory:");
   const watches = new WatchRepo(db);
   const listings = new ListingRepo(db);
-  const watch = watches.create("test", "https://www.nepremicnine.net/x/", 3, "123");
+  const watch = watches.create("test", "https://www.nepremicnine.net/x/", "123");
   return { watches, listings, watch };
 }
 
