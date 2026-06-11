@@ -4,9 +4,7 @@
 
 Samostojen špegavec nepremičninskih oglasov. Periodično pregleduje iskanja na
 [nepremicnine.net](https://www.nepremicnine.net), si zapomni, kaj je že videl, in te ob vsakem
-novem oglasu (ali spremembi cene) zbudi. Jedro (zajem, parsanje, shramba) ne ve nič o Discordu,
-Discord je samo trenutni vmesnik in obvestilna plast, ki bi jo lahko zamenjal z emailom ali
-Telegramom brez dotika jedra.
+novem oglasu (ali spremembi cene) zbudi prek Discorda.
 
 V praksi to pomeni: iskanja dodajaš in upravljaš s slash ukazi, novi oglasi pa pridejo kot lepi
 embedi v kanal, kjer si iskanje ustvaril.
@@ -42,9 +40,6 @@ store     SQLite: iskanja, videni oglasi, zgodovina cen (dedup + spremembe cen)
    |
 discord   slash ukazi (vmesnik) + embedi (obvestila)
 ```
-
-Ključno: `scraper`, `poller` in `store` ne vejo nič o Discordu. Obvestilno plast (`discord`)
-bi zamenjal brez dotika jedra.
 
 ## Struktura projekta
 
@@ -141,18 +136,11 @@ Karkoli zna pognat Docker, dela; najlažji je LXC kontejner:
 3. Pa to je to, kontejner sam restarta bota (`restart: unless-stopped`), LXC pa lahko backupaš
    ko vsak drug Proxmox gost.
 
-## Dodajanje novega portala
+## Načrti
 
-Trenutno je špegavec vezan na nepremicnine.net. Portalska specifika živi v dveh datotekah:
-`src/scraper/parser.ts` (HTML selektorji) in `src/scraper/urlBuilder.ts` (oblika URL-ja iskanja).
-Vse ostalo (poller, store, discord) je generično in dela z `Listing` tipom.
-
-Za drug portal (npr. bolha.com) bi bil potreben zmeren refaktor: scraper bi postal vmesnik
-`Provider` z metodami `matchesUrl`, `buildUrl(filters)` in `parse(html)`, vsak portal svoja
-implementacija, izbira pa prek registra. `Watch` bi dobil stolpec `source`, crawler in poller
-bi delala prek registra namesto direktnega importa parserja. Seami so že na pravih mestih
-(zajem, parsanje, shramba, obvestilo so ločeni), zato gre bolj za dodajanje abstrakcije kot za
-predelavo. Smiselno šele, ko dejansko dodajaš drugi portal, ne prej.
+- [x] nepremicnine.net
+- [ ] podpora za dodatne nepremičninske portale (npr. bolha.com, salesofia, nepremicnine24)
+      po potrebi v prihodnosti
 
 ## Opombe in meje
 
