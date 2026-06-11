@@ -15,6 +15,7 @@ function listing(id: string, price: number): Listing {
     year: "2010",
     floor: "1/3",
     price,
+    pricePerM2: Math.round(price / 60),
     priceDisplay: `${price} €`,
     description: "desc",
     imageUrl: null,
@@ -60,6 +61,51 @@ describe("ListingRepo.applyCrawl", () => {
     const { watches, listings, watch } = setup();
     listings.applyCrawl(watch.id, [listing("1", 1500), listing("2", 2500)]);
     expect(watches.listingCount(watch.id)).toBe(2);
+  });
+
+  it("oglas označi za umaknjenega šele po dveh manjkajočih obhodih", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
+
+    // 1. obhod brez oglasa 2: še ne umaknjen (samo missed_count++)
+    const first = listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    expect(first.removed).toHaveLength(0);
+
+    // 2. obhod brez oglasa 2: zdaj umaknjen
+    const second = listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    expect(second.removed.map((l) => l.id)).toEqual(["2"]);
+
+    // umaknjen se ne javi znova
+    const third = listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    expect(third.removed).toHaveLength(0);
+  });
+
+  it("ponovno pojavljen oglas se aktivira nazaj in ne ostane umaknjen", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
+    listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    listings.applyCrawl(watch.id, [listing("1", 100000)]); // oglas 2 umaknjen
+    expect(listings.getListing(watch.id, "2")?.removedAt).not.toBeNull();
+
+    // spet se pojavi
+    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
+    expect(listings.getListing(watch.id, "2")?.removedAt).toBeNull();
+  });
+
+  it("ne zaznava umaknjenih, če je zajem prazen (detectRemovals=false)", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    const diff = listings.applyCrawl(watch.id, [], false);
+    expect(diff.removed).toHaveLength(0);
+    expect(listings.getListing(watch.id, "1")?.removedAt).toBeNull();
+  });
+
+  it("hrani zgodovino cene", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    listings.applyCrawl(watch.id, [listing("1", 95000)]);
+    const history = listings.priceHistory(watch.id, "1");
+    expect(history.map((h) => h.price)).toEqual([100000, 95000]);
   });
 });
 

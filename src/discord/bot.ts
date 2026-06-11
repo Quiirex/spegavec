@@ -16,11 +16,17 @@ import { log } from '../log.js';
 import type { Fetcher } from '../scraper/fetcher.js';
 import { parseSearchPage } from '../scraper/parser.js';
 import { buildSearchUrl, normalizeWatchUrl } from '../scraper/urlBuilder.js';
-import type { WatchRepo } from '../store/repo.js';
+import type { ListingRepo, WatchRepo } from '../store/repo.js';
 import { buildCommands, REGIONS } from './commands.js';
-import { newListingEmbed, priceChangeEmbed } from './embeds.js';
+import { newListingEmbed, priceChangeEmbed, removedEmbed } from './embeds.js';
 
 const WATCH_NAME_PATTERN = /^[\w-]{1,32}$/;
+
+const EUR = new Intl.NumberFormat('sl-SI', {
+  style: 'currency',
+  currency: 'EUR',
+  maximumFractionDigits: 0,
+});
 
 export class Bot {
   readonly client: Client;
@@ -28,6 +34,7 @@ export class Bot {
   constructor(
     private readonly config: Config,
     private readonly watches: WatchRepo,
+    private readonly listings: ListingRepo,
     private readonly fetcher: Fetcher,
     private readonly getPoller: () => Poller,
   ) {
@@ -70,15 +77,20 @@ export class Bot {
   }
 
   async notify(result: PollResult): Promise<void> {
-    if (result.newListings.length === 0 && result.priceChanges.length === 0)
+    if (
+      result.newListings.length === 0 &&
+      result.priceChanges.length === 0 &&
+      result.removed.length === 0
+    )
       return;
     const embeds: EmbedBuilder[] = [
       ...result.newListings.map((listing) =>
-        newListingEmbed(result.watch, listing),
+        newListingEmbed(result.watch, listing, result.medianPricePerM2),
       ),
       ...result.priceChanges.map((change) =>
         priceChangeEmbed(result.watch, change),
       ),
+      ...result.removed.map((listing) => removedEmbed(result.watch, listing)),
     ];
     await this.sendEmbeds(result.watch.channelId, embeds);
   }
@@ -135,7 +147,62 @@ export class Bot {
         return this.handleCheck(interaction);
       case 'status':
         return this.handleStatus(interaction);
+      case 'zgodovina':
+        return this.handleZgodovina(interaction);
     }
+  }
+
+  private async handleZgodovina(
+    interaction: ChatInputCommandInteraction,
+  ): Promise<void> {
+    const name = interaction.options.getString('ime', true);
+    const watch = this.watches.byName(name);
+    if (!watch) {
+      await interaction.reply({
+        content: `Ni iskanja z imenom **${name}**.`,
+        ephemeral: true,
+      });
+      return;
+    }
+
+    const raw = interaction.options.getString('oglas', true).trim();
+    const id = /^\d+$/.test(raw)
+      ? raw
+      : (raw.match(/_(\d+)\/?$/)?.[1] ?? raw.match(/(\d{6,})/)?.[1] ?? null);
+    const stored = id ? this.listings.getListing(watch.id, id) : null;
+    if (!stored) {
+      await interaction.reply({
+        content: `Oglasa **${raw}** ni v iskanju **${name}**. Daj ID (npr. 7355533) ali poln URL oglasa.`,
+        ephemeral: true,
+      });
+      return;
+    }
+
+    const history = this.listings.priceHistory(watch.id, stored.id);
+    const lines: string[] = [];
+    let prev: number | null = null;
+    for (const entry of history) {
+      const delta =
+        prev !== null && entry.price !== prev
+          ? ` (${entry.price > prev ? '+' : '−'}${EUR.format(Math.abs(entry.price - prev))})`
+          : '';
+      lines.push(`• ${entry.observedAt.slice(0, 10)}: ${EUR.format(entry.price)}${delta}`);
+      prev = entry.price;
+    }
+
+    const status = stored.removedAt
+      ? `umaknjen/prodan (${stored.removedAt.slice(0, 10)})`
+      : 'aktiven';
+    const body = [
+      `**${stored.title}**`,
+      `<${stored.url}>`,
+      `Status: ${status}` +
+        (stored.pricePerM2 !== null ? ` · ${EUR.format(stored.pricePerM2)}/m²` : ''),
+      '',
+      lines.length > 0 ? '**Zgodovina cene:**' : 'Brez zabeležene cene.',
+      ...lines,
+    ].join('\n');
+    await interaction.reply({ content: body, flags: 'SuppressEmbeds' });
   }
 
   private async handleWatch(

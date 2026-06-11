@@ -25,6 +25,7 @@ describe("parseSearchPage", () => {
       year: "2008",
       floor: "1/2",
       price: 224000,
+      pricePerM2: 6871, // round(224000 / 32.6)
       agency: "Mreža&Partnerji, nepremičnine, d.o.o.",
     });
     expect(first!.imageUrl).toMatch(/^https:\/\/img\.nepremicnine\.net\//);

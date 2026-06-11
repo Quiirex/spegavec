@@ -25,6 +25,11 @@ Nastalo iz čiste lenobe: ne da se mi ročno osveževati strani cele dneve.
   spremembe cen na čisto vsakem oglasu, ne le na najnovejših. Ob blokadi se eksponentno umakne
   (do 8x) in dobiš eno samo opozorilo na epizodo.
 - Prvi obhod novega iskanja samo posname trenutno stanje, da te ne zasuje s starimi oglasi.
+- Vsak oglas dobi izračunan **€/m²**. Če je dovolj pod mediano €/m² danega iskanja
+  (privzeto 15 %, najmanj 5 oglasov v vzorcu), ga obvestilo označi kot **🟢 dober posel**.
+- Oglas, ki po dveh zaporednih obhodih izgine iz rezultatov, se označi za **umaknjen/prodan**
+  in dobiš obvestilo (zapre se mu tudi zgodovina cene). Ob praznem/blokiranem zajemu se ta
+  zaznava preskoči, da se po nesreči ne pobriše vsega.
 
 ## Arhitektura
 
@@ -49,7 +54,8 @@ src/
   config.ts         branje okoljskih spremenljivk
   core/
     types.ts        Listing, Watch, SearchFilters, PollResult
-    poller.ts       cikel obhodov, umik ob blokadi
+    stats.ts        mediana €/m² in oznaka "dober posel"
+    poller.ts       cikel obhodov, umik ob blokadi, zaznava umaknjenih
   scraper/
     fetcher.ts      HTTP prek impit (gre skoz Cloudflare)
     crawler.ts      sprehod po straneh rezultatov + dedup
@@ -75,6 +81,7 @@ test/               testi parserja in shrambe na shranjenih HTML fixturih
 | `/iskanje odstrani\|ustavi\|nadaljuj ime:`                                                                   | Upravljanje iskanj (imena se samodejno dopolnijo).                                                                                                                       |
 | `/preveri [ime:]`                                                                                            | Naredi obhod takoj, brez čakanja na cikel.                                                                                                                               |
 | `/status`                                                                                                    | Zdravje špegavca (vključno z blokado Cloudflare) in zadnji obhod po iskanjih.                                                                                            |
+| `/zgodovina ime: oglas:`                                                                                     | Izpiše časovnico cene oglasa (oglas = ID ali poln URL). Pokaže tudi €/m² in ali je umaknjen.                                                                             |
 
 `dodaj` in `sestavi` URL preverita z živo poizvedbo in ti vrneta trenutno število zadetkov,
 tak da ujameš tipkarsko napako v regiji ali nemogočo kombinacijo filtrov takoj. Obvestila
