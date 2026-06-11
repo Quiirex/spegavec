@@ -59,9 +59,9 @@ export function buildCommands() {
         .addIntegerOption((opt) =>
           opt
             .setName("strani")
-            .setDescription("Koliko strani rezultatov preverit na obhod (privzeto 3)")
+            .setDescription("Strani na obhod (privzeto 3). Za sledenje cenam vseh oglasov daj višje (npr. 40)")
             .setMinValue(1)
-            .setMaxValue(10),
+            .setMaxValue(40),
         ),
     )
     .addSubcommand((sub) => {
@@ -104,9 +104,9 @@ export function buildCommands() {
         .addIntegerOption((opt) =>
           opt
             .setName("strani")
-            .setDescription("Koliko strani rezultatov preverit na obhod (privzeto 3)")
+            .setDescription("Strani na obhod (privzeto 3). Za sledenje cenam vseh oglasov daj višje (npr. 40)")
             .setMinValue(1)
-            .setMaxValue(10),
+            .setMaxValue(40),
         );
       return sub;
     })
