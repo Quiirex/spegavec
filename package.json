@@ -4,6 +4,7 @@
   "description": "Discord bot, ki špega nove oglase na nepremicnine.net",
   "type": "module",
   "private": true,
+  "author": "Luka Mlinarič Fekonja",
   "engines": {
     "node": ">=24"
   },
