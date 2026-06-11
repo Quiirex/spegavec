@@ -51,22 +51,6 @@ CREATE INDEX IF NOT EXISTS idx_price_history_listing
   ON price_history (watch_id, listing_id);
 `;
 
-// stolpci, dodani po prvi različici sheme; obstoječe baze jih dobijo prek ALTER
-const MIGRATIONS: { column: string; ddl: string }[] = [
-  { column: "price_per_m2", ddl: "ALTER TABLE listings ADD COLUMN price_per_m2 REAL" },
-  { column: "missed_count", ddl: "ALTER TABLE listings ADD COLUMN missed_count INTEGER NOT NULL DEFAULT 0" },
-  { column: "removed_at", ddl: "ALTER TABLE listings ADD COLUMN removed_at TEXT" },
-];
-
-function migrate(db: DatabaseSync): void {
-  const cols = new Set(
-    (db.prepare("PRAGMA table_info(listings)").all() as { name: string }[]).map((r) => r.name),
-  );
-  for (const { column, ddl } of MIGRATIONS) {
-    if (!cols.has(column)) db.exec(ddl);
-  }
-}
-
 export function openDatabase(path: string): DatabaseSync {
   if (path !== ":memory:") {
     mkdirSync(dirname(path), { recursive: true });
@@ -75,7 +59,6 @@ export function openDatabase(path: string): DatabaseSync {
   db.exec("PRAGMA journal_mode = WAL");
   db.exec("PRAGMA foreign_keys = ON");
   db.exec(SCHEMA);
-  migrate(db);
   return db;
 }
 
