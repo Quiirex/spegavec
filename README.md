@@ -47,9 +47,23 @@ trenutno stanje, da te ne zasuje s starimi oglasi.
    link in povabi bota na strežnik.
 4. Developer Mode → desni klik na strežnik → **Copy Server ID** → to je `DISCORD_GUILD_ID`.
 
-## Zagon (LXC + systemd)
+## Zagon
 
-Teče direktno v LXC kontejnerju, brez Dockerja.
+Dve poti: Docker (najlažje, kjerkoli) ali native v LXC (npr. na Proxmoxu).
+
+### Docker
+
+```sh
+cp .env.example .env   # DISCORD_TOKEN, DISCORD_GUILD_ID
+docker compose up -d --build
+docker compose logs -f
+```
+
+Baza se hrani v `./data/` na hostu.
+
+### LXC + systemd (Proxmox)
+
+Brez Dockerja, teče direktno v kontejnerju (LXC je že container, dvojni nima smisla).
 
 ```sh
 # Node 24 + git v LXC
