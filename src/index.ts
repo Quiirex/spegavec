@@ -1,6 +1,7 @@
 import { loadConfig } from "./config.js";
 import { Poller } from "./core/poller.js";
 import { Bot } from "./discord/bot.js";
+import { log } from "./log.js";
 import { Fetcher } from "./scraper/fetcher.js";
 import { openDatabase } from "./store/db.js";
 import { ListingRepo, WatchRepo } from "./store/repo.js";
@@ -33,14 +34,15 @@ async function main(): Promise<void> {
         "⚠️ nepremicnine.net nas trenutno blokira (Cloudflare challenge). Se umaknem in samodejno poskušam naprej.",
       );
     },
-    onError: async (watch, error) => {
-      console.error(`obhod za ${watch.name} ni uspel:`, error);
+    onError: async (_watch, error) => {
+      // poller že zabeleži kratko sporočilo; tu samo sled za razhroščevanje
+      log.debug(error.stack ?? String(error));
     },
   }, config.pollMinutes);
 
   await bot.start();
   poller.start();
-  console.log(`Obhod vsakih ~${config.pollMinutes} min. Iskanj: ${watches.all().length}`);
+  log.info(`Špegavec teče. Obhod vsakih ~${config.pollMinutes} min, ${watches.all().length} iskanj.`);
 
   const shutdown = () => {
     poller.stop();
@@ -53,6 +55,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error("usodna napaka:", error);
+  log.error(`usodna napaka: ${error instanceof Error ? (error.stack ?? error.message) : error}`);
   process.exit(1);
 });

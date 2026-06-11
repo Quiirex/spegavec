@@ -1,4 +1,5 @@
 import { Impit } from 'impit';
+import { log } from '../log.js';
 
 export class BlockedError extends Error {
   constructor(url: string) {
@@ -51,6 +52,7 @@ export class Fetcher {
         await sleep(this.retryDelayMs * attempt);
       }
       try {
+        log.debug(`GET ${url}`);
         const response = await this.impit.fetch(url);
         const html = await response.text();
         if (response.status === 403 || looksBlocked(html)) {
@@ -64,6 +66,9 @@ export class Fetcher {
         lastError = error instanceof Error ? error : new Error(String(error));
         if (lastError instanceof HttpError && lastError.status < 500) {
           throw lastError;
+        }
+        if (attempt < this.retries) {
+          log.warn(`${lastError.message}; ponovni poskus ${attempt + 1}/${this.retries} čez ${(this.retryDelayMs * (attempt + 1)) / 1000}s`);
         }
       }
     }

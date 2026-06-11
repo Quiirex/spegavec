@@ -104,10 +104,27 @@ gredo v kanal, kjer si iskanje ustvaril. Če hočeš, daj različna iskanja v ra
 ```sh
 cp .env.example .env   # vpiši DISCORD_TOKEN in DISCORD_GUILD_ID
 docker compose up -d --build
-docker compose logs -f # mora izpisat "Prijavljen kot ..." in "Obhod vsakih ~20 min"
+docker compose logs -f # spremljaj kaj se dogaja v živo
 ```
 
 SQLite baza se hrani v `./data/` na hostu.
+
+### Logi
+
+`docker compose logs -f` pokaže obhode v živo. Pri privzetem `LOG_LEVEL=info` vidiš za vsak
+obhod nekaj takega:
+
+```
+2026-06-11T08:00:00.000Z INFO  obhod: 2 iskanj
+2026-06-11T08:00:00.001Z INFO  zajemam "hise200k"
+2026-06-11T08:00:31.412Z INFO  "hise200k": 175 oglasov, 2 novih, 1 sprememb cene (31s)
+2026-06-11T08:00:40.119Z INFO  naslednji obhod čez ~21 min
+```
+
+Za podroben vpogled (vsaka pobrana stran, vsak GET, ponovni poskusi ob blokadi) nastavi
+`LOG_LEVEL=debug` v `.env` in `docker compose up -d`. Takrat se izpiše tudi npr.
+`[hise200k] stran 3: 25 oglasov (skupaj 75)` in opozorila tipa
+`... ponovni poskus 1/2 čez 5s`.
 
 ### Razvoj lokalno (Node ≥ 24, pnpm)
 
