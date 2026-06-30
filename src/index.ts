@@ -29,10 +29,9 @@ async function main(): Promise<void> {
       await bot.notify(result);
     },
     onBlocked: async (watch) => {
-      await bot.notifyText(
-        watch.channelId,
-        "⚠️ nepremicnine.net nas trenutno blokira (Cloudflare challenge). Se umaknem in samodejno poskušam naprej.",
-      );
+      // brez obvestila v kanal: blokade so prehodne in same od sebe minejo, spamat uporabnika nima smisla
+      // stanje vidiš v /status (🔴) in v logih
+      log.debug(`"${watch.name}" blokiran (Cloudflare), tiho se umikam`);
     },
     onError: async (_watch, error) => {
       // poller že zabeleži kratko sporočilo; tu samo sled za razhroščevanje
