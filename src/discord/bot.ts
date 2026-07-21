@@ -19,7 +19,7 @@ import { parseSearchPage } from '../scraper/parser.js';
 import { buildSearchUrl, normalizeWatchUrl } from '../scraper/urlBuilder.js';
 import type { ListingRepo, WatchRepo } from '../store/repo.js';
 import { buildCommands, REGIONS } from './commands.js';
-import { newListingEmbed, priceChangeEmbed, removedEmbed } from './embeds.js';
+import { newListingEmbed, priceChangeEmbed } from './embeds.js';
 
 const WATCH_NAME_PATTERN = /^[\w-]{1,32}$/;
 
@@ -84,12 +84,9 @@ export class Bot {
   }
 
   async notify(result: PollResult): Promise<void> {
-    if (
-      result.newListings.length === 0 &&
-      result.priceChanges.length === 0 &&
-      result.removed.length === 0
-    )
+    if (result.newListings.length === 0 && result.priceChanges.length === 0)
       return;
+    // umaknjene/prodane oglase zaznamo in shranimo (za /zgodovina), a v kanal ne trobimo
     const items: EmbedItem[] = [
       ...result.newListings.map((listing) => ({
         embed: newListingEmbed(result.watch, listing, result.medianPricePerM2),
@@ -99,11 +96,6 @@ export class Bot {
       ...result.priceChanges.map((change) => ({
         embed: priceChangeEmbed(result.watch, change),
         imageUrl: change.listing.imageUrl,
-        thumb: true,
-      })),
-      ...result.removed.map((listing) => ({
-        embed: removedEmbed(result.watch, listing),
-        imageUrl: listing.imageUrl,
         thumb: true,
       })),
     ];

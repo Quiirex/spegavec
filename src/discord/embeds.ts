@@ -63,19 +63,3 @@ export function priceChangeEmbed(watch: Watch, change: PriceChange): EmbedBuilde
   if (listing.imageUrl) embed.setThumbnail(listing.imageUrl);
   return embed;
 }
-
-export function removedEmbed(watch: Watch, listing: Listing): EmbedBuilder {
-  const embed = new EmbedBuilder()
-    .setColor(0x95a5a6)
-    .setAuthor({ name: `Umaknjen / prodan · ${watch.name}` })
-    .setTitle(listing.title)
-    .setURL(listing.url)
-    .setDescription(
-      listing.price !== null
-        ? `Zadnja cena: ${eur.format(listing.price)}. Oglas je izginil iz rezultatov.`
-        : "Oglas je izginil iz rezultatov.",
-    )
-    .setTimestamp();
-  if (listing.imageUrl) embed.setThumbnail(listing.imageUrl);
-  return embed;
-}
