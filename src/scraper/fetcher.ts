@@ -45,6 +45,16 @@ export class Fetcher {
     });
   }
 
+  // slike na img.nepremicnine.net so zdaj za Cloudflareom; Discordov proxy dobi challenge namesto slike,
+  // zato jih poberemo sami (Chrome TLS gre skozi) in botu vrnemo bajte za priponko
+  async fetchImage(url: string): Promise<Buffer> {
+    const response = await this.impit.fetch(url);
+    if (response.status >= 400) throw new HttpError(url, response.status);
+    const type = response.headers.get('content-type') ?? '';
+    if (!type.startsWith('image/')) throw new BlockedError(url);
+    return Buffer.from(await response.arrayBuffer());
+  }
+
   async fetchHtml(url: string): Promise<string> {
     let lastError: Error = new Error('unreachable');
     for (let attempt = 0; attempt <= this.retries; attempt++) {

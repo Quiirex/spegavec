@@ -1,4 +1,5 @@
 import {
+  AttachmentBuilder,
   ChannelType,
   ChatInputCommandInteraction,
   Client,
@@ -21,6 +22,12 @@ import { buildCommands, REGIONS } from './commands.js';
 import { newListingEmbed, priceChangeEmbed, removedEmbed } from './embeds.js';
 
 const WATCH_NAME_PATTERN = /^[\w-]{1,32}$/;
+
+interface EmbedItem {
+  embed: EmbedBuilder;
+  imageUrl: string | null;
+  thumb: boolean;
+}
 
 const EUR = new Intl.NumberFormat('sl-SI', {
   style: 'currency',
@@ -83,16 +90,24 @@ export class Bot {
       result.removed.length === 0
     )
       return;
-    const embeds: EmbedBuilder[] = [
-      ...result.newListings.map((listing) =>
-        newListingEmbed(result.watch, listing, result.medianPricePerM2),
-      ),
-      ...result.priceChanges.map((change) =>
-        priceChangeEmbed(result.watch, change),
-      ),
-      ...result.removed.map((listing) => removedEmbed(result.watch, listing)),
+    const items: EmbedItem[] = [
+      ...result.newListings.map((listing) => ({
+        embed: newListingEmbed(result.watch, listing, result.medianPricePerM2),
+        imageUrl: listing.imageUrl,
+        thumb: false,
+      })),
+      ...result.priceChanges.map((change) => ({
+        embed: priceChangeEmbed(result.watch, change),
+        imageUrl: change.listing.imageUrl,
+        thumb: true,
+      })),
+      ...result.removed.map((listing) => ({
+        embed: removedEmbed(result.watch, listing),
+        imageUrl: listing.imageUrl,
+        thumb: true,
+      })),
     ];
-    await this.sendEmbeds(result.watch.channelId, embeds);
+    await this.sendItems(result.watch.channelId, items);
   }
 
   async notifyText(channelId: string, message: string): Promise<void> {
@@ -100,15 +115,33 @@ export class Bot {
     await channel?.send(message);
   }
 
-  private async sendEmbeds(
-    channelId: string,
-    embeds: EmbedBuilder[],
-  ): Promise<void> {
+  // slike host je za Cloudflareom, Discordov proxy jih ne dobi; poberemo jih sami in priložimo kot datoteko
+  private async sendItems(channelId: string, items: EmbedItem[]): Promise<void> {
     const channel = await this.fetchSendable(channelId);
     if (!channel) return;
-    // Discord dovoli največ 10 embedov na sporočilo
-    for (let i = 0; i < embeds.length; i += 10) {
-      await channel.send({ embeds: embeds.slice(i, i + 10) });
+    // Discord dovoli največ 10 embedov (in 10 priponk) na sporočilo
+    for (let i = 0; i < items.length; i += 10) {
+      const batch = items.slice(i, i + 10);
+      const files: AttachmentBuilder[] = [];
+      await Promise.all(
+        batch.map(async (item, j) => {
+          if (!item.imageUrl) return;
+          try {
+            const buffer = await this.fetcher.fetchImage(item.imageUrl);
+            const name = `oglas-${i + j}.jpg`;
+            files.push(new AttachmentBuilder(buffer, { name }));
+            const ref = `attachment://${name}`;
+            if (item.thumb) item.embed.setThumbnail(ref);
+            else item.embed.setImage(ref);
+          } catch (error) {
+            // slika ni šla skozi; embed obdrži hotlink kot rezervo
+            log.debug(
+              `slike ${item.imageUrl} ni bilo mogoče pobrat: ${error instanceof Error ? error.message : error}`,
+            );
+          }
+        }),
+      );
+      await channel.send({ embeds: batch.map((item) => item.embed), files });
     }
   }
 
