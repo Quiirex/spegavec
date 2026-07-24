@@ -126,14 +126,27 @@ export class Bot {
             if (item.thumb) item.embed.setThumbnail(ref);
             else item.embed.setImage(ref);
           } catch (error) {
-            // slika ni šla skozi; embed obdrži hotlink kot rezervo
-            log.debug(
+            // hotlink ni rezerva, ampak zagotovljena polomljena slika (Discordov proxy dobi Cloudflare challenge),
+            // zato ga rajši vržemo ven; sporočilo gre naprej brez slike
+            if (item.thumb) item.embed.setThumbnail(null);
+            else item.embed.setImage(null);
+            log.warn(
               `slike ${item.imageUrl} ni bilo mogoče pobrat: ${error instanceof Error ? error.message : error}`,
             );
           }
         }),
       );
-      await channel.send({ embeds: batch.map((item) => item.embed), files });
+      const embeds = batch.map((item) => item.embed);
+      try {
+        await channel.send({ embeds, files });
+      } catch (error) {
+        // brez priponk je bolje kot brez obvestila
+        log.warn(
+          `pošiljanje s priponkami ni šlo (${error instanceof Error ? error.message : error}), pošiljam brez slik`,
+        );
+        for (const embed of embeds) embed.setImage(null).setThumbnail(null);
+        await channel.send({ embeds });
+      }
     }
   }
 
