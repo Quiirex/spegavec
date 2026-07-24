@@ -1,7 +1,7 @@
 import type { Listing, PollResult, Watch } from './types.js';
 import { BlockedError, type Fetcher } from '../scraper/fetcher.js';
 import { crawlSearch } from '../scraper/crawler.js';
-import { parseListingDescription } from '../scraper/parser.js';
+import { parseListingPage } from '../scraper/parser.js';
 import { medianPricePerM2 } from './stats.js';
 import { log } from '../log.js';
 import type { ListingRepo, WatchRepo } from '../store/repo.js';
@@ -59,7 +59,7 @@ export class Poller {
         ? `posnel ${crawled.length} oglasov`
         : `ok: ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih`,
     );
-    if (!seeded) await this.addFullDescriptions(diff.newListings);
+    if (!seeded) await this.addListingDetails(diff.newListings);
     if (seeded) {
       log.info(`"${watch.name}": izhodišče posneto, ${crawled.length} oglasov (${secs}s)`);
     } else {
@@ -78,16 +78,17 @@ export class Poller {
     };
   }
 
-  // en dodaten obisk na nov oglas: iskalna stran da samo odrezan izsek, cel opis je na strani oglasa.
+  // en dodaten obisk na nov oglas: iskalna stran da samo odrezan izsek in eno sliko.
   // varovalka pri 15, da nas kak nenavadno velik val novih oglasov ne pusti pol ure na strani
-  private async addFullDescriptions(listings: Listing[]): Promise<void> {
+  private async addListingDetails(listings: Listing[]): Promise<void> {
     for (const listing of listings.slice(0, 15)) {
       try {
-        const description = parseListingDescription(await this.fetcher.fetchHtml(listing.url));
-        if (description) listing.description = description;
+        const details = parseListingPage(await this.fetcher.fetchHtml(listing.url));
+        listing.details = details;
+        if (details.description) listing.description = details.description;
       } catch (error) {
         log.warn(
-          `celega opisa za ${listing.url} nisem dobil: ${error instanceof Error ? error.message : error}`,
+          `podatkov s strani ${listing.url} nisem dobil: ${error instanceof Error ? error.message : error}`,
         );
       }
       await sleep(1_000 + Math.random() * 1_500);

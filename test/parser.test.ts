@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { parseListingDescription, parseSearchPage } from "../src/scraper/parser.js";
+import { parseListingPage, parseSearchPage } from "../src/scraper/parser.js";
 import { buildSearchUrl, normalizeWatchUrl, pageUrl } from "../src/scraper/urlBuilder.js";
 
 const searchPage = readFileSync(new URL("./fixtures/search-page.html", import.meta.url), "utf8");
@@ -47,9 +47,9 @@ describe("parseSearchPage", () => {
   });
 });
 
-describe("parseListingDescription", () => {
+describe("parseListingPage", () => {
   it("pobere cel opis s strani oglasa in ohrani odstavke", () => {
-    const description = parseListingDescription(listingPage);
+    const { description } = parseListingPage(listingPage);
     expect(description).toContain("Prodamo 4-sobni duplex");
     expect(description).toContain("Pred stavbo sta dve parkirni mesti.");
     expect(description).toContain("Ogrevanje: daljinsko");
@@ -59,11 +59,29 @@ describe("parseListingDescription", () => {
   });
 
   it("ne pusti trojnih preskokov vrstic", () => {
-    expect(parseListingDescription(listingPage)).not.toMatch(/\n{3,}/);
+    expect(parseListingPage(listingPage).description).not.toMatch(/\n{3,}/);
   });
 
-  it("vrne null, ko opisa ni", () => {
-    expect(parseListingDescription(emptyPage)).toBeNull();
+  it("pobere galerijo brez podvojenih slik", () => {
+    const { images } = parseListingPage(listingPage);
+    expect(images).toEqual([
+      "https://img.nepremicnine.net/slonep_oglasi2/22955318.jpg",
+      "https://img.nepremicnine.net/slonep_oglasi2/22955319.jpg",
+    ]);
+  });
+
+  it("izlušči kontakt in naslov agencije", () => {
+    const details = parseListingPage(listingPage);
+    expect(details.contactPhone).toBe("051/690-000");
+    expect(details.contactName).toBe("Jasmina Bratož");
+    expect(details.agencyAddress).toBe("Tivolska 48, 1000 Ljubljana");
+  });
+
+  it("na strani brez podatkov vrne prazno", () => {
+    const details = parseListingPage(emptyPage);
+    expect(details.description).toBeNull();
+    expect(details.images).toEqual([]);
+    expect(details.contactPhone).toBeNull();
   });
 });
 

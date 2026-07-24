@@ -19,7 +19,12 @@ function listingFields(listing: Listing): { name: string; value: string; inline:
   add("Sobe", listing.rooms);
   add("Leto", listing.year);
   add("Nadstropje", listing.floor);
-  add("Agencija", listing.agency);
+  const address = listing.details?.agencyAddress;
+  add("Agencija", listing.agency && address ? `${listing.agency}\n${address}` : listing.agency);
+  const { contactName, contactPhone } = listing.details ?? {};
+  if (contactPhone) {
+    add("Kontakt", contactName ? `${contactName}\n${contactPhone}` : contactPhone);
+  }
   return fields;
 }
 

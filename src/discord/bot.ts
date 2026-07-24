@@ -27,7 +27,13 @@ interface EmbedItem {
   embed: EmbedBuilder;
   imageUrl: string | null;
   thumb: boolean;
+  // dodatne fotke z oglasa; priložimo jih, kolikor jih gre v Discordovo mejo
+  extraImages?: string[];
 }
+
+// Discord dovoli 10 embedov in 10 priponk na sporočilo
+const MAX_PER_MESSAGE = 10;
+const EXTRA_IMAGES_PER_LISTING = 3;
 
 const EUR = new Intl.NumberFormat('sl-SI', {
   style: 'currency',
@@ -92,6 +98,9 @@ export class Bot {
         embed: newListingEmbed(result.watch, listing, result.medianPricePerM2),
         imageUrl: listing.imageUrl,
         thumb: false,
+        extraImages: (listing.details?.images ?? [])
+          .filter((image) => image !== listing.imageUrl)
+          .slice(0, EXTRA_IMAGES_PER_LISTING),
       })),
       ...result.priceChanges.map((change) => ({
         embed: priceChangeEmbed(result.watch, change),
@@ -111,9 +120,8 @@ export class Bot {
   private async sendItems(channelId: string, items: EmbedItem[]): Promise<void> {
     const channel = await this.fetchSendable(channelId);
     if (!channel) return;
-    // Discord dovoli največ 10 embedov (in 10 priponk) na sporočilo
-    for (let i = 0; i < items.length; i += 10) {
-      const batch = items.slice(i, i + 10);
+    for (let i = 0; i < items.length; i += MAX_PER_MESSAGE) {
+      const batch = items.slice(i, i + MAX_PER_MESSAGE);
       const files: AttachmentBuilder[] = [];
       await Promise.all(
         batch.map(async (item, j) => {
@@ -136,6 +144,7 @@ export class Bot {
           }
         }),
       );
+      await this.addExtraImages(batch, files);
       const embeds = batch.map((item) => item.embed);
       try {
         await channel.send({ embeds, files });
@@ -146,6 +155,30 @@ export class Bot {
         );
         for (const embed of embeds) embed.setImage(null).setThumbnail(null);
         await channel.send({ embeds });
+      }
+    }
+  }
+
+  // preostale fotke z oglasa; Discord jih pod sporočilom pokaže kot predoglede,
+  // zato ne rabijo svojega embeda. Pri več oglasih naenkrat prostora zmanjka in to je v redu.
+  private async addExtraImages(
+    batch: EmbedItem[],
+    files: AttachmentBuilder[],
+  ): Promise<void> {
+    const extras: string[] = [];
+    for (let round = 0; round < EXTRA_IMAGES_PER_LISTING; round++) {
+      // po eno na oglas na krog, da pri več oglasih ne dobi vseh slotov prvi
+      for (const item of batch) {
+        const image = item.extraImages?.[round];
+        if (image) extras.push(image);
+      }
+    }
+    for (const image of extras.slice(0, MAX_PER_MESSAGE - files.length)) {
+      try {
+        const buffer = await this.fetcher.fetchImage(image);
+        files.push(new AttachmentBuilder(buffer, { name: `fotka-${files.length}.jpg` }));
+      } catch {
+        // dodatne fotke so bonus; brez njih gre sporočilo naprej
       }
     }
   }
