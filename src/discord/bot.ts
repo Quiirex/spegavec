@@ -155,8 +155,9 @@ export class Bot {
     }
   }
 
-  // nalaganje priponk občasno crkne (Discord zapre povezavo sredi posla) in se čez nekaj
-  // časa samo od sebe popravi; slika je pol vrednosti obvestila, zato vztrajamo
+  // Nalaganje priponk proti Discordu občasno odpove v oknih po nekaj minut (povezava se zapre
+  // po 15 s, curl in Node v istem trenutku enkrat uspeta, drugič ne). Zato so razmiki dolgi:
+  // gosti poskusi padejo vsi v isto okno. Obhod je vsakih 30 min, tako da si čas lahko vzamemo.
   private async sendWithRetry(
     channel: SendableChannels,
     embeds: EmbedBuilder[],
@@ -166,7 +167,7 @@ export class Bot {
       await channel.send({ embeds });
       return true;
     }
-    const delaysMs = [0, 10_000, 45_000];
+    const delaysMs = [0, 20_000, 60_000, 180_000];
     for (const [attempt, delay] of delaysMs.entries()) {
       if (delay > 0) await sleep(delay);
       try {
