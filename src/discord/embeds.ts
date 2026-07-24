@@ -42,7 +42,15 @@ export function newListingEmbed(
     const below = Math.round((1 - listing.pricePerM2 / medianPpm2) * 100);
     parts.push(`💸 **${below} % pod** mediano iskanja (${eur.format(medianPpm2)}/m²)`);
   }
-  if (listing.description) parts.push(listing.description.slice(0, 300));
+  // Discord dovoli 4096 znakov opisa; pustimo zrak za vrstico o dobrem poslu
+  if (listing.description) {
+    const limit = 1800;
+    parts.push(
+      listing.description.length > limit
+        ? `${listing.description.slice(0, limit).trimEnd()}…`
+        : listing.description,
+    );
+  }
   if (parts.length > 0) embed.setDescription(parts.join("\n\n"));
   if (listing.imageUrl) embed.setImage(listing.imageUrl);
   return embed;

@@ -1,10 +1,11 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { parseSearchPage } from "../src/scraper/parser.js";
+import { parseListingDescription, parseSearchPage } from "../src/scraper/parser.js";
 import { buildSearchUrl, normalizeWatchUrl, pageUrl } from "../src/scraper/urlBuilder.js";
 
 const searchPage = readFileSync(new URL("./fixtures/search-page.html", import.meta.url), "utf8");
 const emptyPage = readFileSync(new URL("./fixtures/empty-page.html", import.meta.url), "utf8");
+const listingPage = readFileSync(new URL("./fixtures/listing-page.html", import.meta.url), "utf8");
 
 describe("parseSearchPage", () => {
   it("prebere vse oglase na polni strani rezultatov", () => {
@@ -43,6 +44,26 @@ describe("parseSearchPage", () => {
 
   it("vrne nič oglasov na prazni strani", () => {
     expect(parseSearchPage(emptyPage)).toHaveLength(0);
+  });
+});
+
+describe("parseListingDescription", () => {
+  it("pobere cel opis s strani oglasa in ohrani odstavke", () => {
+    const description = parseListingDescription(listingPage);
+    expect(description).toContain("Prodamo 4-sobni duplex");
+    expect(description).toContain("Pred stavbo sta dve parkirni mesti.");
+    expect(description).toContain("Ogrevanje: daljinsko");
+    expect(description).toMatch(/\n/);
+    // izsek na iskalni strani je odrezan pri ~120 znakih, tu pricakujemo bistveno vec
+    expect(description!.length).toBeGreaterThan(200);
+  });
+
+  it("ne pusti trojnih preskokov vrstic", () => {
+    expect(parseListingDescription(listingPage)).not.toMatch(/\n{3,}/);
+  });
+
+  it("vrne null, ko opisa ni", () => {
+    expect(parseListingDescription(emptyPage)).toBeNull();
   });
 });
 
