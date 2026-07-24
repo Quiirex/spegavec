@@ -9,6 +9,7 @@ import {
   type EmbedBuilder,
   type SendableChannels,
 } from 'discord.js';
+import { Agent, fetch as undiciFetch } from 'undici';
 import type { Config } from '../config.js';
 import type { Poller } from '../core/poller.js';
 import type { PollResult, SearchFilters, Watch } from '../core/types.js';
@@ -156,9 +157,10 @@ export class Bot {
     }
   }
 
-  // Priponke gredo mimo Clientove povezave: v dolgo živečem procesu se velik POST na njej
-  // zatakne in ga Discord po 15 s zapre, medtem ko sveža povezava isto sliko naloži v pol
-  // sekunde. Vsak poskus zato dobi svoj REST, razmiki pa rastejo, če je težava vztrajna.
+  // V dolgo živečem procesu se v skupnem undici bazenu ena povezava proti Discordu pokvari:
+  // majhne zahteve gredo skozi, velik POST s priponko pa obvisi in ga Discord po 15 s zapre.
+  // Nov REST tega ne reši, ker vsi delijo isti globalni bazen; isti upload iz svežega procesa
+  // steče v pol sekunde. Zato dobi vsak poskus svoj Agent, ki ga potem zapremo.
   private async uploadWithRetry(
     channelId: string,
     embeds: EmbedBuilder[],
@@ -167,8 +169,15 @@ export class Bot {
     const delaysMs = [0, 15_000, 60_000];
     for (const [attempt, delay] of delaysMs.entries()) {
       if (delay > 0) await sleep(delay);
+      const agent = new Agent({ connections: 1, keepAliveTimeout: 1, keepAliveMaxTimeout: 1 });
       try {
-        const rest = new REST({ timeout: 45_000, retries: 0 }).setToken(this.config.discordToken);
+        const rest = new REST({
+          timeout: 45_000,
+          retries: 0,
+          // discord.js nosi svoje undici tipe, zato tu ni druge kot cast
+          makeRequest: ((url: string, init: unknown) =>
+            undiciFetch(url, { ...(init as object), dispatcher: agent })) as never,
+        }).setToken(this.config.discordToken);
         await rest.post(Routes.channelMessages(channelId), {
           body: { embeds: embeds.map((embed) => embed.toJSON()) },
           files,
@@ -178,6 +187,8 @@ export class Bot {
         log.warn(
           `nalaganje slik ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
         );
+      } finally {
+        void agent.close().catch(() => undefined);
       }
     }
     return false;
