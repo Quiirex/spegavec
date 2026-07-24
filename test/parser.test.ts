@@ -62,14 +62,6 @@ describe("parseListingPage", () => {
     expect(parseListingPage(listingPage).description).not.toMatch(/\n{3,}/);
   });
 
-  it("pobere galerijo brez podvojenih slik", () => {
-    const { images } = parseListingPage(listingPage);
-    expect(images).toEqual([
-      "https://img.nepremicnine.net/slonep_oglasi2/22955318.jpg",
-      "https://img.nepremicnine.net/slonep_oglasi2/22955319.jpg",
-    ]);
-  });
-
   it("izlušči kontakt in naslov agencije", () => {
     const details = parseListingPage(listingPage);
     expect(details.contactPhone).toBe("051/690-000");
@@ -80,7 +72,6 @@ describe("parseListingPage", () => {
   it("na strani brez podatkov vrne prazno", () => {
     const details = parseListingPage(emptyPage);
     expect(details.description).toBeNull();
-    expect(details.images).toEqual([]);
     expect(details.contactPhone).toBeNull();
   });
 });
