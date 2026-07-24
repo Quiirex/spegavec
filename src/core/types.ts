@@ -16,6 +16,16 @@ export interface Listing {
   description: string | null;
   imageUrl: string | null;
   agency: string | null;
+  // pobrano s strani oglasa ob obvestilu, zato ni v bazi (iskalna stran tega nima)
+  details?: ListingDetails;
+}
+
+export interface ListingDetails {
+  description: string | null;
+  images: string[];
+  contactName: string | null;
+  contactPhone: string | null;
+  agencyAddress: string | null;
 }
 
 export interface Watch {

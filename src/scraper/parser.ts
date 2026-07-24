@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import type { Listing } from '../core/types.js';
+import type { Listing, ListingDetails } from '../core/types.js';
 
 const AD_ID_PATTERN = /_(\d+)\/?$/;
 
@@ -17,9 +17,31 @@ function cleanText(text: string | undefined): string | null {
   return cleaned ? cleaned : null;
 }
 
-// izsek na iskalni strani je odrezan pri ~120 znakih, cel opis je samo na strani oglasa
-export function parseListingDescription(html: string): string | null {
+// iskalna stran da samo odrezan izsek in eno sliko; ostalo je na strani oglasa
+export function parseListingPage(html: string): ListingDetails {
   const $ = cheerio.load(html);
+
+  const images: string[] = [];
+  $('.single-property-slider img, .img-property img').each((_, el) => {
+    const src = el.attribs['data-src'] ?? el.attribs.src;
+    if (src?.includes('slonep_oglasi') && !images.includes(src)) images.push(src);
+  });
+
+  const phoneLink = $("a[href^='tel:']").first();
+  const phone = cleanText(phoneLink.attr('href')?.replace(/^tel:/, ''));
+  // napis je oblike "041/123-456 (Jasmina Bratož)"
+  const contactName = cleanText(/\(([^)]+)\)/.exec(phoneLink.text())?.[1]);
+
+  return {
+    description: parseListingDescription($),
+    images,
+    contactName,
+    contactPhone: phone,
+    agencyAddress: cleanText($('.category-property .agent-info p').first().text()),
+  };
+}
+
+function parseListingDescription($: cheerio.CheerioAPI): string | null {
   const box = $("div[itemprop='disambiguatingDescription']").first();
   if (box.length === 0) return null;
 
