@@ -9,7 +9,7 @@ import {
   type EmbedBuilder,
   type SendableChannels,
 } from 'discord.js';
-import { Agent, fetch as undiciFetch } from 'undici';
+import { Agent, FormData as UndiciFormData, fetch as undiciFetch } from 'undici';
 import type { Config } from '../config.js';
 import type { Poller } from '../core/poller.js';
 import type { PollResult, SearchFilters, Watch } from '../core/types.js';
@@ -171,22 +171,24 @@ export class Bot {
       if (delay > 0) await sleep(delay);
       const agent = new Agent({ connections: 1, keepAliveTimeout: 1, keepAliveMaxTimeout: 1 });
       try {
-        const rest = new REST({
-          timeout: 45_000,
-          retries: 0,
-          // discord.js nosi svoje undici tipe, zato tu ni druge kot cast
-          makeRequest: ((url: string, init: unknown) =>
-            undiciFetch(url, { ...(init as object), dispatcher: agent })) as never,
-        }).setToken(this.config.discordToken);
-        await rest.post(Routes.channelMessages(channelId), {
-          body: {
-            embeds: embeds.map((embed) => embed.toJSON()),
-            // channel.send to doda sam, surovi REST pa ne; brez tega Discord vrne Invalid Form Body
-            attachments: files.map((file, index) => ({ id: index, filename: file.name })),
-          },
-          files,
+        // zahtevo sestavimo sami: discord.js nosi svojo kopijo undicija in njegovega FormData
+        // naš undici ne prepozna kot multipart, zato Discord vrne CONTENT_TYPE_INVALID
+        const form = new UndiciFormData();
+        form.append('payload_json', JSON.stringify({ embeds: embeds.map((e) => e.toJSON()) }));
+        files.forEach((file, index) => {
+          form.append(`files[${index}]`, new Blob([file.data], { type: 'image/jpeg' }), file.name);
         });
-        return true;
+        const response = await undiciFetch(
+          `https://discord.com/api/v10/channels/${channelId}/messages`,
+          {
+            method: 'POST',
+            headers: { authorization: `Bot ${this.config.discordToken}` },
+            body: form,
+            dispatcher: agent,
+          },
+        );
+        if (response.ok) return true;
+        throw new Error(`HTTP ${response.status}: ${(await response.text()).slice(0, 150)}`);
       } catch (error) {
         log.warn(
           `nalaganje slik ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
