@@ -32,6 +32,10 @@ interface EmbedItem {
 // Discord dovoli 10 embedov in 10 priponk na sporočilo
 const MAX_PER_MESSAGE = 10;
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const EUR = new Intl.NumberFormat('sl-SI', {
   style: 'currency',
   currency: 'EUR',
@@ -48,7 +52,11 @@ export class Bot {
     private readonly fetcher: Fetcher,
     private readonly getPoller: () => Poller,
   ) {
-    this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
+    this.client = new Client({
+      intents: [GatewayIntentBits.Guilds],
+      // privzetih 15 s je pretesnih za nalaganje slik z domače povezave
+      rest: { timeout: 45_000 },
+    });
     this.client.on('interactionCreate', (interaction) => {
       if (interaction.isChatInputCommand()) {
         void this.handleCommand(interaction).catch((error) => {
@@ -139,17 +147,38 @@ export class Bot {
         }),
       );
       const embeds = batch.map((item) => item.embed);
+      if (await this.sendWithRetry(channel, embeds, files)) continue;
+      // brez slik je bolje kot brez obvestila
+      log.warn('slik ne morem naložit, pošiljam obvestilo brez njih');
+      for (const embed of embeds) embed.setImage(null).setThumbnail(null);
+      await channel.send({ embeds });
+    }
+  }
+
+  // nalaganje priponk občasno crkne (Discord zapre povezavo sredi posla) in se čez nekaj
+  // časa samo od sebe popravi; slika je pol vrednosti obvestila, zato vztrajamo
+  private async sendWithRetry(
+    channel: SendableChannels,
+    embeds: EmbedBuilder[],
+    files: AttachmentBuilder[],
+  ): Promise<boolean> {
+    if (files.length === 0) {
+      await channel.send({ embeds });
+      return true;
+    }
+    const delaysMs = [0, 10_000, 45_000];
+    for (const [attempt, delay] of delaysMs.entries()) {
+      if (delay > 0) await sleep(delay);
       try {
         await channel.send({ embeds, files });
+        return true;
       } catch (error) {
-        // brez priponk je bolje kot brez obvestila
         log.warn(
-          `pošiljanje s priponkami ni šlo (${error instanceof Error ? error.message : error}), pošiljam brez slik`,
+          `pošiljanje s slikami ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
         );
-        for (const embed of embeds) embed.setImage(null).setThumbnail(null);
-        await channel.send({ embeds });
       }
     }
+    return false;
   }
 
   private async fetchSendable(
