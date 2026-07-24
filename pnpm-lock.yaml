@@ -20,6 +20,9 @@ importers:
       impit:
         specifier: ^0.14.3
         version: 0.14.3
+      undici:
+        specifier: ^8.9.0
+        version: 8.9.0
     devDependencies:
       '@types/node':
         specifier: ^24.13.2
