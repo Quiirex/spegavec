@@ -22,7 +22,6 @@ export interface Listing {
 
 export interface ListingDetails {
   description: string | null;
-  images: string[];
   contactName: string | null;
   contactPhone: string | null;
   agencyAddress: string | null;

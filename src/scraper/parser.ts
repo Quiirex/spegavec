@@ -21,12 +21,6 @@ function cleanText(text: string | undefined): string | null {
 export function parseListingPage(html: string): ListingDetails {
   const $ = cheerio.load(html);
 
-  const images: string[] = [];
-  $('.single-property-slider img, .img-property img').each((_, el) => {
-    const src = el.attribs['data-src'] ?? el.attribs.src;
-    if (src?.includes('slonep_oglasi') && !images.includes(src)) images.push(src);
-  });
-
   const phoneLink = $("a[href^='tel:']").first();
   const phone = cleanText(phoneLink.attr('href')?.replace(/^tel:/, ''));
   // napis je oblike "041/123-456 (Jasmina Bratož)"
@@ -34,7 +28,6 @@ export function parseListingPage(html: string): ListingDetails {
 
   return {
     description: parseListingDescription($),
-    images,
     contactName,
     contactPhone: phone,
     agencyAddress: cleanText($('.category-property .agent-info p').first().text()),
