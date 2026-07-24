@@ -17,6 +17,29 @@ function cleanText(text: string | undefined): string | null {
   return cleaned ? cleaned : null;
 }
 
+// izsek na iskalni strani je odrezan pri ~120 znakih, cel opis je samo na strani oglasa
+export function parseListingDescription(html: string): string | null {
+  const $ = cheerio.load(html);
+  const box = $("div[itemprop='disambiguatingDescription']").first();
+  if (box.length === 0) return null;
+
+  // brez tega se odstavki zlijejo v eno kepo besedila
+  box.find('br').replaceWith('\n');
+  box.find('p, div, li').each((_, node) => {
+    $(node).after('\n');
+  });
+
+  const text = box
+    .text()
+    .replace(/[ \t ]+/g, ' ')
+    .split('\n')
+    .map((line) => line.trim())
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  return text ? text : null;
+}
+
 export function parseSearchPage(
   html: string,
   baseUrl = 'https://www.nepremicnine.net',
