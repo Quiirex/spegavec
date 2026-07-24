@@ -179,7 +179,11 @@ export class Bot {
             undiciFetch(url, { ...(init as object), dispatcher: agent })) as never,
         }).setToken(this.config.discordToken);
         await rest.post(Routes.channelMessages(channelId), {
-          body: { embeds: embeds.map((embed) => embed.toJSON()) },
+          body: {
+            embeds: embeds.map((embed) => embed.toJSON()),
+            // channel.send to doda sam, surovi REST pa ne; brez tega Discord vrne Invalid Form Body
+            attachments: files.map((file, index) => ({ id: index, filename: file.name })),
+          },
           files,
         });
         return true;
