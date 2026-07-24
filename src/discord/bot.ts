@@ -1,5 +1,4 @@
 import {
-  AttachmentBuilder,
   ChannelType,
   ChatInputCommandInteraction,
   Client,
@@ -124,14 +123,14 @@ export class Bot {
     if (!channel) return;
     for (let i = 0; i < items.length; i += MAX_PER_MESSAGE) {
       const batch = items.slice(i, i + MAX_PER_MESSAGE);
-      const files: AttachmentBuilder[] = [];
+      const files: { name: string; data: Buffer }[] = [];
       await Promise.all(
         batch.map(async (item, j) => {
           if (!item.imageUrl) return;
           try {
             const buffer = await this.fetcher.fetchImage(item.imageUrl);
             const name = `oglas-${i + j}.jpg`;
-            files.push(new AttachmentBuilder(buffer, { name }));
+            files.push({ name, data: buffer });
             const ref = `attachment://${name}`;
             if (item.thumb) item.embed.setThumbnail(ref);
             else item.embed.setImage(ref);
@@ -147,35 +146,37 @@ export class Bot {
         }),
       );
       const embeds = batch.map((item) => item.embed);
-      if (await this.sendWithRetry(channel, embeds, files)) continue;
-      // brez slik je bolje kot brez obvestila
-      log.warn('slik ne morem naložit, pošiljam obvestilo brez njih');
-      for (const embed of embeds) embed.setImage(null).setThumbnail(null);
+      if (files.length > 0 && (await this.uploadWithRetry(channelId, embeds, files))) continue;
+      if (files.length > 0) {
+        // brez slik je bolje kot brez obvestila
+        log.warn('slik ne morem naložit, pošiljam obvestilo brez njih');
+        for (const embed of embeds) embed.setImage(null).setThumbnail(null);
+      }
       await channel.send({ embeds });
     }
   }
 
-  // Nalaganje priponk proti Discordu občasno odpove v oknih po nekaj minut (povezava se zapre
-  // po 15 s, curl in Node v istem trenutku enkrat uspeta, drugič ne). Zato so razmiki dolgi:
-  // gosti poskusi padejo vsi v isto okno. Obhod je vsakih 30 min, tako da si čas lahko vzamemo.
-  private async sendWithRetry(
-    channel: SendableChannels,
+  // Priponke gredo mimo Clientove povezave: v dolgo živečem procesu se velik POST na njej
+  // zatakne in ga Discord po 15 s zapre, medtem ko sveža povezava isto sliko naloži v pol
+  // sekunde. Vsak poskus zato dobi svoj REST, razmiki pa rastejo, če je težava vztrajna.
+  private async uploadWithRetry(
+    channelId: string,
     embeds: EmbedBuilder[],
-    files: AttachmentBuilder[],
+    files: { name: string; data: Buffer }[],
   ): Promise<boolean> {
-    if (files.length === 0) {
-      await channel.send({ embeds });
-      return true;
-    }
-    const delaysMs = [0, 20_000, 60_000, 180_000];
+    const delaysMs = [0, 15_000, 60_000];
     for (const [attempt, delay] of delaysMs.entries()) {
       if (delay > 0) await sleep(delay);
       try {
-        await channel.send({ embeds, files });
+        const rest = new REST({ timeout: 45_000, retries: 0 }).setToken(this.config.discordToken);
+        await rest.post(Routes.channelMessages(channelId), {
+          body: { embeds: embeds.map((embed) => embed.toJSON()) },
+          files,
+        });
         return true;
       } catch (error) {
         log.warn(
-          `pošiljanje s slikami ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
+          `nalaganje slik ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
         );
       }
     }
