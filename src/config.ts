@@ -11,14 +11,14 @@ function optionalInt(name: string, fallback: number): number {
   if (!raw) return fallback;
   const parsed = Number.parseInt(raw, 10);
   if (Number.isNaN(parsed) || parsed <= 0) {
-    throw new Error(`Spremenljivka ${name} mora bit pozitivno celo število, dobil pa "${raw}"`);
+    throw new Error(`Spremenljivka ${name} mora biti pozitivno celo število, dobil pa "${raw}"`);
   }
   return parsed;
 }
 
 export interface Config {
   discordToken: string;
-  // brez guild ID-ja se ukazi registrirajo globalno in rabijo do ~1h, da se prikažejo
+  // brez guild ID-ja se ukazi registrirajo globalno in se prikažejo šele v ~1h
   discordGuildId: string | undefined;
   pollMinutes: number;
   dbPath: string;

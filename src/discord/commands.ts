@@ -60,7 +60,7 @@ export function buildCommands() {
     .addSubcommand((sub) => {
       sub
         .setName("sestavi")
-        .setDescription("Sestavi iskanje iz filtrov, brez da zapustiš Discord")
+        .setDescription("Sestavi iskanje iz filtrov, ne da bi zapustil Discord")
         .addStringOption((opt) =>
           opt.setName("ime").setDescription("Kratko unikatno ime iskanja").setRequired(true),
         )

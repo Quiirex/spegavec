@@ -21,7 +21,7 @@ export class HttpError extends Error {
 const BLOCK_MARKERS = ['Just a moment', 'challenges.cloudflare.com', 'cf-chl'];
 
 function looksBlocked(html: string): boolean {
-  // challenge stran je majhna; prave rezultate ne smemo zamenjat za blokado, če kje noter omenjajo Cloudflare
+  // challenge stran je majhna; pravih rezultatov ne smemo zamenjati za blokado, če kje v vsebini omenjajo Cloudflare
   return (
     html.length < 30_000 &&
     BLOCK_MARKERS.some((marker) => html.includes(marker))

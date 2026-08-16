@@ -61,7 +61,7 @@ export class Bot {
       if (interaction.isChatInputCommand()) {
         void this.handleCommand(interaction).catch((error) => {
           log.error(
-            `ukaz crkno: ${error instanceof Error ? error.message : error}`,
+            `ukaz ni uspel: ${error instanceof Error ? error.message : error}`,
           );
         });
       } else if (interaction.isAutocomplete()) {
@@ -141,7 +141,7 @@ export class Bot {
             if (item.thumb) item.embed.setThumbnail(null);
             else item.embed.setImage(null);
             log.warn(
-              `slike ${item.imageUrl} ni bilo mogoče pobrat: ${error instanceof Error ? error.message : error}`,
+              `slike ${item.imageUrl} ni bilo mogoče pobrati: ${error instanceof Error ? error.message : error}`,
             );
           }
         }),
@@ -150,7 +150,7 @@ export class Bot {
       if (files.length > 0 && (await this.uploadWithRetry(channelId, embeds, files))) continue;
       if (files.length > 0) {
         // brez slik je bolje kot brez obvestila
-        log.warn('slik ne morem naložit, pošiljam obvestilo brez njih');
+        log.warn('slik ne morem naložiti, pošiljam obvestilo brez njih');
         for (const embed of embeds) embed.setImage(null).setThumbnail(null);
       }
       await channel.send({ embeds });
@@ -260,7 +260,7 @@ export class Bot {
     const stored = id ? this.listings.getListing(watch.id, id) : null;
     if (!stored) {
       await interaction.reply({
-        content: `Oglasa **${raw}** ni v iskanju **${name}**. Daj ID (npr. 7355533) ali poln URL oglasa.`,
+        content: `Oglasa **${raw}** ni v iskanju **${name}**. Podaj ID (npr. 7355533) ali poln URL oglasa.`,
         ephemeral: true,
       });
       return;
@@ -337,7 +337,7 @@ export class Bot {
     if (!WATCH_NAME_PATTERN.test(name)) {
       await interaction.reply({
         content:
-          'Ime iskanja mora bit 1-32 znakov: črke, številke, `_` ali `-`.',
+          'Ime iskanja mora biti 1-32 znakov: črke, številke, `_` ali `-`.',
         ephemeral: true,
       });
       return;
@@ -352,7 +352,7 @@ export class Bot {
     if (interaction.channel?.type !== ChannelType.GuildText) {
       await interaction.reply({
         content:
-          'Poženi to v navadnem tekstovnem kanalu — tja bojo padala obvestila.',
+          'Poženi to v navadnem tekstovnem kanalu — tja bodo padala obvestila.',
         ephemeral: true,
       });
       return;
@@ -372,7 +372,7 @@ export class Bot {
       return;
     }
 
-    // preverjanje URL-ja rabi pravo poizvedbo, kar lahko traja dlje od Discordovih 3s
+    // preverjanje URL-ja zahteva pravo poizvedbo, kar lahko traja dlje od Discordovih 3s
     await interaction.deferReply();
     let count: number;
     try {
@@ -380,7 +380,7 @@ export class Bot {
       count = parseSearchPage(html).length;
     } catch (error) {
       await interaction.editReply(
-        `Tega iskanja nisem mogel naložit (${error instanceof Error ? error.message : error}). Iskanje ni shranjeno.`,
+        `Tega iskanja nisem mogel naložiti (${error instanceof Error ? error.message : error}). Iskanje ni shranjeno.`,
       );
       return;
     }
@@ -390,9 +390,9 @@ export class Bot {
       [
         `Iskanje **${name}** shranjeno — trenutno ustreza **${count}${count >= 25 ? '+' : ''}** oglasom.`,
         `URL: <${url}>`,
-        `Obvestila bojo padala v ta kanal vsakih ~${this.config.pollMinutes} min. Prvi obhod samo posname trenutno stanje (brez spama).`,
+        `Obvestila bodo padala v ta kanal vsakih ~${this.config.pollMinutes} min. Prvi obhod samo posname trenutno stanje (brez spama).`,
         count === 0
-          ? '⚠️ Trenutno 0 zadetkov — če si pričakoval kaj, prever filtre.'
+          ? '⚠️ Trenutno 0 zadetkov — če si pričakoval kaj, preveri filtre.'
           : null,
       ]
         .filter(Boolean)
