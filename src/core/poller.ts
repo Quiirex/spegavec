@@ -16,7 +16,7 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// ko nas Cloudflare začne blokirat, se umaknemo (eksponentno)
+// ko nas Cloudflare začne blokirati, se umaknemo (eksponentno)
 export class Poller {
   private timer: NodeJS.Timeout | null = null;
   private running = false;
@@ -79,7 +79,7 @@ export class Poller {
   }
 
   // en dodaten obisk na nov oglas: iskalna stran da samo odrezan izsek in eno sliko.
-  // varovalka pri 15, da nas kak nenavadno velik val novih oglasov ne pusti pol ure na strani
+  // varovalka pri 15, da nas kakšen nenavadno velik val novih oglasov ne pusti pol ure na strani
   private async addListingDetails(listings: Listing[]): Promise<void> {
     for (const listing of listings.slice(0, 15)) {
       try {
@@ -118,7 +118,7 @@ export class Poller {
               this.blockedSince = new Date();
               await this.events.onBlocked(watch);
             }
-            break; // nima smisla tolč po strani, dokler smo blokirani
+            break; // nima smisla tolči po strani, dokler smo blokirani
           }
           const err = error instanceof Error ? error : new Error(String(error));
           this.watches.recordPoll(watch.id, `napaka: ${err.message}`);
@@ -136,7 +136,7 @@ export class Poller {
   private scheduleNext(overrideMs?: number): void {
     if (this.timer) clearTimeout(this.timer);
     const baseMs = this.intervalMinutes * 60_000;
-    // do 8x umik ob blokadi; jitter ±20%, da obhodi ne zgledajo ko cron
+    // do 8x umik ob blokadi; jitter ±20%, da obhodi niso videti kot cron
     const backoff = Math.min(2 ** this.consecutiveBlocks, 8);
     const jitter = 0.8 + Math.random() * 0.4;
     const delay = overrideMs ?? baseMs * backoff * jitter;

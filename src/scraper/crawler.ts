@@ -39,7 +39,7 @@ export async function crawlSearch(
       byId.set(listing.id, listing);
     }
     log.debug(`${tag}stran ${page}: ${listings.length} oglasov (skupaj ${byId.size})`);
-    // kratka stran pomeni zadnjo stran, nima smisla naprej tečt
+    // kratka stran pomeni zadnjo stran, naprej nima smisla
     if (listings.length < 20) break;
   }
 

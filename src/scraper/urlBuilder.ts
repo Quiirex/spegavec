@@ -9,7 +9,7 @@ function rangeSegment(unit: string, min?: number, max?: number): string | null {
   return null;
 }
 
-// sestavljeno tak, kot to dela iskalnik na strani: segmenti v poti, filtri pa z vejico skupaj
+// sestavljeno tako, kot to počne iskalnik na strani: segmenti v poti, filtri pa z vejico skupaj
 // npr. .../stanovanje/2-sobno/cena-od-100000-do-250000-eur,velikost-od-50-do-80-m2/
 export function buildSearchUrl(filters: SearchFilters): string {
   const parts = [`oglasi-${filters.deal}`, filters.region, filters.type];

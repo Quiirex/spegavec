@@ -29,7 +29,7 @@ async function main(): Promise<void> {
       await bot.notify(result);
     },
     onBlocked: async (watch) => {
-      // brez obvestila v kanal: blokade so prehodne in same od sebe minejo, spamat uporabnika nima smisla
+      // brez obvestila v kanal: blokade so prehodne in same od sebe minejo, spamati uporabnika nima smisla
       // stanje vidiš v /status (🔴) in v logih
       log.debug(`"${watch.name}" blokiran (Cloudflare), tiho se umikam`);
     },

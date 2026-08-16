@@ -23,7 +23,7 @@ export function parseListingPage(html: string): ListingDetails {
 
   const phoneLink = $("a[href^='tel:']").first();
   const phone = cleanText(phoneLink.attr('href')?.replace(/^tel:/, ''));
-  // napis je oblike "041/123-456 (Jasmina Bratož)"
+  // napis je oblike "041/123-456 (Janez Novak)"
   const contactName = cleanText(/\(([^)]+)\)/.exec(phoneLink.text())?.[1]);
 
   return {
@@ -80,7 +80,7 @@ export function parseSearchPage(
       cleanText(details.find('a.url-title-d').attr('title')) ??
       cleanText(details.find('h2').first().text());
 
-    // izgleda ko "Prodaja: Stanovanje, <span class=tipi>2-sobno</span>"
+    // oblika: "Prodaja: Stanovanje, <span class=tipi>2-sobno</span>"
     const typeLine = cleanText(details.find('span.font-roboto').first().text());
     const typeMatch = typeLine ? /^([^:]+):\s*([^,]+)/.exec(typeLine) : null;
     const rooms = cleanText(details.find('span.tipi').first().text());
