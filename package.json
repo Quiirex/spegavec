@@ -5,6 +5,7 @@
   "type": "module",
   "private": true,
   "author": "Luka Mlinarič Fekonja",
+  "license": "MIT",
   "engines": {
     "node": ">=24"
   },
