@@ -54,7 +54,7 @@ describe("parseListingPage", () => {
     expect(description).toContain("Pred stavbo sta dve parkirni mesti.");
     expect(description).toContain("Ogrevanje: daljinsko");
     expect(description).toMatch(/\n/);
-    // izsek na iskalni strani je odrezan pri ~120 znakih, tu pricakujemo bistveno vec
+    // izsek na iskalni strani je odrezan pri ~120 znakih, tu pričakujemo bistveno več
     expect(description!.length).toBeGreaterThan(200);
   });
 
@@ -64,8 +64,8 @@ describe("parseListingPage", () => {
 
   it("izlušči kontakt in naslov agencije", () => {
     const details = parseListingPage(listingPage);
-    expect(details.contactPhone).toBe("051/690-000");
-    expect(details.contactName).toBe("Jasmina Bratož");
+    expect(details.contactPhone).toBe("041/123-456");
+    expect(details.contactName).toBe("Janez Novak");
     expect(details.agencyAddress).toBe("Tivolska 48, 1000 Ljubljana");
   });
 
