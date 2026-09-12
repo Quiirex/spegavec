@@ -17,7 +17,7 @@ import { log } from '../log.js';
 import type { Fetcher } from '../scraper/fetcher.js';
 import { parseSearchPage } from '../scraper/parser.js';
 import { buildSearchUrl, normalizeWatchUrl } from '../scraper/urlBuilder.js';
-import type { ListingRepo, WatchRepo } from '../store/repo.js';
+import type { ListingRepo, RecapStats, WatchRepo } from '../store/repo.js';
 import { buildCommands, REGIONS } from './commands.js';
 import { newListingEmbed, priceChangeEmbed, relistedEmbed } from './embeds.js';
 
@@ -31,6 +31,25 @@ interface EmbedItem {
 
 // Discord dovoli 10 embedov in 10 priponk na sporočilo
 const MAX_PER_MESSAGE = 10;
+
+const RECAP_PERIODS = {
+  teden: { days: 7, label: 'teden' },
+  mesec: { days: 30, label: 'mesec' },
+  leto: { days: 365, label: 'leto' },
+} as const;
+
+// smer cen: najprej iz dejanskih sprememb cen, sicer iz mediane novih oglasov proti prejšnjemu obdobju
+function priceTrend(s: RecapStats): string {
+  let signal: number | null = null;
+  if (s.avgChangePct !== null) signal = s.avgChangePct;
+  else if (s.medianPpm2New !== null && s.medianPpm2Prev !== null) {
+    signal = ((s.medianPpm2New - s.medianPpm2Prev) / s.medianPpm2Prev) * 100;
+  }
+  if (signal === null) return 'premalo podatkov';
+  if (signal <= -1) return '📉 padajo';
+  if (signal >= 1) return '📈 rastejo';
+  return '➡️ stabilne';
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -246,6 +265,8 @@ export class Bot {
         return this.handleStatus(interaction);
       case 'zgodovina':
         return this.handleZgodovina(interaction);
+      case 'povzetek':
+        return this.handleRecap(interaction);
     }
   }
 
@@ -494,6 +515,48 @@ export class Bot {
       }
     }
     await interaction.editReply(summaries.join('\n') || 'Ni aktivnih iskanj.');
+  }
+
+  private async handleRecap(
+    interaction: ChatInputCommandInteraction,
+  ): Promise<void> {
+    const period = (interaction.options.getString('obdobje') ?? 'teden') as keyof typeof RECAP_PERIODS;
+    const name = interaction.options.getString('ime');
+    const targets = name ? [this.watches.byName(name)] : this.watches.all();
+    if (name && !targets[0]) {
+      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
+      return;
+    }
+    if (targets.length === 0) {
+      await interaction.reply('Še ni nobenega iskanja.');
+      return;
+    }
+
+    const { days, label } = RECAP_PERIODS[period];
+    const now = Date.now();
+    const since = new Date(now - days * 86_400_000).toISOString();
+    const prevSince = new Date(now - 2 * days * 86_400_000).toISOString();
+    const pct = (value: number) => `${value > 0 ? '+' : value < 0 ? '−' : ''}${Math.abs(value).toFixed(1)} %`;
+
+    // ena vrstica na iskanje, samo številke
+    const blocks = (targets as Watch[]).map((watch) => {
+      const s = this.listings.recap(watch.id, since, prevSince);
+      const changes =
+        s.priceChanges === 0
+          ? '0 sprememb cene'
+          : `${s.priceChanges} sprememb cene (${s.drops} ↓ ${s.raises} ↑, povp. ${pct(s.avgChangePct!)})`;
+      return `**${watch.name}**: ${s.added} novih · ${s.removed} umaknjenih · ${changes} · cene ${priceTrend(s)}`;
+    });
+
+    // Discord dovoli 2000 znakov na sporočilo; pri več iskanjih pošljemo v več kosih
+    const chunks: string[] = [`📊 Povzetek za zadnji ${label} (od ${since.slice(0, 10)})`];
+    for (const block of blocks) {
+      const last = chunks[chunks.length - 1]!;
+      if (last.length + block.length + 2 > 1_900) chunks.push(block);
+      else chunks[chunks.length - 1] = `${last}\n${block}`;
+    }
+    await interaction.reply(chunks[0]!);
+    for (const chunk of chunks.slice(1)) await interaction.followUp(chunk);
   }
 
   private async handleStatus(

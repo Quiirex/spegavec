@@ -123,6 +123,7 @@ journalctl -u spegavec -f   # logi v živo
 | `/preveri [ime:]` | Naredi obhod takoj, brez čakanja na cikel. |
 | `/status` | Zdravje špegavca in zadnji obhod po iskanjih. |
 | `/zgodovina ime: oglas:` | Časovnica cene oglasa (oglas = ID ali poln URL). |
+| `/povzetek [obdobje:] [ime:]` | Povzetek za zadnji teden/mesec/leto: novi, umaknjeni, spremembe cen in smer cen. |
 
 Obvestila gredo v kanal, kjer si iskanje ustvaril. Prvi obhod novega iskanja samo tiho posname
 trenutno stanje, da te ne zasuje s starimi oglasi.

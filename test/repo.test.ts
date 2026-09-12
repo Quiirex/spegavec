@@ -126,6 +126,41 @@ describe("ListingRepo.applyCrawl", () => {
   });
 });
 
+describe("ListingRepo.recap", () => {
+  const longAgo = "2000-01-01T00:00:00.000Z";
+  const evenLonger = "1999-01-01T00:00:00.000Z";
+  const tick = () => new Promise((resolve) => setTimeout(resolve, 2));
+
+  it("sešteje nove, umaknjene in spremembe cene; izhodiščni posnetek ne šteje med nove", async () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000), listing("3", 300000)]);
+    await tick();
+    // 4 nov, 1 podražen, 2 pocenjen, 3 izgine
+    listings.applyCrawl(watch.id, [listing("1", 110000), listing("2", 180000), listing("4", 400000)]);
+    listings.applyCrawl(watch.id, [listing("1", 110000), listing("2", 180000), listing("4", 400000)]);
+
+    const s = listings.recap(watch.id, longAgo, evenLonger);
+    expect(s.added).toBe(1);
+    expect(s.removed).toBe(1);
+    expect(s.active).toBe(3);
+    expect(s.priceChanges).toBe(2);
+    expect(s.drops).toBe(1);
+    expect(s.raises).toBe(1);
+    expect(s.avgChangePct).toBeCloseTo(0, 5); // +10 % in −10 %
+  });
+
+  it("izven obdobja ne šteje nič", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    listings.applyCrawl(watch.id, [listing("1", 90000)]);
+    const s = listings.recap(watch.id, "2999-01-01T00:00:00.000Z", "2998-01-01T00:00:00.000Z");
+    expect(s.added).toBe(0);
+    expect(s.priceChanges).toBe(0);
+    expect(s.avgChangePct).toBeNull();
+    expect(s.medianPpm2New).toBeNull();
+  });
+});
+
 describe("WatchRepo", () => {
   it("ustavi, nadaljuje in odstrani iskanja", () => {
     const { watches } = setup();
