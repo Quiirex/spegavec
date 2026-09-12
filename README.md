@@ -124,6 +124,8 @@ journalctl -u spegavec -f   # logi v živo
 | `/status` | Zdravje špegavca in zadnji obhod po iskanjih. |
 | `/zgodovina ime: oglas:` | Časovnica cene oglasa (oglas = ID ali poln URL). |
 | `/povzetek [obdobje:] [ime:]` | Povzetek za zadnji teden/mesec/leto: novi, umaknjeni, spremembe cen in smer cen. |
+| `/posli ime: [stevilo:]` | Do 10 trenutno najcenejših aktivnih oglasov po €/m² glede na mediano iskanja. |
+| `/izvoz ime: [kaj:]` | CSV izvoz oglasov (`oglasi`) ali zgodovine cen (`cene`) kot priponka. |
 
 Obvestila gredo v kanal, kjer si iskanje ustvaril. Prvi obhod novega iskanja samo tiho posname
 trenutno stanje, da te ne zasuje s starimi oglasi.

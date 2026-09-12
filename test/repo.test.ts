@@ -161,6 +161,23 @@ describe("ListingRepo.recap", () => {
   });
 });
 
+describe("ListingRepo.listings / allPriceHistory", () => {
+  it("vrne vse ali samo aktivne oglase in celotno zgodovino cen", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
+    listings.applyCrawl(watch.id, [listing("1", 90000)]);
+    listings.applyCrawl(watch.id, [listing("1", 90000)]); // oglas 2 umaknjen
+
+    expect(listings.listings(watch.id).map((l) => l.id)).toEqual(["1", "2"]);
+    expect(listings.listings(watch.id, true).map((l) => l.id)).toEqual(["1"]);
+    expect(listings.listings(watch.id)[1]?.removedAt).not.toBeNull();
+
+    const history = listings.allPriceHistory(watch.id);
+    expect(history.map((h) => [h.listingId, h.price])).toEqual([["1", 100000], ["2", 200000], ["1", 90000]]);
+    expect(history[0]?.title).toBe("Listing 1");
+  });
+});
+
 describe("WatchRepo", () => {
   it("ustavi, nadaljuje in odstrani iskanja", () => {
     const { watches } = setup();

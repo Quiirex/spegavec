@@ -163,5 +163,28 @@ export function buildCommands() {
       opt.setName("ime").setDescription("Samo to iskanje (privzeto: vsa)").setAutocomplete(true),
     );
 
-  return [iskanje, preveri, status, zgodovina, povzetek].map((command) => command.toJSON());
+  const posli = new SlashCommandBuilder()
+    .setName("posli")
+    .setDescription("Trenutno najcenejši aktivni oglasi po €/m² glede na mediano iskanja")
+    .addStringOption((opt) =>
+      opt.setName("ime").setDescription("Ime iskanja").setRequired(true).setAutocomplete(true),
+    )
+    .addIntegerOption((opt) =>
+      opt.setName("stevilo").setDescription("Koliko oglasov (privzeto 5, največ 10)").setMinValue(1).setMaxValue(10),
+    );
+
+  const izvoz = new SlashCommandBuilder()
+    .setName("izvoz")
+    .setDescription("Izvozi podatke iskanja kot CSV")
+    .addStringOption((opt) =>
+      opt.setName("ime").setDescription("Ime iskanja").setRequired(true).setAutocomplete(true),
+    )
+    .addStringOption((opt) =>
+      opt
+        .setName("kaj")
+        .setDescription("Kaj izvoziti (privzeto: oglasi)")
+        .addChoices({ name: "oglasi", value: "oglasi" }, { name: "cene", value: "cene" }),
+    );
+
+  return [iskanje, preveri, status, zgodovina, povzetek, posli, izvoz].map((command) => command.toJSON());
 }
