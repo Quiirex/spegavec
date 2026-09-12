@@ -1,5 +1,5 @@
 import type { DatabaseSync } from "node:sqlite";
-import type { Listing, PriceChange, PriceHistoryEntry, Watch } from "../core/types.js";
+import type { Listing, PriceChange, PriceHistoryEntry, Relisted, Watch } from "../core/types.js";
 import { transaction } from "./db.js";
 
 // kolikokrat zapored mora oglas manjkati v zajemu, da ga štejemo za prodanega/umaknjenega
@@ -95,6 +95,7 @@ export interface DiffResult {
   newListings: Listing[];
   priceChanges: PriceChange[];
   removed: Listing[];
+  relisted: Relisted[];
 }
 
 interface ListingRow {
@@ -156,11 +157,11 @@ export class ListingRepo {
    */
   applyCrawl(watchId: number, listings: Listing[], detectRemovals = true): DiffResult {
     const now = new Date().toISOString();
-    const result: DiffResult = { newListings: [], priceChanges: [], removed: [] };
+    const result: DiffResult = { newListings: [], priceChanges: [], removed: [], relisted: [] };
     const crawledIds = new Set(listings.map((listing) => listing.id));
 
     const selectExisting = this.db.prepare(
-      "SELECT price FROM listings WHERE watch_id = ? AND listing_id = ?",
+      "SELECT price, removed_at FROM listings WHERE watch_id = ? AND listing_id = ?",
     );
     const insert = this.db.prepare(
       `INSERT INTO listings (
@@ -192,7 +193,7 @@ export class ListingRepo {
     transaction(this.db, () => {
       for (const listing of listings) {
         const existing = selectExisting.get(watchId, listing.id) as
-          | { price: number | null }
+          | { price: number | null; removed_at: string | null }
           | undefined;
 
         if (!existing) {
@@ -239,8 +240,16 @@ export class ListingRepo {
         const oldPrice = existing.price === null ? null : Number(existing.price);
         const priceChanged =
           listing.price !== null && oldPrice !== null && Math.abs(listing.price - oldPrice) >= 1;
-        if (priceChanged) {
-          insertPrice.run(watchId, listing.id, listing.price, now);
+        if (priceChanged) insertPrice.run(watchId, listing.id, listing.price, now);
+
+        // vrnjen oglas javimo enkrat, s staro ceno v istem obvestilu, ne še posebej kot spremembo cene
+        if (existing.removed_at !== null) {
+          result.relisted.push({
+            listing,
+            removedAt: existing.removed_at,
+            oldPrice: priceChanged ? oldPrice : null,
+          });
+        } else if (priceChanged) {
           result.priceChanges.push({
             listing,
             oldPrice: oldPrice!,

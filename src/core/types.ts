@@ -44,6 +44,14 @@ export interface PriceChange {
   newPrice: number;
 }
 
+// oglas, ki je bil označen za umaknjenega, pa se je spet pojavil v zajemu
+export interface Relisted {
+  listing: Listing;
+  removedAt: string;
+  // cena ob umiku, če se je medtem spremenila
+  oldPrice: number | null;
+}
+
 export interface PollResult {
   watch: Watch;
   // prvi obhod samo posname obstoječe oglase, da te ne zasuje
@@ -53,6 +61,8 @@ export interface PollResult {
   priceChanges: PriceChange[];
   // oglasi, ki so izginili (verjetno prodani/umaknjeni)
   removed: Listing[];
+  // prej umaknjeni oglasi, ki so spet na voljo
+  relisted: Relisted[];
   // mediana €/m² čez celoten zajem; podlaga za oznako "dober posel"
   medianPricePerM2: number | null;
 }

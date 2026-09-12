@@ -56,14 +56,14 @@ export class Poller {
       watch.id,
       seeded
         ? `posnel ${crawled.length} oglasov`
-        : `ok: ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih`,
+        : `ok: ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih, ${diff.relisted.length} vrnjenih`,
     );
     if (!seeded) await this.addListingDetails(diff.newListings);
     if (seeded) {
       log.info(`"${watch.name}": izhodišče posneto, ${crawled.length} oglasov (${secs}s)`);
     } else {
       log.info(
-        `"${watch.name}": ${crawled.length} oglasov, ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih (${secs}s)`,
+        `"${watch.name}": ${crawled.length} oglasov, ${diff.newListings.length} novih, ${diff.priceChanges.length} sprememb cene, ${diff.removed.length} umaknjenih, ${diff.relisted.length} vrnjenih (${secs}s)`,
       );
     }
     return {
@@ -73,6 +73,7 @@ export class Poller {
       newListings: seeded ? [] : diff.newListings,
       priceChanges: seeded ? [] : diff.priceChanges,
       removed: seeded ? [] : diff.removed,
+      relisted: seeded ? [] : diff.relisted,
       medianPricePerM2: medianPricePerM2(crawled),
     };
   }

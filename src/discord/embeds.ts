@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { isGoodDeal } from "../core/stats.js";
-import type { Listing, PriceChange, Watch } from "../core/types.js";
+import type { Listing, PriceChange, Relisted, Watch } from "../core/types.js";
 
 const eur = new Intl.NumberFormat("sl-SI", {
   style: "currency",
@@ -65,6 +65,24 @@ export function priceChangeEmbed(watch: Watch, change: PriceChange): EmbedBuilde
     .setURL(listing.url)
     .setDescription(`${eur.format(oldPrice)} → **${eur.format(newPrice)}** (${drop ? "−" : "+"}${pct} %)`)
     .addFields(listingFields(listing).filter((field) => field.name !== "Cena"))
+    .setTimestamp();
+  if (listing.imageUrl) embed.setThumbnail(listing.imageUrl);
+  return embed;
+}
+
+export function relistedEmbed(watch: Watch, relisted: Relisted): EmbedBuilder {
+  const { listing, removedAt, oldPrice } = relisted;
+  const lines = [`Umaknjen ${removedAt.slice(0, 10)}, zdaj spet na voljo.`];
+  if (oldPrice !== null && listing.price !== null) {
+    lines.push(`Cena prej ${eur.format(oldPrice)}, zdaj **${eur.format(listing.price)}**.`);
+  }
+  const embed = new EmbedBuilder()
+    .setColor(0x3498db)
+    .setAuthor({ name: `Spet na voljo · ${watch.name}` })
+    .setTitle(listing.title)
+    .setURL(listing.url)
+    .setDescription(lines.join("\n"))
+    .addFields(listingFields(listing))
     .setTimestamp();
   if (listing.imageUrl) embed.setThumbnail(listing.imageUrl);
   return embed;

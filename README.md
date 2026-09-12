@@ -33,7 +33,8 @@ Ob spremembi cene pride manjši embed: `240.000 € → 224.000 € (−6,7 %)`.
   eksponentno umakne.
 - Stanje v SQLite (`node:sqlite`, brez native odvisnosti): iskanja, videni oglasi, zgodovina cen.
 - Vsak oglas dobi **€/m²**; dovolj pod mediano iskanja ga označi kot **🟢 dober posel**. Oglas,
-  ki izgine za dva obhoda, se označi za **umaknjen/prodan**.
+  ki izgine za dva obhoda, se označi za **umaknjen/prodan**; če se pozneje vrne, dobiš
+  obvestilo **spet na voljo** (s staro ceno, če se je spremenila).
 
 ## Namestitev
 
