@@ -47,15 +47,8 @@ export function newListingEmbed(
     const below = Math.round((1 - listing.pricePerM2 / medianPpm2) * 100);
     parts.push(`💸 **${below} % pod** mediano iskanja (${eur.format(medianPpm2)}/m²)`);
   }
-  // Discord dovoli 4096 znakov opisa; pustimo zrak za vrstico o dobrem poslu
-  if (listing.description) {
-    const limit = 1800;
-    parts.push(
-      listing.description.length > limit
-        ? `${listing.description.slice(0, limit).trimEnd()}…`
-        : listing.description,
-    );
-  }
+  // kratek izsek opisa; cel opis je klik stran, embed pa naj ostane pregleden
+  if (listing.description) parts.push(excerpt(listing.description, 500));
   if (parts.length > 0) embed.setDescription(parts.join("\n\n"));
   if (listing.imageUrl) embed.setImage(listing.imageUrl);
   return embed;
@@ -75,4 +68,12 @@ export function priceChangeEmbed(watch: Watch, change: PriceChange): EmbedBuilde
     .setTimestamp();
   if (listing.imageUrl) embed.setThumbnail(listing.imageUrl);
   return embed;
+}
+
+// odreže na zadnjem presledku pred mejo, da ne seka besed
+function excerpt(text: string, limit: number): string {
+  if (text.length <= limit) return text;
+  const cut = text.slice(0, limit);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > limit / 2 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }
