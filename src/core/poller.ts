@@ -28,7 +28,6 @@ export class Poller {
     private readonly watches: WatchRepo,
     private readonly listings: ListingRepo,
     private readonly events: PollerEvents,
-    private readonly intervalMinutes: number,
   ) {}
 
   start(): void {
@@ -135,16 +134,21 @@ export class Poller {
 
   private scheduleNext(overrideMs?: number): void {
     if (this.timer) clearTimeout(this.timer);
-    const baseMs = this.intervalMinutes * 60_000;
-    // do 8x umik ob blokadi; jitter ±20%, da obhodi niso videti kot cron
+    // obhod ob vsaki polni uri; ob blokadi preskočimo do 8 ur
     const backoff = Math.min(2 ** this.consecutiveBlocks, 8);
-    const jitter = 0.8 + Math.random() * 0.4;
-    const delay = overrideMs ?? baseMs * backoff * jitter;
+    const delay = overrideMs ?? Poller.msUntilNextFullHour() + (backoff - 1) * 3_600_000;
     const human = delay < 60_000 ? `${Math.round(delay / 1000)} s` : `${Math.round(delay / 60_000)} min`;
     log.info(`naslednji obhod čez ~${human}`);
     this.timer = setTimeout(() => {
       void this.pollAll();
     }, delay);
     this.timer.unref();
+  }
+
+  private static msUntilNextFullHour(now = new Date()): number {
+    const next = new Date(now);
+    next.setMinutes(0, 0, 0);
+    next.setHours(next.getHours() + 1);
+    return next.getTime() - now.getTime();
   }
 }

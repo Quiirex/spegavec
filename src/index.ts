@@ -37,11 +37,11 @@ async function main(): Promise<void> {
       // poller že zabeleži kratko sporočilo; tu samo sled za razhroščevanje
       log.debug(error.stack ?? String(error));
     },
-  }, config.pollMinutes);
+  });
 
   await bot.start();
   poller.start();
-  log.info(`Špegavec teče. Obhod vsakih ~${config.pollMinutes} min, ${watches.all().length} iskanj.`);
+  log.info(`Špegavec teče. Obhod ob vsaki polni uri, ${watches.all().length} iskanj.`);
 
   const shutdown = () => {
     poller.stop();

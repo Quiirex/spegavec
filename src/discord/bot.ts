@@ -390,7 +390,7 @@ export class Bot {
       [
         `Iskanje **${name}** shranjeno — trenutno ustreza **${count}${count >= 25 ? '+' : ''}** oglasom.`,
         `URL: <${url}>`,
-        `Obvestila bodo padala v ta kanal vsakih ~${this.config.pollMinutes} min. Prvi obhod samo posname trenutno stanje (brez spama).`,
+        'Obvestila bodo padala v ta kanal ob vsaki polni uri. Prvi obhod samo posname trenutno stanje (brez spama).',
         count === 0
           ? '⚠️ Trenutno 0 zadetkov — če si pričakoval kaj, preveri filtre.'
           : null,
