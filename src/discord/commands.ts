@@ -146,5 +146,22 @@ export function buildCommands() {
         .setRequired(true),
     );
 
-  return [iskanje, preveri, status, zgodovina].map((command) => command.toJSON());
+  const povzetek = new SlashCommandBuilder()
+    .setName("povzetek")
+    .setDescription("Povzetek dogajanja: novi, umaknjeni, spremembe cen in smer cen")
+    .addStringOption((opt) =>
+      opt
+        .setName("obdobje")
+        .setDescription("Za koliko nazaj (privzeto: teden)")
+        .addChoices(
+          { name: "teden", value: "teden" },
+          { name: "mesec", value: "mesec" },
+          { name: "leto", value: "leto" },
+        ),
+    )
+    .addStringOption((opt) =>
+      opt.setName("ime").setDescription("Samo to iskanje (privzeto: vsa)").setAutocomplete(true),
+    );
+
+  return [iskanje, preveri, status, zgodovina, povzetek].map((command) => command.toJSON());
 }

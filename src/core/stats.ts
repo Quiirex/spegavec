@@ -18,6 +18,11 @@ export function medianPricePerM2(listings: Listing[]): number | null {
   const values = listings
     .map((listing) => listing.pricePerM2)
     .filter((value): value is number => value !== null);
+  return medianOfSample(values);
+}
+
+/** Mediana, a le pri dovolj velikem vzorcu (sicer null). */
+export function medianOfSample(values: number[]): number | null {
   if (values.length < MIN_SAMPLE) return null;
   return median(values);
 }

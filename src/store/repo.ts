@@ -1,5 +1,6 @@
 import type { DatabaseSync } from "node:sqlite";
 import type { Listing, PriceChange, PriceHistoryEntry, Relisted, Watch } from "../core/types.js";
+import { medianOfSample } from "../core/stats.js";
 import { transaction } from "./db.js";
 
 // kolikokrat zapored mora oglas manjkati v zajemu, da ga štejemo za prodanega/umaknjenega
@@ -89,6 +90,20 @@ export class WatchRepo {
       .get(id) as { n: number };
     return Number(row.n);
   }
+}
+
+export interface RecapStats {
+  added: number;
+  removed: number;
+  active: number;
+  priceChanges: number;
+  drops: number;
+  raises: number;
+  // povprečna sprememba cene v %, null brez sprememb
+  avgChangePct: number | null;
+  // mediana €/m² oglasov, dodanih v obdobju, in v prejšnjem obdobju (null pri premajhnem vzorcu)
+  medianPpm2New: number | null;
+  medianPpm2Prev: number | null;
 }
 
 export interface DiffResult {
@@ -274,6 +289,71 @@ export class ListingRepo {
     });
 
     return result;
+  }
+
+  /**
+   * Povzetek dogajanja od `since` naprej: novi, umaknjeni, spremembe cene in mediana €/m²
+   * novih oglasov v primerjavi s prejšnjim, enako dolgim obdobjem (`prevSince`..`since`).
+   * Izhodiščni posnetek (prvi obhod) ne šteje med nove: vsi njegovi oglasi delijo isti first_seen_at.
+   */
+  recap(watchId: number, since: string, prevSince: string): RecapStats {
+    const seedFilter = "first_seen_at > (SELECT MIN(first_seen_at) FROM listings WHERE watch_id = ?)";
+    const count = (sql: string, ...params: (string | number)[]) =>
+      Number((this.db.prepare(sql).get(...params) as { n: number }).n);
+
+    const added = count(
+      `SELECT COUNT(*) AS n FROM listings WHERE watch_id = ? AND first_seen_at >= ? AND ${seedFilter}`,
+      watchId, since, watchId,
+    );
+    const removed = count(
+      "SELECT COUNT(*) AS n FROM listings WHERE watch_id = ? AND removed_at >= ?",
+      watchId, since,
+    );
+    const active = count(
+      "SELECT COUNT(*) AS n FROM listings WHERE watch_id = ? AND removed_at IS NULL",
+      watchId,
+    );
+
+    // prva vrstica v zgodovini je začetna cena, sprememba je šele vsaka naslednja
+    const changes = this.db
+      .prepare(
+        `SELECT price, prev FROM (
+           SELECT price, observed_at,
+                  LAG(price) OVER (PARTITION BY listing_id ORDER BY observed_at, id) AS prev
+           FROM price_history WHERE watch_id = ?
+         ) WHERE prev IS NOT NULL AND observed_at >= ?`,
+      )
+      .all(watchId, since) as unknown as { price: number; prev: number }[];
+    let drops = 0;
+    let raises = 0;
+    let pctSum = 0;
+    for (const { price, prev } of changes) {
+      if (price < prev) drops++;
+      else raises++;
+      pctSum += (price - prev) / prev;
+    }
+
+    const medianNew = (from: string, to: string | null) =>
+      this.db
+        .prepare(
+          `SELECT price_per_m2 AS v FROM listings
+           WHERE watch_id = ? AND price_per_m2 IS NOT NULL AND first_seen_at >= ?
+             AND (? IS NULL OR first_seen_at < ?) AND ${seedFilter}`,
+        )
+        .all(watchId, from, to, to, watchId)
+        .map((row) => Number((row as { v: number }).v));
+
+    return {
+      added,
+      removed,
+      active,
+      priceChanges: changes.length,
+      drops,
+      raises,
+      avgChangePct: changes.length > 0 ? (pctSum / changes.length) * 100 : null,
+      medianPpm2New: medianOfSample(medianNew(since, null)),
+      medianPpm2Prev: medianOfSample(medianNew(prevSince, since)),
+    };
   }
 
   getListing(watchId: number, listingId: string): StoredListing | null {
