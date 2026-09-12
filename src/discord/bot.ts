@@ -25,6 +25,12 @@ import { newListingEmbed, priceChangeEmbed, relistedEmbed } from './embeds.js';
 
 const WATCH_NAME_PATTERN = /^[\w-]{1,32}$/;
 
+interface UploadFile {
+  name: string;
+  data: Buffer;
+  type: string;
+}
+
 interface EmbedItem {
   embed: EmbedBuilder;
   imageUrl: string | null;
@@ -154,14 +160,14 @@ export class Bot {
     if (!channel) return;
     for (let i = 0; i < items.length; i += MAX_PER_MESSAGE) {
       const batch = items.slice(i, i + MAX_PER_MESSAGE);
-      const files: { name: string; data: Buffer }[] = [];
+      const files: UploadFile[] = [];
       await Promise.all(
         batch.map(async (item, j) => {
           if (!item.imageUrl) return;
           try {
             const buffer = await this.fetcher.fetchImage(item.imageUrl);
             const name = `oglas-${i + j}.jpg`;
-            files.push({ name, data: buffer });
+            files.push({ name, data: buffer, type: 'image/jpeg' });
             const ref = `attachment://${name}`;
             if (item.thumb) item.embed.setThumbnail(ref);
             else item.embed.setImage(ref);
@@ -191,12 +197,42 @@ export class Bot {
   // majhne zahteve gredo skozi, velik POST s priponko pa obvisi in ga Discord po 15 s zapre.
   // Nov REST tega ne reši, ker vsi delijo isti globalni bazen; isti upload iz svežega procesa
   // steče v pol sekunde. Zato dobi vsak poskus svoj Agent, ki ga potem zapremo.
-  private async uploadWithRetry(
+  private uploadWithRetry(
     channelId: string,
     embeds: EmbedBuilder[],
-    files: { name: string; data: Buffer }[],
+    files: UploadFile[],
   ): Promise<boolean> {
-    const delaysMs = [0, 15_000, 60_000];
+    return this.postMultipart(
+      `https://discord.com/api/v10/channels/${channelId}/messages`,
+      'POST',
+      { embeds: embeds.map((e) => e.toJSON()) },
+      files,
+      [0, 15_000, 60_000],
+    );
+  }
+
+  // odgovor na odloženo interakcijo s priponko; webhook URL nosi žeton, zato brez bot avtorizacije
+  private editDeferredReplyWithFiles(
+    interaction: ChatInputCommandInteraction,
+    content: string,
+    files: UploadFile[],
+  ): Promise<boolean> {
+    return this.postMultipart(
+      `https://discord.com/api/v10/webhooks/${interaction.applicationId}/${interaction.token}/messages/@original`,
+      'PATCH',
+      { content },
+      files,
+      [0, 5_000],
+    );
+  }
+
+  private async postMultipart(
+    url: string,
+    method: 'POST' | 'PATCH',
+    payload: Record<string, unknown>,
+    files: UploadFile[],
+    delaysMs: number[],
+  ): Promise<boolean> {
     for (const [attempt, delay] of delaysMs.entries()) {
       if (delay > 0) await sleep(delay);
       const agent = new Agent({ connections: 1, keepAliveTimeout: 1, keepAliveMaxTimeout: 1 });
@@ -204,24 +240,21 @@ export class Bot {
         // zahtevo sestavimo sami: discord.js nosi svojo kopijo undicija in njegovega FormData
         // naš undici ne prepozna kot multipart, zato Discord vrne CONTENT_TYPE_INVALID
         const form = new UndiciFormData();
-        form.append('payload_json', JSON.stringify({ embeds: embeds.map((e) => e.toJSON()) }));
+        form.append('payload_json', JSON.stringify(payload));
         files.forEach((file, index) => {
-          form.append(`files[${index}]`, new Blob([file.data], { type: 'image/jpeg' }), file.name);
+          form.append(`files[${index}]`, new Blob([file.data], { type: file.type }), file.name);
         });
-        const response = await undiciFetch(
-          `https://discord.com/api/v10/channels/${channelId}/messages`,
-          {
-            method: 'POST',
-            headers: { authorization: `Bot ${this.config.discordToken}` },
-            body: form,
-            dispatcher: agent,
-          },
-        );
+        const response = await undiciFetch(url, {
+          method,
+          headers: { authorization: `Bot ${this.config.discordToken}` },
+          body: form,
+          dispatcher: agent,
+        });
         if (response.ok) return true;
         throw new Error(`HTTP ${response.status}: ${(await response.text()).slice(0, 150)}`);
       } catch (error) {
         log.warn(
-          `nalaganje slik ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
+          `nalaganje priponk ni šlo (poskus ${attempt + 1}/${delaysMs.length}): ${error instanceof Error ? error.message : error}`,
         );
       } finally {
         void agent.close().catch(() => undefined);
@@ -610,6 +643,8 @@ export class Bot {
       await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
       return;
     }
+    // priponka gre po naši poti mimo discord.js (glej postMultipart), zato najprej potrdimo interakcijo
+    await interaction.deferReply();
     const what = interaction.options.getString('kaj') ?? 'oglasi';
     const stamp = new Date().toISOString().slice(0, 10);
     let csv: string;
@@ -632,21 +667,15 @@ export class Bot {
       );
     }
     if (count === 0) {
-      await interaction.reply(`Za iskanje **${name}** še ni podatkov za izvoz.`);
+      await interaction.editReply(`Za iskanje **${name}** še ni podatkov za izvoz.`);
       return;
     }
-    try {
-      await interaction.reply({
-        content: `Izvoz **${what}** za **${name}**: ${count} vrstic.`,
-        files: [{ attachment: Buffer.from(csv, 'utf8'), name: `${name}-${what}-${stamp}.csv` }],
-      });
-    } catch (error) {
-      log.warn(`izvoz ni šel: ${error instanceof Error ? error.message : error}`);
-      const fallback = { content: 'Priponke ni bilo mogoče naložiti, poskusi znova čez minuto.', ephemeral: true };
-      await (interaction.replied || interaction.deferred
-        ? interaction.followUp(fallback)
-        : interaction.reply(fallback));
-    }
+    const ok = await this.editDeferredReplyWithFiles(
+      interaction,
+      `Izvoz **${what}** za **${name}**: ${count} vrstic.`,
+      [{ name: `${name}-${what}-${stamp}.csv`, data: Buffer.from(csv, 'utf8'), type: 'text/csv' }],
+    );
+    if (!ok) await interaction.editReply('Priponke ni bilo mogoče naložiti, poskusi znova čez minuto.');
   }
 
   private async handleStatus(
