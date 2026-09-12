@@ -19,7 +19,7 @@ import { parseSearchPage } from '../scraper/parser.js';
 import { buildSearchUrl, normalizeWatchUrl } from '../scraper/urlBuilder.js';
 import type { ListingRepo, WatchRepo } from '../store/repo.js';
 import { buildCommands, REGIONS } from './commands.js';
-import { newListingEmbed, priceChangeEmbed } from './embeds.js';
+import { newListingEmbed, priceChangeEmbed, relistedEmbed } from './embeds.js';
 
 const WATCH_NAME_PATTERN = /^[\w-]{1,32}$/;
 
@@ -95,7 +95,11 @@ export class Bot {
   }
 
   async notify(result: PollResult): Promise<void> {
-    if (result.newListings.length === 0 && result.priceChanges.length === 0)
+    if (
+      result.newListings.length === 0 &&
+      result.priceChanges.length === 0 &&
+      result.relisted.length === 0
+    )
       return;
     // umaknjene/prodane oglase zaznamo in shranimo (za /zgodovina), a v kanal ne trobimo
     const items: EmbedItem[] = [
@@ -107,6 +111,11 @@ export class Bot {
       ...result.priceChanges.map((change) => ({
         embed: priceChangeEmbed(result.watch, change),
         imageUrl: change.listing.imageUrl,
+        thumb: true,
+      })),
+      ...result.relisted.map((item) => ({
+        embed: relistedEmbed(result.watch, item),
+        imageUrl: item.listing.imageUrl,
         thumb: true,
       })),
     ];
@@ -476,7 +485,7 @@ export class Bot {
         summaries.push(
           result.seeded
             ? `**${watch.name}**: posnel ${result.totalSeen} oglasov (izhodišče nastavljeno).`
-            : `**${watch.name}**: ${result.newListings.length} novih, ${result.priceChanges.length} sprememb cene (${result.totalSeen} pregledanih).`,
+            : `**${watch.name}**: ${result.newListings.length} novih, ${result.priceChanges.length} sprememb cene, ${result.relisted.length} vrnjenih (${result.totalSeen} pregledanih).`,
         );
       } catch (error) {
         summaries.push(

@@ -88,8 +88,25 @@ describe("ListingRepo.applyCrawl", () => {
     expect(listings.getListing(watch.id, "2")?.removedAt).not.toBeNull();
 
     // spet se pojavi
-    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
+    const diff = listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
     expect(listings.getListing(watch.id, "2")?.removedAt).toBeNull();
+    expect(diff.newListings).toHaveLength(0);
+    expect(diff.relisted.map((r) => r.listing.id)).toEqual(["2"]);
+    expect(diff.relisted[0]?.removedAt).toBeTruthy();
+    expect(diff.relisted[0]?.oldPrice).toBeNull();
+  });
+
+  it("vrnjen oglas z novo ceno javi staro ceno v isti postavki, ne kot spremembo cene", () => {
+    const { listings, watch } = setup();
+    listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 200000)]);
+    listings.applyCrawl(watch.id, [listing("1", 100000)]);
+    listings.applyCrawl(watch.id, [listing("1", 100000)]); // oglas 2 umaknjen
+
+    const diff = listings.applyCrawl(watch.id, [listing("1", 100000), listing("2", 180000)]);
+    expect(diff.priceChanges).toHaveLength(0);
+    expect(diff.relisted).toHaveLength(1);
+    expect(diff.relisted[0]?.oldPrice).toBe(200000);
+    expect(listings.priceHistory(watch.id, "2").map((h) => h.price)).toEqual([200000, 180000]);
   });
 
   it("ne zaznava umaknjenih, če je zajem prazen (detectRemovals=false)", () => {
