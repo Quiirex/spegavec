@@ -17,6 +17,8 @@ import { log } from '../log.js';
 import type { Fetcher } from '../scraper/fetcher.js';
 import { parseSearchPage } from '../scraper/parser.js';
 import { buildSearchUrl, normalizeWatchUrl } from '../scraper/urlBuilder.js';
+import { toCsv } from '../core/csv.js';
+import { medianPricePerM2 } from '../core/stats.js';
 import type { ListingRepo, RecapStats, WatchRepo } from '../store/repo.js';
 import { buildCommands, REGIONS } from './commands.js';
 import { newListingEmbed, priceChangeEmbed, relistedEmbed } from './embeds.js';
@@ -267,6 +269,10 @@ export class Bot {
         return this.handleZgodovina(interaction);
       case 'povzetek':
         return this.handleRecap(interaction);
+      case 'posli':
+        return this.handleDeals(interaction);
+      case 'izvoz':
+        return this.handleExport(interaction);
     }
   }
 
@@ -557,6 +563,90 @@ export class Bot {
     }
     await interaction.reply(chunks[0]!);
     for (const chunk of chunks.slice(1)) await interaction.followUp(chunk);
+  }
+
+  // aktivni oglasi z najnižjo €/m²; odstotek je glede na mediano vseh aktivnih v iskanju
+  private async handleDeals(
+    interaction: ChatInputCommandInteraction,
+  ): Promise<void> {
+    const name = interaction.options.getString('ime', true);
+    const watch = this.watches.byName(name);
+    if (!watch) {
+      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
+      return;
+    }
+    const limit = interaction.options.getInteger('stevilo') ?? 5;
+    const active = this.listings.listings(watch.id, true);
+    const priced = active
+      .filter((listing) => listing.pricePerM2 !== null)
+      .sort((a, b) => a.pricePerM2! - b.pricePerM2!)
+      .slice(0, limit);
+    if (priced.length === 0) {
+      await interaction.reply(`V iskanju **${name}** ni aktivnih oglasov z znano €/m².`);
+      return;
+    }
+    const median = medianPricePerM2(active);
+    const lines = priced.map((listing, index) => {
+      const below =
+        median !== null ? ` · ${Math.round((1 - listing.pricePerM2! / median) * 100)} % pod mediano` : '';
+      const size = listing.sizeM2 !== null ? `, ${listing.sizeM2} m²` : '';
+      const price = listing.price !== null ? EUR.format(listing.price) : (listing.priceDisplay ?? '?');
+      // naslov skrajšamo in mu vzamemo oglate oklepaje, da ne razbije markdown povezave
+      const title = listing.title.replace(/[[\]]/g, '').slice(0, 50).trim();
+      return `${index + 1}. [${title}](<${listing.url}>) — ${price}${size}, **${EUR.format(listing.pricePerM2!)}/m²**${below}, od ${listing.firstSeenAt.slice(0, 10)}`;
+    });
+    const header =
+      `💸 Najcenejši aktivni oglasi v **${name}** po €/m²` +
+      (median !== null ? ` (mediana ${EUR.format(median)}/m², ${active.length} aktivnih)` : '');
+    await interaction.reply([header, ...lines].join('\n'));
+  }
+
+  private async handleExport(
+    interaction: ChatInputCommandInteraction,
+  ): Promise<void> {
+    const name = interaction.options.getString('ime', true);
+    const watch = this.watches.byName(name);
+    if (!watch) {
+      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
+      return;
+    }
+    const what = interaction.options.getString('kaj') ?? 'oglasi';
+    const stamp = new Date().toISOString().slice(0, 10);
+    let csv: string;
+    let count: number;
+    if (what === 'cene') {
+      const rows = this.listings.allPriceHistory(watch.id);
+      count = rows.length;
+      csv = toCsv(
+        ['listing_id', 'title', 'price', 'observed_at'],
+        rows.map((row) => [row.listingId, row.title, row.price, row.observedAt]),
+      );
+    } else {
+      const rows = this.listings.listings(watch.id);
+      count = rows.length;
+      csv = toCsv(
+        ['listing_id', 'url', 'title', 'deal_type', 'property_type', 'rooms', 'size_m2', 'year', 'floor',
+          'price', 'price_per_m2', 'agency', 'first_seen_at', 'last_seen_at', 'removed_at'],
+        rows.map((l) => [l.id, l.url, l.title, l.dealType, l.propertyType, l.rooms, l.sizeM2, l.year, l.floor,
+          l.price, l.pricePerM2, l.agency, l.firstSeenAt, l.lastSeenAt, l.removedAt]),
+      );
+    }
+    if (count === 0) {
+      await interaction.reply(`Za iskanje **${name}** še ni podatkov za izvoz.`);
+      return;
+    }
+    try {
+      await interaction.reply({
+        content: `Izvoz **${what}** za **${name}**: ${count} vrstic.`,
+        files: [{ attachment: Buffer.from(csv, 'utf8'), name: `${name}-${what}-${stamp}.csv` }],
+      });
+    } catch (error) {
+      log.warn(`izvoz ni šel: ${error instanceof Error ? error.message : error}`);
+      const fallback = { content: 'Priponke ni bilo mogoče naložiti, poskusi znova čez minuto.', ephemeral: true };
+      await (interaction.replied || interaction.deferred
+        ? interaction.followUp(fallback)
+        : interaction.reply(fallback));
+    }
   }
 
   private async handleStatus(

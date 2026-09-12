@@ -161,6 +161,15 @@ function toListing(row: ListingRow): Listing {
   };
 }
 
+function toStored(row: ListingRow): StoredListing {
+  return {
+    ...toListing(row),
+    firstSeenAt: row.first_seen_at,
+    lastSeenAt: row.last_seen_at,
+    removedAt: row.removed_at,
+  };
+}
+
 export class ListingRepo {
   constructor(private readonly db: DatabaseSync) {}
 
@@ -356,17 +365,38 @@ export class ListingRepo {
     };
   }
 
+  // vsi oglasi iskanja (tudi umaknjeni), ali samo aktivni
+  listings(watchId: number, activeOnly = false): StoredListing[] {
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM listings WHERE watch_id = ? ${activeOnly ? "AND removed_at IS NULL" : ""}
+         ORDER BY first_seen_at, listing_id`,
+      )
+      .all(watchId) as unknown as ListingRow[];
+    return rows.map(toStored);
+  }
+
+  allPriceHistory(watchId: number): (PriceHistoryEntry & { listingId: string; title: string })[] {
+    const rows = this.db
+      .prepare(
+        `SELECT h.listing_id, l.title, h.price, h.observed_at
+         FROM price_history h JOIN listings l ON l.watch_id = h.watch_id AND l.listing_id = h.listing_id
+         WHERE h.watch_id = ? ORDER BY h.observed_at, h.id`,
+      )
+      .all(watchId) as unknown as { listing_id: string; title: string; price: number; observed_at: string }[];
+    return rows.map((row) => ({
+      listingId: row.listing_id,
+      title: row.title,
+      price: Number(row.price),
+      observedAt: row.observed_at,
+    }));
+  }
+
   getListing(watchId: number, listingId: string): StoredListing | null {
     const row = this.db
       .prepare("SELECT * FROM listings WHERE watch_id = ? AND listing_id = ?")
       .get(watchId, listingId) as ListingRow | undefined;
-    if (!row) return null;
-    return {
-      ...toListing(row),
-      firstSeenAt: row.first_seen_at,
-      lastSeenAt: row.last_seen_at,
-      removedAt: row.removed_at,
-    };
+    return row ? toStored(row) : null;
   }
 
   priceHistory(watchId: number, listingId: string): PriceHistoryEntry[] {
