@@ -5,6 +5,7 @@
 > **EN:** Špegavec (“the snoop”) is a self-hosted Discord bot that watches real-estate searches
 > on the Slovenian portal [nepremicnine.net](https://www.nepremicnine.net) and notifies you about
 > new listings and price changes. The docs below are in Slovenian, like its audience.
+> Not affiliated with nepremicnine.net; use it moderately and within the site's terms.
 
 Samostojen špegavec nepremičninskih oglasov. Periodično pregleduje iskanja na
 [nepremicnine.net](https://www.nepremicnine.net), si zapomni, kaj je že videl, in te ob vsakem
@@ -109,8 +110,7 @@ systemctl enable --now spegavec
 journalctl -u spegavec -f   # logi v živo
 ```
 
-**Posodobitev** po spremembi kode: `git pull && pnpm install && pnpm build && systemctl restart spegavec`
-(na strežniku zavito v ukaz `spegavec-update`).
+**Posodobitev** po spremembi kode: `git pull && pnpm install && pnpm build && systemctl restart spegavec`.
 
 ## Discord ukazi
 
@@ -157,6 +157,18 @@ verzijo).
 - Iskanje gre čez vse strani filtra (varovalka pri 100 straneh), zato dobro filtriraj: ozek
   filter pomeni manj strani na obhod.
 - Cela zgodovina cen ostane v tabeli `price_history`.
+
+## Prispevanje
+
+Issueji in pull requesti so dobrodošli. Pred PR-jem poženi `pnpm typecheck && pnpm test`
+(isto preveri CI). Če se spremeni HTML strani in parser odpove, priloži svež (anonimiziran)
+fixture v `test/fixtures/`: telefonske številke in imena kontaktov zamenjaj z izmišljenimi.
+
+## Opozorilo
+
+Špegavec ni povezan z nepremicnine.net ali njegovimi lastniki. Je osebno orodje za spremljanje
+lastnih iskanj, zato ga uporabljaj zmerno in v skladu s pogoji uporabe strani. Odgovornost za
+uporabo je tvoja.
 
 ## Licenca
 

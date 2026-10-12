@@ -317,7 +317,7 @@ export class Bot {
     if (!watch) {
       await interaction.reply({
         content: `Ni iskanja z imenom **${name}**.`,
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
@@ -330,7 +330,7 @@ export class Bot {
     if (!stored) {
       await interaction.reply({
         content: `Oglasa **${raw}** ni v iskanju **${name}**. Podaj ID (npr. 7355533) ali poln URL oglasa.`,
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
@@ -407,14 +407,14 @@ export class Bot {
       await interaction.reply({
         content:
           'Ime iskanja mora biti 1-32 znakov: črke, številke, `_` ali `-`.',
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
     if (this.watches.byName(name)) {
       await interaction.reply({
         content: `Iskanje **${name}** že obstaja.`,
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
@@ -422,7 +422,7 @@ export class Bot {
       await interaction.reply({
         content:
           'Poženi to v navadnem tekstovnem kanalu — tja bodo padala obvestila.',
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
@@ -436,7 +436,7 @@ export class Bot {
     } catch (error) {
       await interaction.reply({
         content: `Napačen URL: ${error instanceof Error ? error.message : error}`,
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
@@ -531,7 +531,7 @@ export class Bot {
     if (name && !targets[0]) {
       await interaction.reply({
         content: `Ni iskanja z imenom **${name}**.`,
-        ephemeral: true,
+        flags: 'Ephemeral',
       });
       return;
     }
@@ -563,7 +563,7 @@ export class Bot {
     const name = interaction.options.getString('ime');
     const targets = name ? [this.watches.byName(name)] : this.watches.all();
     if (name && !targets[0]) {
-      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
+      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, flags: 'Ephemeral' });
       return;
     }
     if (targets.length === 0) {
@@ -605,7 +605,7 @@ export class Bot {
     const name = interaction.options.getString('ime', true);
     const watch = this.watches.byName(name);
     if (!watch) {
-      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
+      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, flags: 'Ephemeral' });
       return;
     }
     const limit = interaction.options.getInteger('stevilo') ?? 5;
@@ -640,7 +640,7 @@ export class Bot {
     const name = interaction.options.getString('ime', true);
     const watch = this.watches.byName(name);
     if (!watch) {
-      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, ephemeral: true });
+      await interaction.reply({ content: `Ni iskanja z imenom **${name}**.`, flags: 'Ephemeral' });
       return;
     }
     // priponka gre po naši poti mimo discord.js (glej postMultipart), zato najprej potrdimo interakcijo

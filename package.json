@@ -6,6 +6,13 @@
   "private": true,
   "author": "Luka Mlinarič Fekonja",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quiirex/spegavec.git"
+  },
+  "homepage": "https://github.com/Quiirex/spegavec#readme",
+  "bugs": "https://github.com/Quiirex/spegavec/issues",
+  "keywords": ["discord-bot", "nepremicnine", "real-estate", "scraper", "slovenia"],
   "engines": {
     "node": ">=24"
   },
