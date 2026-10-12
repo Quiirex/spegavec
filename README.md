@@ -14,7 +14,7 @@ novem oglasu (ali spremembi cene) obvesti preko Discorda.
 Iskanja dodajaš in upravljaš s slash ukazi, novi oglasi pa pridejo kot lepi embedi v kanal,
 kjer si iskanje ustvaril.
 
-Obvestilo je embed s fotografijo, celim opisom in kontaktom, približno takole:
+Obvestilo je embed s fotografijo, izsekom opisa in kontaktom, približno takole:
 
 > 🟢 **Dober posel · center-2s**
 > **[ČRNUČE, LJ. - BEŽIGRAD](https://www.nepremicnine.net)**
@@ -22,6 +22,22 @@ Obvestilo je embed s fotografijo, celim opisom in kontaktom, približno takole:
 > 💸 **16 % pod** mediano iskanja (8.200 €/m²)
 
 Ob spremembi cene pride manjši embed: `240.000 € → 224.000 € (−6,7 %)`.
+
+## Obvestila
+
+- **Nov oglas**: fotografija, cena, €/m², velikost, sobe, leto, nadstropje, agencija z naslovom,
+  kontaktna oseba s telefonom in prvih ~500 znakov opisa. Kontakt in opis bot pobere s strani
+  oglasa (največ 15 novih oglasov na obhod, ostali pridejo s podatki iz iskalne strani).
+- **🟢 Dober posel**: nov oglas, ki je vsaj **15 % pod mediano €/m²** iskanja. Mediana se računa
+  šele, ko ima iskanje vsaj 5 oglasov z znano €/m².
+- **Cena znižana / zvišana**: stara in nova cena ter sprememba v %.
+- **Spet na voljo**: oglas, ki je bil umaknjen, se je vrnil (s staro ceno, če se je vmes
+  spremenila).
+- Umaknjeni/prodani oglasi se v kanal ne javljajo, ostanejo pa v bazi (`/zgodovina`,
+  `/povzetek`, `/izvoz`).
+- Fotografije bot pobere sam in jih priloži sporočilu. Če nalaganje ne uspe, gre obvestilo
+  naprej brez slike.
+- Blokade in napake ne pišejo v kanal: vidiš jih v `/status` in v logih.
 
 ## Kako deluje
 
@@ -110,23 +126,34 @@ journalctl -u spegavec -f   # logi v živo
 
 **Posodobitev** po spremembi kode: `git pull && pnpm install && pnpm build && systemctl restart spegavec`.
 
+### Nastavitve (`.env`)
+
+| Spremenljivka | Privzeto | Pomen |
+| --- | --- | --- |
+| `DISCORD_TOKEN` | (obvezno) | Žeton Discord bota. |
+| `DISCORD_GUILD_ID` | prazno | ID strežnika; z njim se ukazi registrirajo takoj, brez njega globalno (do ~1h). |
+| `LOG_LEVEL` | `info` | `debug`, `info`, `warn` ali `error`. `debug` izpiše tudi vsako pobrano stran in ponovne poskuse ob blokadi. |
+| `DB_PATH` | `./data/spegavec.db` | Pot do SQLite baze (v Dockerju `/app/data/spegavec.db`). |
+
 ## Discord ukazi
 
 | Ukaz | Kaj naredi |
 | --- | --- |
-| `/iskanje dodaj ime: url:` | Spremljaj URL iskanja, prilepljen z nepremicnine.net (podpira vse filtre strani). |
-| `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:]` | Sestaviš iskanje iz filtrov, ne da bi zapustil Discord. |
-| `/iskanje seznam` | Pokaže iskanja in koliko oglasov sledijo. |
-| `/iskanje odstrani\|ustavi\|nadaljuj ime:` | Upravljanje iskanj (imena se samodejno dopolnijo). |
-| `/preveri [ime:]` | Naredi obhod takoj, brez čakanja na cikel. |
-| `/status` | Zdravje špegavca in zadnji obhod po iskanjih. |
-| `/zgodovina ime: oglas:` | Časovnica cene oglasa (oglas = ID ali poln URL). |
-| `/povzetek [obdobje:] [ime:]` | Povzetek za zadnji teden/mesec/leto: novi, umaknjeni, spremembe cen in smer cen. |
-| `/posli ime: [stevilo:]` | Do 10 trenutno najcenejših aktivnih oglasov po €/m² glede na mediano iskanja. |
-| `/izvoz ime: [kaj:]` | CSV izvoz oglasov (`oglasi`) ali zgodovine cen (`cene`) kot priponka. |
+| `/iskanje dodaj ime: url:` | Spremljaj URL iskanja, prilepljen z nepremicnine.net (podpira vse filtre strani, `https://` ni obvezen). Bot URL takoj preizkusi in pove, koliko oglasov trenutno ustreza. |
+| `/iskanje sestavi ime: posel: regija: tip: [sobnost:] [cena_min/max:] [velikost_min/max:] [letnik_min/max:]` | Sestaviš iskanje iz filtrov, ne da bi zapustil Discord. Regija se samodejno dopolnjuje, vpišeš lahko tudi slug pod-regije, kot ga uporablja stran. Sobnost velja samo za stanovanja, cena pri oddaji je mesečna. |
+| `/iskanje seznam` | Pokaže iskanja s stanjem (▶️/⏸), številom sledenih oglasov, kanalom in URL-jem. |
+| `/iskanje ustavi\|nadaljuj ime:` | Začasno ustavi ali spet zažene iskanje; podatki ostanejo. |
+| `/iskanje odstrani ime:` | Odstrani iskanje **skupaj z vsemi oglasi in zgodovino cen**. |
+| `/preveri [ime:]` | Naredi obhod takoj, brez čakanja na cikel (privzeto vsa aktivna iskanja), in pošlje obvestila. |
+| `/status` | Zdravje špegavca (🟢/🔴) ter čas in izid zadnjega obhoda po iskanjih. |
+| `/zgodovina ime: oglas:` | Časovnica cene oglasa s spremembami, stanje (aktiven ali umaknjen) in €/m². Oglas je ID (npr. `7355533`) ali poln URL. |
+| `/povzetek [obdobje:] [ime:]` | Povzetek za zadnji `teden` (privzeto), `mesec` ali `leto`: novi, umaknjeni, znižanja/zvišanja s povprečno spremembo in smer cen (📉/➡️/📈). Privzeto za vsa iskanja. |
+| `/posli ime: [stevilo:]` | Najcenejši aktivni oglasi po €/m² (privzeto 5, največ 10) in koliko so pod mediano iskanja. |
+| `/izvoz ime: [kaj:]` | CSV priponka z vsemi oglasi (`oglasi`, privzeto, tudi umaknjeni) ali z zgodovino cen (`cene`). Datoteka se pravilno odpre v Excelu. |
 
-Obvestila gredo v kanal, kjer si iskanje ustvaril. Prvi obhod novega iskanja samo tiho posname
-trenutno stanje, da te ne zasuje s starimi oglasi.
+Imena iskanj imajo 1–32 znakov (črke, številke, `_`, `-`) in se v ukazih samodejno dopolnjujejo.
+Iskanje ustvariš v navadnem tekstovnem kanalu, tja gredo tudi njegova obvestila. Prvi obhod
+novega iskanja samo tiho posname trenutno stanje, da te ne zasuje s starimi oglasi.
 
 ## Razvoj lokalno (Node ≥ 24, pnpm)
 
@@ -135,8 +162,6 @@ pnpm install
 pnpm test        # testi na shranjenih HTML fixturih
 pnpm dev         # potrebuje DISCORD_TOKEN v okolju
 ```
-
-`LOG_LEVEL=debug` v `.env` izpiše tudi vsako pobrano stran in ponovne poskuse ob blokadi.
 
 Projekt je pripet na pnpm 9 (polje `packageManager`, `corepack enable` poskrbi za pravo
 verzijo).
@@ -150,9 +175,8 @@ verzijo).
 
 - Ukazi se ne prikažejo? Z nastavljenim `DISCORD_GUILD_ID` so na tvojem strežniku vidni takoj
   po zagonu bota; brez njega (globalna registracija) traja do ~1h.
-- `/status` kaže 🔴? Stran trenutno zavrača zahteve — bot se sam eksponentno umakne in nadaljuje,
-  ko mine.
-  Ničesar ni treba narediti.
+- `/status` kaže 🔴? Stran trenutno zavrača zahteve. Bot se sam umakne (vsakič dlje, do 8 ur)
+  in nadaljuje, ko mine; ničesar ni treba narediti.
 - Iskanje gre čez vse strani filtra (varovalka pri 100 straneh), zato dobro filtriraj: ozek
   filter pomeni manj strani na obhod.
 - Cela zgodovina cen ostane v tabeli `price_history`.
