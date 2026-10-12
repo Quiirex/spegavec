@@ -25,8 +25,8 @@ Ob spremembi cene pride manjši embed: `240.000 € → 224.000 € (−6,7 %)`.
 
 ## Kako deluje
 
-- Stran sedi za Cloudflareom. [`impit`](https://github.com/apify/impit) se predstavi kot pravi
-  Chrome (TLS/HTTP2 prstni odtis) in gre skozi challenge brez brskalnika v ozadju.
+- Strani pobira z [`impit`](https://github.com/apify/impit), HTTP odjemalcem, ki se obnaša kot
+  običajen brskalnik, brez brskalnika v ozadju.
 - Obhod ob vsaki polni uri. Vsako iskanje gre čez **vse strani**
   filtra, da ujame spremembe cen na vsakem oglasu, ne le na najnovejših. Ob blokadi se
   eksponentno umakne.
@@ -150,7 +150,8 @@ verzijo).
 
 - Ukazi se ne prikažejo? Z nastavljenim `DISCORD_GUILD_ID` so na tvojem strežniku vidni takoj
   po zagonu bota; brez njega (globalna registracija) traja do ~1h.
-- `/status` kaže 🔴? Cloudflare blokada — bot se sam eksponentno umakne in nadaljuje, ko mine.
+- `/status` kaže 🔴? Stran trenutno zavrača zahteve — bot se sam eksponentno umakne in nadaljuje,
+  ko mine.
   Ničesar ni treba narediti.
 - Iskanje gre čez vse strani filtra (varovalka pri 100 straneh), zato dobro filtriraj: ozek
   filter pomeni manj strani na obhod.
