@@ -96,7 +96,7 @@ Na hitro:
 1. Ustvari Discord aplikacijo in kopiraj žeton (natančni koraki spodaj).
 2. `cp .env.example .env` in vpiši `DISCORD_TOKEN` + `DISCORD_GUILD_ID`.
 3. `docker compose up -d --build` (ali LXC + systemd, spodaj).
-4. V kanalu, kamor naj padajo obvestila: `/iskanje dodaj` ali `/iskanje sestavi`.
+4. V kanalu, kamor naj prihajajo obvestila: `/iskanje dodaj` ali `/iskanje sestavi`.
 
 ### Discord bot
 

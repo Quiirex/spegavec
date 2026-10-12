@@ -421,7 +421,7 @@ export class Bot {
     if (interaction.channel?.type !== ChannelType.GuildText) {
       await interaction.reply({
         content:
-          'Poženi to v navadnem tekstovnem kanalu — tja bodo padala obvestila.',
+          'Poženi to v navadnem tekstovnem kanalu — tja bodo prihajala obvestila.',
         flags: 'Ephemeral',
       });
       return;
@@ -459,7 +459,7 @@ export class Bot {
       [
         `Iskanje **${name}** shranjeno — trenutno ustreza **${count}${count >= 25 ? '+' : ''}** oglasom.`,
         `URL: <${url}>`,
-        'Obvestila bodo padala v ta kanal ob vsaki polni uri. Prvi obhod samo posname trenutno stanje (brez spama).',
+        'Obvestila bodo prihajala v ta kanal ob vsaki polni uri. Prvi obhod samo posname trenutno stanje (brez spama).',
         count === 0
           ? '⚠️ Trenutno 0 zadetkov — če si pričakoval kaj, preveri filtre.'
           : null,
