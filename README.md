@@ -14,8 +14,6 @@ novem oglasu (ali spremembi cene) obvesti preko Discorda.
 Iskanja dodajaš in upravljaš s slash ukazi, novi oglasi pa pridejo kot lepi embedi v kanal,
 kjer si iskanje ustvaril.
 
-Nastalo iz čiste lenobe: ne da se mi ročno osveževati strani cele dneve.
-
 Obvestilo je embed s fotografijo, celim opisom in kontaktom, približno takole:
 
 > 🟢 **Dober posel · center-2s**
