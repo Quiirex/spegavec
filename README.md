@@ -11,6 +11,10 @@ Samostojen špegavec nepremičninskih oglasov. Periodično pregleduje iskanja na
 [nepremicnine.net](https://www.nepremicnine.net), si zapomni, kaj je že videl, in te ob vsakem
 novem oglasu (ali spremembi cene) obvesti preko Discorda.
 
+Hkrati gradi **lastno zgodovino cen**: za vsak oglas v iskanju si zapomni vsako spremembo cene,
+kdaj se je pojavil in kdaj je izginil. Stran sama tega ne pokaže, ti pa lahko vidiš, kako dolgo
+je oglas že na trgu, kolikokrat so ga pocenili in kam se gibljejo cene v tvojem iskanju.
+
 Iskanja dodajaš in upravljaš s slash ukazi, novi oglasi pa pridejo kot lepi embedi v kanal,
 kjer si iskanje ustvaril.
 
@@ -38,6 +42,37 @@ Ob spremembi cene pride manjši embed: `240.000 € → 224.000 € (−6,7 %)`.
 - Fotografije bot pobere sam in jih priloži sporočilu. Če nalaganje ne uspe, gre obvestilo
   naprej brez slike.
 - Blokade in napake ne pišejo v kanal: vidiš jih v `/status` in v logih.
+
+## Zgodovina cen
+
+Vsak obhod gre čez **vse strani** iskanja, ne le čez najnovejše oglase, zato špegavec ujame
+spremembo cene na kateremkoli oglasu, tudi takem, ki je na trgu že mesece. Za vsak oglas si
+zapomni:
+
+- ceno ob prvem pojavu in vsako poznejšo spremembo, z datumom;
+- kdaj se je oglas prvič pojavil in kdaj je izginil (umaknjen/prodan);
+- če se vrne, nadaljuje z isto zgodovino.
+
+Zgodovina se začne z dnem, ko dodaš iskanje (za nazaj je stran ne hrani), in ostane tudi za
+umaknjene oglase. Do nje prideš na tri načine:
+
+**`/zgodovina ime: oglas:`** pokaže časovnico enega oglasa:
+
+> **ČRNUČE, LJ. - BEŽIGRAD**
+> Status: aktiven · 6.871 €/m²
+>
+> **Zgodovina cene:**
+> • 2026-06-02: 240.000 €
+> • 2026-07-14: 229.000 € (−11.000 €)
+> • 2026-08-03: 224.000 € (−5.000 €)
+
+**`/povzetek [obdobje:]`** zgodovino strne čez celo iskanje: koliko oglasov je bilo v zadnjem
+tednu, mesecu ali letu novih in umaknjenih, koliko cen je šlo dol in gor, povprečna sprememba in
+ali cene padajo, stojijo ali rastejo.
+
+**`/izvoz ime: kaj:cene`** da celotno zgodovino cen kot CSV (`listing_id`, `title`, `price`,
+`observed_at`), primerno za lastno analizo v Excelu ali Pythonu. `kaj:oglasi` doda še datume
+prvega pojava in umika vsakega oglasa.
 
 ## Kako deluje
 
@@ -179,7 +214,7 @@ verzijo).
   in nadaljuje, ko mine; ničesar ni treba narediti.
 - Iskanje gre čez vse strani filtra (varovalka pri 100 straneh), zato dobro filtriraj: ozek
   filter pomeni manj strani na obhod.
-- Cela zgodovina cen ostane v tabeli `price_history`.
+- Zgodovina cen je v SQLite tabeli `price_history`, če bi jo rad bral neposredno.
 
 ## Prispevanje
 
